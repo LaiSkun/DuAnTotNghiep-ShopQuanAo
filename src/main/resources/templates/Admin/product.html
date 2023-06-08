@@ -1,357 +1,304 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-    <title>Modern Admin Dashboard</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="admin.css">
+<title>Modern Admin Dashboard</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" th:href="@{images/favicon.png}">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+<link th:href="@{css/admin.css}" rel="stylesheet" media="all" />
+<!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script><![endif]-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet"
-        href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <script>
-    function chooseFileavt(fileinput){
-if (fileinput.files && fileinput.files[0]) {
-  var reader= new FileReader();
-  reader.onload = function (e) {
-    $('#avt').attr('src',e.target.result);
-  }
-  reader.readAsDataURL(fileinput.files[0]);
-}
-}
-function chooseFileimg(fileinput){
-  let fileimg = fileinput.files
-if (fileimg.length > 0) {
-  for (let idx = 0; idx < fileimg.length; idx++) {
-    let filetoload = fileimg[idx]
-    var filereader= new FileReader();
-    filereader.onload = function (e) {
-      let srcData = e.target.result
-      let newImg = document.createElement('img')
-      newImg.src = srcData
-      newImg.setAttribute("style", "width : 60px;height: 60px; padding-bottom : 10px")
-      document.getElementById("img").innerHTML += newImg.outerHTML
+	function chooseFileavt(fileinput) {
+		if (fileinput.files && fileinput.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$('#avt').attr('src', e.target.result);
+			}
+			reader.readAsDataURL(fileinput.files[0]);
+		}
+	}
+	function chooseFileimg(fileinput) {
+		let fileimg = fileinput.files
+		if (fileimg.length > 0) {
+			for (let idx = 0; idx < fileimg.length; idx++) {
+				let filetoload = fileimg[idx]
+				var filereader = new FileReader();
+				filereader.onload = function (e) {
+					let srcData = e.target.result
+					let newImg = document.createElement('img')
+					newImg.src = srcData
+					newImg.setAttribute("style", "width : 60px;height: 60px; padding-bottom : 10px")
+					document.getElementById("img").innerHTML += newImg.outerHTML
 
-    }
-    filereader.readAsDataURL(filetoload);
-  }
-}
+				}
+				filereader.readAsDataURL(filetoload);
+			}
+		}
 
-}
+	}
 </script>
+
 <body>
-    <div id="handle">
-        <section class="row" style="position: absolute; left: 25vw; top: 10vh; width: 60%; height: 30%;">
-            <div class="col-12">
-                <form action="" method="post">
-                    <div class="card">
-                        <i id="exit" class="fa-solid fa-x" style="margin-left: 54vw;"></i>
-                        <div class="card-body">
-                           <div class="row">
-                            <div class="col-4">
-                                <div class="border p-3">
-                                  <form action="">
-                                    <input type="file" name="" id="avtimg" style="display: none;" onchange="chooseFileavt(this)" accept="image/gif, image/png,image/jpeg,imagee/jpg">
-                                    <label for="avtimg"><img style="width: 40px;" src="img/addAvatar.png" alt="">   Add img avatar</label>
-                                    <img src="" id="avt" width="100" alt="">
-                                  </form>
-                                </div>
-                                <div class="border p-3">
-                                  <form action="">                                                              
-                                    <input style="display: none;" type="file" name="imginput" id="imginput" onchange="chooseFileimg(this)" accept="image/gif, image/png,image/jpeg,imagee/jpg">
-                                    <label for="imginput"><img style="width: 40px;" src="img/addAvatar.png" alt="">   Add img</label>
-                                    <div id="img">
-                                    </div>
-                                  </form>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group">
-                                  <label for="">ProductID</label>
-                                  <input type="text" class="form-control" name="ProductID" id="ProductID" aria-describedby="ProductIDhelpId" placeholder="Product ID">
-                                </div>
-                                <div class="form-group">
-                                  <label for="videotitle">Product Name</label>
-                                  <input type="text" class="form-control" name="productName" id="productName" aria-describedby="productNamehelpId" placeholder="product Name">
-                                </div>
-                                <div class="form-group">
-                                  <label for="viewcount">Available</label>
-                                  <input type="number" class="form-control" name="Available" id="Available" aria-describedby="AvailablehelpId" placeholder="Available">
-                                </div>
-                                
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group">
-                                  <label for="Categoryid"> Category ID</label>
-                                  <input type="text" class="form-control" name="Categoryid" id="Categoryid" aria-describedby="CategoryidhelpId" placeholder="Category ID">
-                                </div>
-                                <div class="form-group">
-                                  <label for="createdDate"> created Date	</label>
-                                  <input type="text" class="form-control" name="createdDate" id="createdDate" aria-describedby="createdDatehelpId" placeholder=" created Date">
-                                </div>
-                                <div class="form-group">
-                                    <label for="viewcount">Price</label>
-                                    <input type="number" class="form-control" name="Available" id="Available" aria-describedby="AvailablehelpId" placeholder="Available">
-                                  </div> 
-                            </div>
-                            <div class="col-4"></div>
-                            <div class="col-8">
-                                <label for="description">description</label>
-                                <textarea name="description" id="description" cols="1" rows="2" class="form-control"></textarea> </div>
-                              
-                            </div>
-                        </div>
-                        <div class="card-footer text-muted">
-                           <button class="btn ">create</button>
-                           <button class="btn ">update</button>
-                           <button class="btn ">delete</button>
-                           <button class="btn ">reset</button>
-                        </div>
-                    </div>
+	<div id="handle">
+		<section class="row" style="position: absolute; left: 25vw; top: 10vh; width: 60%; height: 30%;">
+			<div class="col-12">
+				<form action="" method="post">
+					<div class="card">
+						<i id="exit" class="fa-solid fa-x" style="margin-left: 54vw;"></i>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-4">
+									<div class="border p-3">
+										<form action="">
+											<input type="file" name="" id="avtimg" style="display: none;"
+												onchange="chooseFileavt(this)"
+												accept="image/gif, image/png,image/jpeg,imagee/jpg">
+											<label for="avtimg"><img style="width: 40px;" src="images/addavt.png"
+													alt=""> Add img avatar</label>
+											<img src="" id="avt" width="100" alt="">
+										</form>
+									</div>
+									<div class="border p-3">
+										<form action="">
+											<input style="display: none;" type="file" name="imginput" id="imginput"
+												onchange="chooseFileimg(this)"
+												accept="image/gif, image/png,image/jpeg,imagee/jpg">
+											<label for="imginput"><img style="width: 40px;" src="images/addavt.png"
+													alt=""> Add img</label>
+											<div id="img">
+											</div>
+										</form>
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="">ProductID</label>
+										<input type="text" class="form-control" name="ProductID" id="ProductID"
+											aria-describedby="ProductIDhelpId" placeholder="Product ID">
+									</div>
+									<div class="form-group">
+										<label for="videotitle">Product Name</label>
+										<input type="text" class="form-control" name="productName" id="productName"
+											aria-describedby="productNamehelpId" placeholder="product Name">
+									</div>
+									<div class="form-group">
+										<label for="viewcount">Available</label>
+										<input type="number" class="form-control" name="Available" id="Available"
+											aria-describedby="AvailablehelpId" placeholder="Available">
+									</div>
 
-                </form>
-    
-              
-                
-              
-        </section>
-    </div>
-    <input type="checkbox" id="menu-toggle">
-    <div class="sidebar">
-        <div class="side-header">
-            <h3>M<span>odern</span></h3>
-        </div>
+								</div>
+								<div class="col-4">
+									<div class="form-group">
+										<label for="Categoryid"> Category ID</label>
+										<input type="text" class="form-control" name="Categoryid" id="Categoryid"
+											aria-describedby="CategoryidhelpId" placeholder="Category ID">
+									</div>
+									<div class="form-group">
+										<label for="createdDate"> created Date </label>
+										<input type="text" class="form-control" name="createdDate" id="createdDate"
+											aria-describedby="createdDatehelpId" placeholder=" created Date">
+									</div>
+									<div class="form-group">
+										<label for="viewcount">Price</label>
+										<input type="number" class="form-control" name="Available" id="Available"
+											aria-describedby="AvailablehelpId" placeholder="Available">
+									</div>
+								</div>
+								<div class="col-4"></div>
+								<div class="col-8">
+									<label for="description">description</label>
+									<textarea name="description" id="description" cols="1" rows="2"
+										class="form-control"></textarea>
+								</div>
 
-        <div class="side-content">
-            <div class="profile">
-                <div class="profile-img bg-img" style="background-image: url(img/3.jpeg)"></div>
-                <h4>David Green</h4>
-                <small>Art Director</small>
-            </div>
+							</div>
+						</div>
+						<div class="card-footer text-muted">
+							<button class="btn ">create</button>
+							<button class="btn ">update</button>
+							<button class="btn ">delete</button>
+							<button class="btn ">reset</button>
+						</div>
+					</div>
 
-            <div class="side-menu">
-                <ul>
-                    <li>
-                        <a href="./index.html" class="active">
-                            <span class="las la-home"></span>
-                            <small>Dashboard</small>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/User.html">
-                            <span class="las la-user-alt"></span>
-                            <small>Users</small>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/product.html">
-                            <span> <i class="fa-solid fa-shirt"></i></span>
-                            <small>Product</small>
-                        </a>
-                    </li>
-                 
-                    <li>
-                        <a href="/Oder.html">
-                            <span class="las la-shopping-cart"></span>
-                            <small>Orders</small>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <span class="las la-tasks"></span>
-                            <small>Tasks</small>
-                        </a>
-                    </li>
+				</form>
 
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="main-content">
-        <header>
-            <div class="header-content">
-                <label for="menu-toggle">
-                    <span class="las la-bars"></span>
-                </label>
 
-                <div class="header-menu">
-                    <label for="">
-                        <span class="las la-search"></span>
-                    </label>
 
-                    <div class="notify-icon">
-                        <span class="las la-envelope"></span>
-                        <span class="notify">4</span>
-                    </div>
 
-                    <div class="notify-icon">
-                        <span class="las la-bell"></span>
-                        <span class="notify">3</span>
-                    </div>
+		</section>
+	</div>
+	<input type="checkbox" id="menu-toggle">
+	<div class="sidebar">
+		<div th:replace="Admin/sidebar :: sidebar"></div>
+	</div>
+	<div class="main-content">
+		<div th:replace="Admin/header :: header"></div>
 
-                    <div class="user">
-                        <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
+		<main>
+			<div class="page-header">
+				<h1>Products Management</h1>
+				<small>Home / User</small>
+			</div>
+			<div class="page-content">
+				<div class="analytics">
 
-                        <span class="las la-power-off"></span>
-                        <span>Logout</span>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <main>
-            <div class="page-header">
-                <h1>Products Management</h1>
-                <small>Home / User</small>
-            </div>
-            <div class="page-content">
-                <div class="analytics">
+					<div class="card">
+						<div class="card-head">
+							<h2>107,200</h2>
+							<span class="las la-user-friends"></span>
+						</div>
+						<div class="card-progress">
+							<small>User activity this month</small>
+							<div class="card-indicator">
+								<div class="indicator one" style="width: 60%"></div>
+							</div>
+						</div>
+					</div>
 
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>107,200</h2>
-                            <span class="las la-user-friends"></span>
-                        </div>
-                        <div class="card-progress">
-                            <small>User activity this month</small>
-                            <div class="card-indicator">
-                                <div class="indicator one" style="width: 60%"></div>
-                            </div>
-                        </div>
-                    </div>
+					<div class="card">
+						<div class="card-head">
+							<h2>340,230</h2>
+							<span class="las la-eye"></span>
+						</div>
+						<div class="card-progress">
+							<small>Page views</small>
+							<div class="card-indicator">
+								<div class="indicator two" style="width: 80%"></div>
+							</div>
+						</div>
+					</div>
 
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>340,230</h2>
-                            <span class="las la-eye"></span>
-                        </div>
-                        <div class="card-progress">
-                            <small>Page views</small>
-                            <div class="card-indicator">
-                                <div class="indicator two" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
+					<div class="card">
+						<div class="card-head">
+							<h2>$653,200</h2>
+							<span class="las la-shopping-cart"></span>
+						</div>
+						<div class="card-progress">
+							<small>Monthly revenue growth</small>
+							<div class="card-indicator">
+								<div class="indicator three" style="width: 65%"></div>
+							</div>
+						</div>
+					</div>
 
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>$653,200</h2>
-                            <span class="las la-shopping-cart"></span>
-                        </div>
-                        <div class="card-progress">
-                            <small>Monthly revenue growth</small>
-                            <div class="card-indicator">
-                                <div class="indicator three" style="width: 65%"></div>
-                            </div>
-                        </div>
-                    </div>
+					<div class="card">
+						<div class="card-head">
+							<h2>47,500</h2>
+							<span class="las la-envelope"></span>
+						</div>
+						<div class="card-progress">
+							<small>New E-mails received</small>
+							<div class="card-indicator">
+								<div class="indicator four" style="width: 90%"></div>
+							</div>
+						</div>
+					</div>
 
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>47,500</h2>
-                            <span class="las la-envelope"></span>
-                        </div>
-                        <div class="card-progress">
-                            <small>New E-mails received</small>
-                            <div class="card-indicator">
-                                <div class="indicator four" style="width: 90%"></div>
-                            </div>
-                        </div>
-                    </div>
+				</div>
+				<div class="records table-responsive">
+					<div class="record-header">
+						<div class="add">
+							<span>Entries</span>
+							<select name="" id="">
+								<option value="">ID</option>
+							</select>
+							<button id="Addrecord">Add Product</button>
+						</div>
 
-                </div>
-                <div class="records table-responsive">
-                    <div class="record-header">
-                        <div class="add">
-                            <span>Entries</span>
-                            <select name="" id="">
-                                <option value="">ID</option>
-                            </select>
-                            <button id="Addrecord">Add Product</button>
-                        </div>
+						<div class="browse">
+							<input type="search" placeholder="Search" class="record-search">
+							<select name="" id="">
+								<option value="">Status</option>
+							</select>
+						</div>
+					</div>
+					<div>
+						<table width="100%">
+							<thead>
+								<tr>
+									<th><span class="las la-sort"></span> Product ID</th>
+									<th><span class="las la-sort"></span> Product Name</th>
+									<th><span class="las la-sort"></span> available</th>
+									<th><span class="las la-sort"></span> Price</th>
+									<th><span class="las la-sort"></span> Image</th>
+									<th><span class="las la-sort"></span> Category ID</th>
+									<th><span class="las la-sort"></span> created Date</th>
+									<th><span class="las la-sort"></span> Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>ao-ba-lo</td>
+									<td>Áo Balo</td>
+									<td>500</td>
+									<td>90000</td>
+									<td>aobalo_luc.jpg</td>
+									<td>Ao-nam</td>
+									<td>19 April, 2022</td>
+									<td>Sản phẩm áo thun nam siêu thoáng mát</td>
+								</tr>
+								<tr>
+									<td>ao-ba-lo</td>
+									<td>Áo Balo</td>
+									<td>500</td>
+									<td>90000</td>
+									<td>aobalo_luc.jpg</td>
+									<td>Ao-nam</td>
+									<td>19 April, 2022</td>
+									<td>Sản phẩm áo thun nam siêu thoáng mát</td>
+								</tr>
+								<tr>
+									<td>ao-ba-lo</td>
+									<td>Áo Balo</td>
+									<td>500</td>
+									<td>90000</td>
+									<td>aobalo_luc.jpg</td>
+									<td>Ao-nam</td>
+									<td>19 April, 2022</td>
+									<td>Sản phẩm áo thun nam siêu thoáng mát</td>
+								</tr>
 
-                        <div class="browse">
-                            <input type="search" placeholder="Search" class="record-search">
-                            <select name="" id="">
-                                <option value="">Status</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <table width="100%">
-                            <thead>
-                                <tr>
-                                    <th><span class="las la-sort"></span> Product ID</th>
-                                    <th><span class="las la-sort"></span> Product Name</th>
-                                    <th><span class="las la-sort"></span> available</th>
-                                    <th><span class="las la-sort"></span> Price</th>
-                                    <th><span class="las la-sort"></span> Image</th>
-                                    <th><span class="las la-sort"></span> Category ID</th>
-                                    <th><span class="las la-sort"></span> created Date</th>
-                                    <th><span class="las la-sort"></span> Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ao-ba-lo</td>
-                                    <td>Áo Balo</td>
-                                    <td>500</td>
-                                    <td>90000</td>
-                                    <td>aobalo_luc.jpg</td>
-                                    <td>Ao-nam</td>
-                                    <td>19 April, 2022</td>
-                                    <td>Sản phẩm áo thun nam siêu thoáng mát</td>
-                                </tr>
-                                <tr>
-                                    <td>ao-ba-lo</td>
-                                    <td>Áo Balo</td>
-                                    <td>500</td>
-                                    <td>90000</td>
-                                    <td>aobalo_luc.jpg</td>
-                                    <td>Ao-nam</td>
-                                    <td>19 April, 2022</td>
-                                    <td>Sản phẩm áo thun nam siêu thoáng mát</td>
-                                </tr>
-                                <tr>
-                                    <td>ao-ba-lo</td>
-                                    <td>Áo Balo</td>
-                                    <td>500</td>
-                                    <td>90000</td>
-                                    <td>aobalo_luc.jpg</td>
-                                    <td>Ao-nam</td>
-                                    <td>19 April, 2022</td>
-                                    <td>Sản phẩm áo thun nam siêu thoáng mát</td>
-                                </tr>
+							</tbody>
+						</table>
+					</div>
 
-                            </tbody>
-                        </table>
-                    </div>
+				</div>
 
-                </div>
+			</div>
 
-            </div>
+		</main>
 
-        </main>
-
-    </div>
+	</div>
 </body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script>
-        const Add = document.querySelector("#Addrecord")
-        const handleclick = () => {
-            handle.classList.toggle("handle")
-        }
-        Add.addEventListener("click",handleclick)
-        document.querySelector("#exit").addEventListener("click",()=>{
-            // const handle = document.querySelector(".handle")
-            handle.classList.remove("handle")
-        })
-    </script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
+<script>
+	const Add = document.querySelector("#Addrecord")
+	const handleclick = () => {
+		handle.classList.toggle("handle")
+	}
+	Add.addEventListener("click", handleclick)
+	document.querySelector("#exit").addEventListener("click", () => {
+		// const handle = document.querySelector(".handle")
+		handle.classList.remove("handle")
+	})
+</script>
+
 </html>
