@@ -162,44 +162,18 @@
 									<th><span class="las la-sort"></span> Address</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td>anLK</td>
-									<td>Lâm Khánh An</td>
-									<td>123</td>
-									<td>ank@gmail.com</td>
-									<td>0123456789</td>
-									<td>19 April, 2022</td>
-									<td>Quận 12 Tp HCM</td>
-								</tr>
-								<tr>
-									<td>anLK</td>
-									<td>Lâm Khánh An</td>
-									<td>123</td>
-									<td>ank@gmail.com</td>
-									<td>0123456789</td>
-									<td>19 April, 2022</td>
-									<td>Quận 12 Tp HCM</td>
-								</tr>
-								<tr>
-									<td>anLK</td>
-									<td>Lâm Khánh An</td>
-									<td>123</td>
-									<td>ank@gmail.com</td>
-									<td>0123456789</td>
-									<td>19 April, 2022</td>
-									<td>Quận 12 Tp HCM</td>
-								</tr>
-								<tr>
-									<td>anLK</td>
-									<td>Lâm Khánh An</td>
-									<td>123</td>
-									<td>ank@gmail.com</td>
-									<td>0123456789</td>
-									<td>19 April, 2022</td>
-									<td>Quận 12 Tp HCM</td>
-								</tr>
 
+
+							<tbody>
+								<tr th:each="p: ${items}">
+									<td>[[${p.userID}]]</td>
+									<td>[[${p.username}]]</td>
+									<td>[[${p.password}]]</td>
+									<td>[[${p.email}]]</td>
+									<td>[[${p.phone}]]</td>
+									<td>[[${p.phone}]]</td>
+									<td>[[${p.address}]]</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
