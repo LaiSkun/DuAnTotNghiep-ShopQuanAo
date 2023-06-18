@@ -31,9 +31,9 @@ public class Users implements Serializable{
 	String phone;
 	String email;
 	String address;
-//	@Temporal(TemporalType.DATE)
-//	@Column(name = "createdDate")
-//	Date createdDate = new Date();
+	@Temporal(TemporalType.DATE)
+	@Column(name = "createdDate")
+	Date createDate = new Date();
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	List<Orders> orders;

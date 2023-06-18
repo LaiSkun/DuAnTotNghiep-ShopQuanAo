@@ -27,50 +27,46 @@
 		<section class="row"
 			style="position: absolute; left: 34vw; top: 10vh;">
 			<div class="col-12">
-				<form action="" method="post">
+				<form th:action="@{/admin/user/new}" method="post"
+					th:object="${user}">
 					<div class="card">
 						<i id="exit" class="fa-solid fa-x" style="margin-left: 37vw;"></i>
 
 						<div class="card-body">
 							<div class="row">
 								<div class="col">
+									<div class="form-group">
+										<label for="email">UserID</label> <input type="text"
+											class="form-control" name="email" id="UserID"
+											aria-describedby="UserIDId" placeholder="UserID"
+											th:field="*{userID}">
 
+									</div>
 									<div class="form-group">
 										<label for="email">Email</label> <input type="text"
 											class="form-control" name="email" id="email"
-											aria-describedby="emailhelpId" placeholder="Email">
+											aria-describedby="emailhelpId" placeholder="Email"
+											th:field="*{email}">
 
 									</div>
 									<div class="form-group">
 										<label for="Phone">Phone</label> <input type="text"
 											class="form-control" name="Phone" id="Phone"
-											placeholder="Phone">
+											placeholder="Phone" th:field="*{phone}">
 									</div>
-									<div class="form-group">
-										<label for="date">Created Date</label> <input type="text"
-											class="form-control" name="date" id="date"
-											aria-describedby="datehelpId" placeholder="Created Date">
-									</div>
-									<div class="form-group">
-										<label for="Deleted">privilege</label>
-										<fieldset>
-											<input type="radio" id="Admin" name="privilege" value="Admin"
-												checked> <label for="Admin">Admin</label> <input
-												type="radio" id="User" name="privilege" value="User">
-											<label for="User">Staff</label>
-										</fieldset>
-									</div>
+
 								</div>
 								<div class="col">
 									<div class="form-group">
 										<label for="">username</label> <input type="text"
 											class="form-control" name="username" id="username"
-											aria-describedby="usernamehelpId" placeholder="username">
+											aria-describedby="usernamehelpId" placeholder="username"
+											th:field="*{username}">
 									</div>
 									<div class="form-group">
 										<label for="">password</label> <input type="password"
 											class="form-control" name="password" id="password"
-											placeholder="password">
+											placeholder="password" th:field="*{password}">
 									</div>
 									<div class="form-group">
 										<label for="confirmpass">confirm pass</label> <input
@@ -81,7 +77,8 @@
 									<div class="form-group">
 										<label for="Address">Address</label> <input type="text"
 											class="form-control" name="Address" id="Address"
-											aria-describedby="AddresshelpId" placeholder="Address">
+											aria-describedby="AddresshelpId" placeholder="Address"
+											th:field="*{address}">
 									</div>
 
 								</div>
@@ -90,8 +87,9 @@
 						<div class="card-footer">
 							<button class="btn">create</button>
 							<button class="btn">update</button>
-							<button class="btn">delete</button>
-							<button class="btn">reset</button>
+							<button class="btn">
+								<a th:href="@{/admin/user}">Reset</a>
+							</button>
 						</div>
 					</div>
 
@@ -143,10 +141,11 @@
 						</div>
 
 						<div class="browse">
-							<input type="search" placeholder="Search" class="record-search">
-							<select name="" id="">
-								<option value="">Status</option>
-							</select>
+							<form th:action="@{/admin/search}" method="get">
+								<input type="search" placeholder="Search" class="record-search" name="keyword">
+								<button type="submit">Search</button>
+							</form>
+
 						</div>
 					</div>
 					<div>
@@ -160,19 +159,25 @@
 									<th><span class="las la-sort"></span> Phone</th>
 									<th><span class="las la-sort"></span> created Date</th>
 									<th><span class="las la-sort"></span> Address</th>
+									<th></th>
+									<th></th>
 								</tr>
 							</thead>
 
 
 							<tbody>
-								<tr th:each="p: ${items}">
+								<tr th:each="p: ${users}">
 									<td>[[${p.userID}]]</td>
 									<td>[[${p.username}]]</td>
 									<td>[[${p.password}]]</td>
 									<td>[[${p.email}]]</td>
 									<td>[[${p.phone}]]</td>
-									<td>[[${p.phone}]]</td>
+									<td>[[${p.createDate}]]</td>
 									<td>[[${p.address}]]</td>
+									<td><a
+										th:href="@{/admin/delete/{userId}(userId=${p.userID})}">Delete</a></td>
+									<td><a
+										th:href="@{/admin/edit/{userId}(userId=${p.userID})}">Edit</a></td>
 								</tr>
 							</tbody>
 						</table>
