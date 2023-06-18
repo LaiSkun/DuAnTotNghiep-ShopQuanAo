@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<Users> searchUsers(String keyword) {
 		// TODO Auto-generated method stub
-		return dao.findByUsername(keyword);
+		return dao.findByUsernameContaining(keyword);
 	}
 	
 	
