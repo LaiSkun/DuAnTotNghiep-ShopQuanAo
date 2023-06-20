@@ -18,26 +18,34 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @SuppressWarnings("serial")
 @Data
+@Getter
+@Setter
 @Entity @Table(name = "Products")
 public class Products {
 	@Id	
 	String productID;
 	String name;
-	String image;
+	String img;
 	Double price;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "Createdate")
 	Date createDate = new Date();
-	Boolean available;
-	boolean isDeleted;
+	String description;
+	Integer available;
+	Boolean deprecated;
 	@ManyToOne
 	@JoinColumn(name = "categoryID")
 	Categories category;
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	List<Order_Details> orderDetails;	
+	
+	@OneToMany(mappedBy = "product")
+	private List<Product_Colors> colors;
 }

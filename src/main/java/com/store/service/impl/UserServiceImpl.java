@@ -9,6 +9,7 @@ import com.store.dao.UsersDAO;
 import com.store.model.Users;
 import com.store.service.UserService;
 
+import static java.util.regex.Pattern.matches;
 
 
 @Service
@@ -45,6 +46,19 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		dao.deleteById(id);
 	}
-	
-	
+
+	@Override
+	public Users doLogin(String userID, String checkpassword) {
+		Users user = dao.findByUserID(userID);
+
+		if (null != user){
+			String password =user.getPassword();
+			boolean check =  password.equals(checkpassword);
+			return check ? user : null;
+		}else {
+			return null;
+		}
+	}
+
+
 }

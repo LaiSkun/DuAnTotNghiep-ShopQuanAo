@@ -13,13 +13,10 @@ import lombok.Data;
 
 @SuppressWarnings("serial")
 @Data
-@Entity 
+@Entity
 @Table(name = "categories")
 public class Categories {
 	@Id
 	String categoryID;
 	String name;
-	@JsonIgnore
-	@OneToMany(mappedBy = "category")
-	List<Products> products;
 }

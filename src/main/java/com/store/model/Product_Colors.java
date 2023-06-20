@@ -11,19 +11,28 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Nationalized;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @SuppressWarnings("serial")
 @Data
+@Getter
+@Setter
 @Entity @Table(name = "product_color")
 public class Product_Colors {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	long colorID;
+	Long colorID;
+	
+	@Nationalized
 	String color_hex;
 	String color_name;
+	
 	@ManyToOne
 	@JoinColumn(name = "productID")
 	Products product;

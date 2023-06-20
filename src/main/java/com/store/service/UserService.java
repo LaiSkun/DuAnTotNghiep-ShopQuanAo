@@ -14,4 +14,6 @@ public interface UserService {
 	public Users update(Users product);
 
 	public void delete(String id);
+
+	Users doLogin(String userID, String checkpassword);
 }
