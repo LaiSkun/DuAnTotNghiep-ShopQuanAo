@@ -1,43 +1,53 @@
 package com.store.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Data;
 
 
 @SuppressWarnings("serial")
 @Data
-@Entity @Table(name = "Products")
+@Entity
+@Table(name = "products")
 public class Products {
-	@Id	
-	String productID;
-	String name;
-	String image;
-	Double price;
-	@Temporal(TemporalType.DATE)
-	@Column(name = "Createdate")
-	Date createDate = new Date();
-	Boolean available;
-	boolean isDeleted;
-	@ManyToOne
-	@JoinColumn(name = "categoryID")
-	Categories category;
-	@JsonIgnore
-	@OneToMany(mappedBy = "product")
-	List<Order_Details> orderDetails;	
+    @Id
+    String productID;
+    String name;
+    String img;
+    Double price;
+    @Column(name = "Createdate")
+    @DateTimeFormat(pattern = "dd-mm-yyyy")
+    Date createDate ;
+    int available;
+    boolean deprecated;
+    String description;
+    @JsonIgnore
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoryID")
+    Categories category;
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    List<Order_Details> orderDetails;
+
+    public Products(String productID, String name, String img, Double price, Date createDate, int available, boolean deprecated, String description, Categories category, List<Order_Details> orderDetails) {
+        this.productID = productID;
+        this.name = name;
+        this.img = img;
+        this.price = price;
+        this.createDate = createDate;
+        this.available = available;
+        this.deprecated = deprecated;
+        this.description = description;
+        this.category = category;
+        this.orderDetails = orderDetails;
+    }
+
+    public Products() {
+    }
 }

@@ -3,306 +3,448 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-    <title>Modern Admin Dashboard</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-     <link rel="stylesheet" th:href="@{/css/admin.css}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet"
-        href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport">
+    <title>Product Page</title>
+    <link rel="stylesheet" th:href="@{/css/vendors/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/vendors/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link rel="stylesheet" th:href="@{/css/vendors/line-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/vendors/fans.css}">
 </head>
 <script>
-    function chooseFileavt(fileinput){
-if (fileinput.files && fileinput.files[0]) {
-  var reader= new FileReader();
-  reader.onload = function (e) {
-    $('#avt').attr('src',e.target.result);
-  }
-  reader.readAsDataURL(fileinput.files[0]);
-}
-}
-function chooseFileimg(fileinput){
-  let fileimg = fileinput.files
-if (fileimg.length > 0) {
-  for (let idx = 0; idx < fileimg.length; idx++) {
-    let filetoload = fileimg[idx]
-    var filereader= new FileReader();
-    filereader.onload = function (e) {
-      let srcData = e.target.result
-      let newImg = document.createElement('img')
-      newImg.src = srcData
-      newImg.setAttribute("style", "width : 60px;height: 60px; padding-bottom : 10px")
-      document.getElementById("img").innerHTML += newImg.outerHTML
+
+    function chooseFileavt(fileinput) {
+        if (fileinput.files && fileinput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#avt').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(fileinput.files[0]);
+        }
+    }
+
+    function chooseFileimg(fileinput) {
+        let fileimg = fileinput.files
+        if (fileimg.length > 0) {
+            for (let idx = 0; idx < fileimg.length; idx++) {
+                let filetoload = fileimg[idx]
+                var filereader = new FileReader();
+                filereader.onload = function (e) {
+                    let srcData = e.target.result
+                    let newImg = document.createElement('img')
+                    newImg.src = srcData
+                    newImg.setAttribute("style", "width : 60px;height: 60px; padding-bottom : 10px")
+                    document.getElementById("img").innerHTML += newImg.outerHTML
+
+                }
+                filereader.readAsDataURL(filetoload);
+            }
+        }
 
     }
-    filereader.readAsDataURL(filetoload);
-  }
-}
 
-}
 </script>
 <body>
-    <div id="handle">
-        <section class="row" style="position: absolute; left: 25vw; top: 10vh; width: 60%; height: 30%;">
-            <div class="col-12">
-                <form action="" method="post">
-                    <div class="card">
-                        <i id="exit" class="fa-solid fa-x" style="margin-left: 54vw;"></i>
-                        <div class="card-body">
-                           <div class="row">
+<div aria-atomic="true" aria-live="assertive" class="toast" id="status" role="alert" th:class="${status}">
+    <div class="toast-header">
+        <!--        <img src="..." class="rounded mr-2" alt="...">-->
+        <strong class="mr-auto">Bootstrap</strong>
+        <small class="text-muted">just now</small>
+        <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body" th:text="${message}">
+
+    </div>
+</div>
+
+<div id="handle" th:class="${handle}">
+    <section class="row product-form">
+        <div class="col-12">
+            <form enctype="multipart/form-data" id="submit" method="POST" th:object='${productRequest}'>
+                <div class="card">
+                    <i class="fa-solid fa-xmark" id="exit" style="margin-left: 54vw;"></i>
+                    <div class="card-body">
+                        <div class="row">
                             <div class="col-4">
                                 <div class="border p-3">
-                                  <form action="">
-                                    <input type="file" name="" id="avtimg" style="display: none;" onchange="chooseFileavt(this)" accept="image/gif, image/png,image/jpeg,imagee/jpg">
-                                    <label for="avtimg"><img style="width: 40px;" src="img/addAvatar.png" alt="">   Add img avatar</label>
-                                    <img src="" id="avt" width="100" alt="">
-                                  </form>
-                                </div>
-                                <div class="border p-3">
-                                  <form action="">                                                              
-                                    <input style="display: none;" type="file" name="imginput" id="imginput" onchange="chooseFileimg(this)" accept="image/gif, image/png,image/jpeg,imagee/jpg">
-                                    <label for="imginput"><img style="width: 40px;" src="img/addAvatar.png" alt="">   Add img</label>
-                                    <div id="img">
-                                    </div>
-                                  </form>
+                                    <input accept="image/gif, image/png,image/jpeg,imagee/jpg" id="avtimg" name="img"
+                                           onchange="chooseFileavt(this)"
+                                           style="display: none;"
+                                           type="file">
+                                    <label for="avtimg"><img alt="" src="/images/addAvatar.png" style="width: 40px;">
+                                        Choose product image</label>
+                                    <img alt="" id="avt"
+                                         th:src="${productRequest.img == null && imgName != null} ? '/getimage/'+${imgName} : *{img}"
+                                         width="100">
+
                                 </div>
                             </div>
                             <div class="col-4">
+
                                 <div class="form-group">
-                                  <label for="">ProductID</label>
-                                  <input type="text" class="form-control" name="ProductID" id="ProductID" aria-describedby="ProductIDhelpId" placeholder="Product ID">
+                                    <label for="ProductID">ProductID</label>
+                                    <input aria-describedby="ProductIDhelpId" class="form-control" id="ProductID"
+                                           name="ProductID"
+                                           placeholder="Product ID" th:field="*{productID}" type="text">
                                 </div>
                                 <div class="form-group">
-                                  <label for="videotitle">Product Name</label>
-                                  <input type="text" class="form-control" name="productName" id="productName" aria-describedby="productNamehelpId" placeholder="product Name">
+                                    <label for="productName">Product Name</label>
+                                    <input aria-describedby="productNamehelpId" class="form-control" id="productName"
+                                           name="productName"
+                                           placeholder="product Name" th:field="*{name}" type="text">
                                 </div>
                                 <div class="form-group">
-                                  <label for="viewcount">Available</label>
-                                  <input type="number" class="form-control" name="Available" id="Available" aria-describedby="AvailablehelpId" placeholder="Available">
+                                    <label for="viewcount">Available</label>
+                                    <input aria-describedby="AvailablehelpId" class="form-control" id="Available"
+                                           name="Available"
+                                           placeholder="Available" th:field="*{available}" type="number">
                                 </div>
-                                
+
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
-                                  <label for="Categoryid"> Category ID</label>
-                                  <input type="text" class="form-control" name="Categoryid" id="Categoryid" aria-describedby="CategoryidhelpId" placeholder="Category ID">
+                                    <label> Category ID</label>
+                                    <select class="form-control" id="categoryid" name="" th:field="*{category}">
+                                        <option th:each="categories : ${categories}" th:text="${categories.categoryID}"
+                                                th:value="${categories.categoryID}"></option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
-                                  <label for="createdDate"> created Date	</label>
-                                  <input type="text" class="form-control" name="createdDate" id="createdDate" aria-describedby="createdDatehelpId" placeholder=" created Date">
+                                    <label for="createdDate">createDate </label>
+                                    <input aria-describedby="createdDatehelpId" class="form-control" id="createdDate"
+                                           name="createdDate"
+                                           placeholder="dd-MM-yyyy" th:field="*{createDate}" type="date">
                                 </div>
                                 <div class="form-group">
                                     <label for="viewcount">Price</label>
-                                    <input type="number" class="form-control" name="Available" id="Available" aria-describedby="AvailablehelpId" placeholder="Available">
-                                  </div> 
+                                    <input aria-describedby="AvailablehelpId" class="form-control" id="viewcount"
+                                           name="Available"
+                                           placeholder="Available" th:field="*{price}" type="number">
+                                </div>
                             </div>
                             <div class="col-4"></div>
                             <div class="col-8">
                                 <label for="description">description</label>
-                                <textarea name="description" id="description" cols="1" rows="2" class="form-control"></textarea> </div>
-                              
-                            </div>
+                                <textarea class="form-control" cols="1" id="description" name="description"
+                                          rows="2" th:field="*{description}"></textarea></div>
                         </div>
                         <div class="card-footer text-muted">
-                           <button class="btn ">create</button>
-                           <button class="btn ">update</button>
-                           <button class="btn ">delete</button>
-                           <button class="btn ">reset</button>
+                            <button class="btn " id="createForm">create</button>
+                            <button class="btn" id="updateForm">Update</button>
+
+                            <button class="btn ">delete</button>
+                            <button class="btn ">reset</button>
                         </div>
                     </div>
+                </div>
+            </form>
+        </div>
 
-                </form>
-    
-              
-                
-              
-        </section>
-    </div>
-    <input type="checkbox" id="menu-toggle">
-    <div th:replace="admin/sidemenu :: div"></div>
-    <div class="main-content">
-        <header>
-            <div class="header-content">
-                <label for="menu-toggle">
-                    <span class="las la-bars"></span>
+    </section>
+</div>
+<input id="menu-toggle" type="checkbox">
+<div th:replace="admin/sidemenu :: div"></div>
+<div class="main-content">
+    <header>
+        <div class="header-content">
+            <label for="menu-toggle">
+                <span class="las la-bars"></span>
+            </label>
+
+            <div class="header-menu">
+                <label>
+                    <span class="las la-search"></span>
                 </label>
 
-                <div class="header-menu">
-                    <label for="">
-                        <span class="las la-search"></span>
-                    </label>
+                <div class="notify-icon">
+                    <span class="las la-envelope"></span>
+                    <span class="notify">4</span>
+                </div>
 
-                    <div class="notify-icon">
+                <div class="notify-icon">
+                    <span class="las la-bell"></span>
+                    <span class="notify">3</span>
+                </div>
+
+                <div class="user">
+                    <div class="bg-img" style="background-image: url(/images/1.jpeg)"></div>
+
+                    <span class="las la-power-off"></span>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="page-header">
+            <h1>Products Management</h1>
+            <small>Home / User</small>
+        </div>
+        <div class="page-content">
+            <div class="analytics">
+
+                <div class="card">
+                    <div class="card-head">
+                        <h2>107,200</h2>
+                        <span class="las la-user-friends"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>User activity this month</small>
+                        <div class="card-indicator">
+                            <div class="indicator one" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <h2>340,230</h2>
+                        <span class="las la-eye"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Page views</small>
+                        <div class="card-indicator">
+                            <div class="indicator two" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <h2>$653,200</h2>
+                        <span class="las la-shopping-cart"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Monthly revenue growth</small>
+                        <div class="card-indicator">
+                            <div class="indicator three" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <h2>47,500</h2>
                         <span class="las la-envelope"></span>
-                        <span class="notify">4</span>
                     </div>
-
-                    <div class="notify-icon">
-                        <span class="las la-bell"></span>
-                        <span class="notify">3</span>
-                    </div>
-
-                    <div class="user">
-                        <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
-
-                        <span class="las la-power-off"></span>
-                        <span>Logout</span>
+                    <div class="card-progress">
+                        <small>New E-mails received</small>
+                        <div class="card-indicator">
+                            <div class="indicator four" style="width: 90%"></div>
+                        </div>
                     </div>
                 </div>
+
             </div>
-        </header>
-        <main>
-            <div class="page-header">
-                <h1>Products Management</h1>
-                <small>Home / User</small>
-            </div>
-            <div class="page-content">
-                <div class="analytics">
+            <div class="records table-responsive">
+                <div class="record-header">
+                    <div class="add">
+                        <form th:action="@{/admin/product}" method="get">
+                            <span for="select-form">Status</span>
+                            <select id="select-form" name="type" onchange="this.form.submit()">
+                                <option th:selected="${type == ''}" value="">Tất cả</option>
+                                <option th:selected="${type == 'db'}" value="db">Đang bán</option>
+                                <option th:selected="${type == 'nb'}" value="nb">Ngưng bán</option>
 
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>107,200</h2>
-                            <span class="las la-user-friends"></span>
-                        </div>
-                        <div class="card-progress">
-                            <small>User activity this month</small>
-                            <div class="card-indicator">
-                                <div class="indicator one" style="width: 60%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>340,230</h2>
-                            <span class="las la-eye"></span>
-                        </div>
-                        <div class="card-progress">
-                            <small>Page views</small>
-                            <div class="card-indicator">
-                                <div class="indicator two" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>$653,200</h2>
-                            <span class="las la-shopping-cart"></span>
-                        </div>
-                        <div class="card-progress">
-                            <small>Monthly revenue growth</small>
-                            <div class="card-indicator">
-                                <div class="indicator three" style="width: 65%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-head">
-                            <h2>47,500</h2>
-                            <span class="las la-envelope"></span>
-                        </div>
-                        <div class="card-progress">
-                            <small>New E-mails received</small>
-                            <div class="card-indicator">
-                                <div class="indicator four" style="width: 90%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="records table-responsive">
-                    <div class="record-header">
-                        <div class="add">
-                            <span>Entries</span>
-                            <select name="" id="">
-                                <option value="">ID</option>
                             </select>
-                            <button id="Addrecord">Add Product</button>
-                        </div>
+                        </form>
 
-                        <div class="browse">
-                            <input type="search" placeholder="Search" class="record-search">
-                            <select name="" id="">
-                                <option value="">Status</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <table width="100%">
-                            <thead>
-                                <tr>
-                                    <th><span class="las la-sort"></span> Product ID</th>
-                                    <th><span class="las la-sort"></span> Product Name</th>
-                                    <th><span class="las la-sort"></span> available</th>
-                                    <th><span class="las la-sort"></span> Price</th>
-                                    <th><span class="las la-sort"></span> Image</th>
-                                    <th><span class="las la-sort"></span> Category ID</th>
-                                    <th><span class="las la-sort"></span> created Date</th>
-                                    <th><span class="las la-sort"></span> Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ao-ba-lo</td>
-                                    <td>Áo Balo</td>
-                                    <td>500</td>
-                                    <td>90000</td>
-                                    <td>aobalo_luc.jpg</td>
-                                    <td>Ao-nam</td>
-                                    <td>19 April, 2022</td>
-                                    <td>Sản phẩm áo thun nam siêu thoáng mát</td>
-                                </tr>
-                                <tr>
-                                    <td>ao-ba-lo</td>
-                                    <td>Áo Balo</td>
-                                    <td>500</td>
-                                    <td>90000</td>
-                                    <td>aobalo_luc.jpg</td>
-                                    <td>Ao-nam</td>
-                                    <td>19 April, 2022</td>
-                                    <td>Sản phẩm áo thun nam siêu thoáng mát</td>
-                                </tr>
-                                <tr>
-                                    <td>ao-ba-lo</td>
-                                    <td>Áo Balo</td>
-                                    <td>500</td>
-                                    <td>90000</td>
-                                    <td>aobalo_luc.jpg</td>
-                                    <td>Ao-nam</td>
-                                    <td>19 April, 2022</td>
-                                    <td>Sản phẩm áo thun nam siêu thoáng mát</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+                        <button id="Addrecord"><i class="fa-regular fa-square-plus"></i> Add Product</button>
                     </div>
 
+                    <div class="browse">
+                        <input class="record-search" placeholder="Search" type="search">
+<!--                        <select name="">-->
+<!--                            <option value="">Status</option>-->
+<!--                        </select>-->
+                        <button id="show">show</button>
+                    </div>
                 </div>
+                <div>
+                    <table id="tb1" class="table-product">
+                        <thead>
+                        <tr>
+                            <th><span class="las la-sort"></span> Mã sản phẩm</th>
+                            <th><span class="las la-sort"></span> Tên sản phẩm</th>
+                            <th><span class="las la-sort"></span> Màu sản phẩm</th>
+                            <th><span class="las la-sort"></span> Mã màu</th>
+                            <th><span class="las la-sort"></span> Ảnh</th>
+                            <th><span class="las la-sort"></span> Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="">
+                        <tr th:each="productImg : ${productImg}">
+                            <td>[[${productImg.product_color.product.productID}]]</td>
+                            <td>[[${productImg.product_color.product.name}]]</td>
+                            <td>[[${productImg.product_color.color_name}]]</td>
+                            <td>[[${productImg.product_color.color_hex}]]</td>
+                            <td><img th:src="@{'/getimage/'+ ${productImg.image}}" width="80px"></td>
+                            <td>[[${productImg.product_color.product.deprecated ? "Ngưng bán" : "Đang bán"}]]</td>
+                            <td>
+                                <button class="btn ">
+                                <a id="edit2" th:href="@{'/admin/product/edit/'}"><i style="color: #212529"
+                                            class="fa-solid fa-pen-to-square"></i></a>
+                                </button>
+                                <button class="btn btn-outline-light text-dark" data-toggle="modal"
+                                        th:attr="data-target='#recordDeleteModal2'"
+                                        type="button"><i
+                                        class="fa-solid fa-trash"></i></button>
+                                <!-- Modal -->
+                                <div aria-hidden="true" aria-labelledby="recordDeleteModalLabel2"
+                                     class="modal fade" role="dialog" tabindex="-1"
+                                     th:attr="id='recordDeleteModal2'">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="recordDeleteModalLabel2">Xóa sản phẩm</h5>
+                                                <button aria-label="Close" class="close" data-dismiss="modal"
+                                                        type="button">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn có chắc chắn muốn xóa sản phẩm ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" data-dismiss="modal" type="button">
+                                                    No
+                                                </button>
+                                                <a class="btn btn-primary"
+                                                   th:attr="href='/admin/product/updateStatusProduct?productID='">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal end -->
+                            </td>
+                        </tr>
 
+                        </tbody>
+                    </table>
+                <div>
+                    <table id="tb2" class="table-product">
+                        <thead>
+                        <tr>
+                            <th><span class="las la-sort"></span> Product Name</th>
+                            <th><span class="las la-sort"></span> Available</th>
+                            <th><span class="las la-sort"></span> Price</th>
+                            <th><span class="las la-sort"></span> Image</th>
+                            <th><span class="las la-sort"></span> Created Date</th>
+                            <th><span class="las la-sort"></span> CategoryID</th>
+                            <th><span class="las la-sort"></span> Status</th>
+                            <th><span class="las la-sort"></span> Description</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="sttProduct">
+                        <tr th:each="product : ${product}">
+                            <td>[[${product.name}]]</td>
+                            <td>[[${product.available}]]</td>
+                            <td>[[${product.price}]]</td>
+                            <td><img th:src="@{'/getimage/'+ ${product.img}}" width="80px"></td>
+                            <td>[[${#dates.format(product.createDate, "dd-MM-yyyy")}]]</td>
+                            <td>[[${product.category.name}]]</td>
+                            <td>[[${product.deprecated == true ? "Ngưng bán" : "Đang bán"}]]</td>
+                            <td><p id="desc">[[${product.description}]]</p></td>
+                            <td>
+                                <button class="btn ">
+                                    <a id="edit" th:href="@{'/admin/product/edit/'+ ${product.productID}}"><i style="color: #212529"
+                                                                                                              class="fa-solid fa-pen-to-square"></i></a>
+                                </button>
+                                <button class="btn btn-outline-light text-dark" data-toggle="modal"
+                                        th:attr="data-target='#recordDeleteModal'+ ${product.productID}"
+                                        type="button"><i
+                                        class="fa-solid fa-trash"></i></button>
+                                <!-- Modal -->
+                                <div aria-hidden="true" aria-labelledby="recordDeleteModalLabel"
+                                     class="modal fade" role="dialog" tabindex="-1"
+                                     th:attr="id='recordDeleteModal'+${product.productID}">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="recordDeleteModalLabel">Xóa sản phẩm</h5>
+                                                <button aria-label="Close" class="close" data-dismiss="modal"
+                                                        type="button">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn có chắc chắn muốn xóa sản phẩm ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" data-dismiss="modal" type="button">
+                                                    No
+                                                </button>
+                                                <a class="btn btn-primary"
+                                                   th:attr="href='/admin/product/updateStatusProduct?productID='+ ${product.productID}">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal end -->
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <div th:if="${productpage.totalPages > 0}" class="pagination"
+                         th:each="pageNumber : ${pageNumbers}">
+                        <a th:href="@{/listBooks(size=${productpage.size}, page=${pageNumber})}"
+                           th:value="${pageNumber}"
+                           th:class="${pageNumber==productpage.number + 1} ? active">a</a>
+                    </div>
+                </div>
+                </div>
             </div>
 
-        </main>
+        </div>
 
-    </div>
+    </main>
+</div>
 </body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script>
-        const Add = document.querySelector("#Addrecord")
-        const handleclick = () => {
-            handle.classList.toggle("handle")
-        }
-        Add.addEventListener("click",handleclick)
-        document.querySelector("#exit").addEventListener("click",()=>{
-            // const handle = document.querySelector(".handle")
-            handle.classList.remove("handle")
-        })
-    </script>
+<script>
+</script>
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    document.querySelector("#show").addEventListener("click",() => {
+        document.querySelector("#tb1").setAttribute("style", "display : table")
+        document.querySelector("#tb2").setAttribute("style", "display : none")
+    })
+    const Add = document.querySelector("#Addrecord")
+    const handleclick = () => {
+        handle.classList.toggle("handle")
+    }
+    Add.addEventListener("click", handleclick)
+    document.querySelector("#exit").addEventListener("click", () => {
+        handle.classList.remove("handle")
+    })
+    $("#createForm").click(function () {
+        console.log("day")
+        $('#submit').prop('action', '/admin/product/create');
+        $("#submit").submit();
+
+    });
+    $("#updateForm").click(function () {
+        $('#submit').prop('action', '/admin/product/update');
+        $("#submit").submit();
+
+    });
+    const status = document.querySelector("#status")
+    $(".done_delete").length == 1 && setTimeout(() => {
+        status.classList.remove("done_delete")
+    }, 2000)
+
+</script>
 </html>
