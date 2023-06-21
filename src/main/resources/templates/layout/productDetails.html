@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="shortcut icon" th:href="@{images/favicon.png}">
 <title>Welcome to FlatShop</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
 <link
 	href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,700,500italic,100italic,100'
@@ -37,37 +39,16 @@
 						<div class="products-details">
 							<div class="preview_image">
 								<div class="preview-small">
-									<img id="zoom_03"
-										th:src="@{'/images/product/' + ${product.img}}"
+									<img id="product_thumbnail"
+										th:src="@{'/images/product/' + ${colors.images[0].image}}"
 										data-zoom-image="images/products/Large/products-01.jpg" alt="">
 								</div>
 								<div class="thum-image">
 									<ul id="gallery_01" class="prev-thum">
-										<li><a href="#"
-											data-image="images/products/medium/products-01.jpg"
-											data-zoom-image="images/products/Large/products-01.jpg">
-												<img src="images/products/thum/products-01.png" alt="">
-										</a></li>
-										<li><a href="#"
-											data-image="images/products/medium/products-02.jpg"
-											data-zoom-image="images/products/Large/products-02.jpg">
-												<img src="images/products/thum/products-02.png" alt="">
-										</a></li>
-										<li><a href="#"
-											data-image="images/products/medium/products-03.jpg"
-											data-zoom-image="images/products/Large/products-03.jpg">
-												<img src="images/products/thum/products-03.png" alt="">
-										</a></li>
-										<li><a href="#"
-											data-image="images/products/medium/products-04.jpg"
-											data-zoom-image="images/products/Large/products-04.jpg">
-												<img src="images/products/thum/products-04.png" alt="">
-										</a></li>
-										<li><a href="#"
-											data-image="images/products/medium/products-05.jpg"
-											data-zoom-image="images/products/Large/products-05.jpg">
-												<img src="images/products/thum/products-05.png" alt="">
-										</a></li>
+										<li class="pt" th:each="image: ${colors.images}"
+											th:data-imgbigurl="@{'/images/product/' + ${image.image}}"><img
+											th:src="@{'/images/product/' + ${image.image}}" alt=""
+											id="product_image${loop.index}"></li>
 									</ul>
 									<a class="control-left" id="thum-prev"
 										href="javascript:void(0);"> <i class="fa fa-chevron-left">
@@ -94,12 +75,15 @@
 								<br>
 								<p th:text="${product.description}"></p>
 								<h3>Color</h3>
-								<div th:each="colorItem: ${colors}" class="cc-item">
-									
-										<input type="radio" name="color"
-											> <label
-											th:style="'background: ' + ${colorItem.color_hex}"></label>
-									
+								<div class="pd-color-choose">
+									<div th:each="colorItem: ${product.colors}" class="cc-item">
+										<input type="radio" name="color" th:id="${colorItem.colorID}"
+											th:value="${colorItem.colorID}"
+											th:data-productid="${product.productID}"
+											th:attr="onchange='changeColor(\'' + ${colorItem.colorID} + '\')'">
+										<label th:for="${colorItem.colorID}"
+											th:style="'background: ' + ${colorItem.color_hex}"></label> 
+									</div>
 								</div>
 								<hr class="border">
 								<div class="price">
@@ -641,6 +625,54 @@
 	</script>
 	<script type="text/javascript" th:src="@{/js/script.min.js}">
 		
+	</script>
+	<!-- Mã JavaScript -->
+	<script th:inline="javascript">
+		function changeColor(id) {
+			var url = '/api/product-color/' + id;
+			$.ajax({
+				type : 'POST',
+				url : url,
+				contentType : 'application/json; charset=UTF-8',
+				dataType : 'json',
+				success : function(data) {
+
+					$('#product_thumbnail').attr('src',
+							'/images/product/' + data[0].image);
+					$('#product_image0').attr('src',
+							'/images/product/' + data[0].image);
+					$('#product_image0').parent().attr('data-imgbigurl',
+							'/images/product/' + data[0].image);
+					$('#product_image1').attr('src',
+							'/images/${product.category.id}/' + data[1].image);
+					$('#product_image1').parent().attr('data-imgbigurl',
+							'/images/product/' + data[1].image);
+					$('#product_image2').attr('src',
+							'/images/product/' + data[2].image);
+					$('#product_image2').parent().attr('data-imgbigurl',
+							'/images/product/' + data[2].image);
+					$('#product_image3').attr('src',
+							'/images/product/' + data[3].image);
+					$('#product_image3').parent().attr('data-imgbigurl',
+							'/images/product/' + data[3].image);
+					console.log(data[0].image);
+				}
+			});
+		}
+		 $('.pt').click(function() {
+				var image = $(this).attr('data-imgbigurl');
+				$('#product_thumbnail').attr('src',image);
+	        });
+		 $('.thum-image .pt').on('click', function(){
+				$('.thum-image .pt').removeClass('active');
+				$(this).addClass('active');
+				var imgurl = $(this).data('imgbigurl');
+				var bigImg = $('.preview-small').attr('src');
+				if(imgurl != bigImg) {
+					$('.preview-small').attr({src: imgurl});
+					$('.zoomImg').attr({src: imgurl});
+				}
+			});
 	</script>
 </body>
 </html>

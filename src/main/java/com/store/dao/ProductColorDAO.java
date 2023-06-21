@@ -5,10 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface ProductColorDAO extends JpaRepository<Product_Colors, Long> {
+public interface ProductColorDAO extends JpaRepository<Product_Colors, Integer> {
 
-//    List<Product_Colors> findByProductID(String productID);
-//    List<Product_Colors> findByProductID(String productID);
+	
+
+	
+
+
+		
 }

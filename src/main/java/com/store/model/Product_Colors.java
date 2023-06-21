@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
@@ -27,7 +28,7 @@ import lombok.Setter;
 public class Product_Colors {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long colorID;
+	int colorID;
 	
 	@Nationalized
 	String color_hex;
@@ -36,4 +37,7 @@ public class Product_Colors {
 	@ManyToOne
 	@JoinColumn(name = "productID")
 	Products product;
+	
+	@OneToMany(mappedBy = "colorID")
+	private List<Product_Images> images;
 }

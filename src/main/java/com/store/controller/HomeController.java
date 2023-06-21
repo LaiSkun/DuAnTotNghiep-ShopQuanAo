@@ -2,8 +2,11 @@ package com.store.controller;
 
 import com.store.constant.SessionConstant;
 import com.store.model.Product_Colors;
+import com.store.model.Product_Images;
 import com.store.model.Products;
 import com.store.model.Users;
+import com.store.service.ProductColorService;
+import com.store.service.ProductImgService;
 import com.store.service.ProductService;
 import com.store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,7 +25,9 @@ public class HomeController {
 	private ProductService productService;
 	@Autowired
 	private UserService userService;
-
+	@Autowired
+	private ProductImgService imgService;
+	
 	@RequestMapping({"/", "/home"})
 	public String home(Model model) {
 		List<Products> products = productService.findAll();
@@ -56,15 +63,16 @@ public class HomeController {
 		if (product == null) {
 			return "redirect:/home";
 		} else {
-			List<Product_Colors> color = product.getColors();
+			Product_Colors color = product.getColors().get(0);
 			model.addAttribute("colors", color);
 			model.addAttribute("product", product);
+			model.addAttribute("productID", productID);
 		}
 		List<Products> products = productService.findAll();
 		model.addAttribute("products", products);
 		return "layout/productDetails";
 	}
-
+	
 	@RequestMapping( "/productlist")
 	public String productlist(Model model) {
 		List<Products> products = productService.findAll();

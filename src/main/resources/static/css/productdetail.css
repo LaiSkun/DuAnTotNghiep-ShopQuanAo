@@ -1,4 +1,11 @@
 @charset "ISO-8859-1";
+.pd-color-choose{
+	display: inline-block;
+	position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
 .cc-item {
     display: inline-block;
     margin-right: 10px;
@@ -6,7 +13,7 @@
 }
 .cc-item input {
     position: absolute;
-    visibility: hidden;
+   	visibility: hidden
 }
 .cc-item label {
     height: 30px !important;
@@ -24,4 +31,10 @@
 label {
     display: inline-block;
     margin-bottom: .5rem;
+}
+.pt{
+	cursor: pointer;
+}
+.pt:active {
+    border: 2px solid red;
 }
