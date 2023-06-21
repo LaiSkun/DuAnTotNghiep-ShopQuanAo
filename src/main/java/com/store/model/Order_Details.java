@@ -10,7 +10,7 @@ import javax.persistence.*;
 @SuppressWarnings("serial")
 @Data
 @Entity
-@Table(name = "order_detalis")
+@Table(name = "order_details")
 public class Order_Details {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

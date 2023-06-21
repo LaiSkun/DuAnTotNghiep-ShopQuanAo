@@ -365,7 +365,7 @@ input, button, select {
     border: 1px solid #b0b0b0;
     border-radius: 3px;
     display: inline-block;
-    width: 75px;
+    width: 125px;
     padding: 0rem .5rem;
     margin-right: .8rem;
     color: #666;
@@ -404,7 +404,7 @@ table thead tr {
 
 table thead th {
     padding: 1rem 0rem;
-    text-align: left;
+    text-align: center;
     color: #444;
     font-size: .9rem;
     width: 0%;
@@ -421,8 +421,24 @@ table tbody td:last-child {
 table tbody td {
     padding: 1rem 0rem;
     color: #444;
+    text-align: center;
 }
+#desc{
+    max-height: 3.2rem;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: initial;
+    -webkit-line-clamp: 2;
+    margin-bottom: 0;
+}
+#desc:hover{
+    background-color: blue;
+    color: #fff;
+    overflow: initial !important;
+    scale: 1.1;
 
+    transition: .3s ease;
+}
 table tbody td:first-child {
     padding-left: 2rem !important;
     color: var(--main-color);
@@ -432,6 +448,7 @@ table tbody td:first-child {
 
 table tbody tr {
     border-bottom: 1px solid #dee2e8;
+
 }
 
 .client {
@@ -587,9 +604,32 @@ td {
 .side-menu ul li:hover small {
     color: #fff !important;
 }
-
-
-
-
-
+.product-form {
+    position: absolute;
+    left: 25vw;
+    top: 10vh;
+    width: 60%;
+    height: 30%;
+}
+.record-header table thead th{
+    text-align: center;
+}
+.done_delete{
+    right: 20px;
+    position: absolute;
+    margin-top: 6vh;
+    display: initial !important;
+}
+#status{
+    display: none;
+}
+.toast-body{
+    background-color: #fff;
+}
+.table-product{
+    min-width: 86vw;
+}
+#tb1{
+    display: none;
+}
 

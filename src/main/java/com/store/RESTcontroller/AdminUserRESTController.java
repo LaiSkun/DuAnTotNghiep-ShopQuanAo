@@ -27,5 +27,4 @@ public class AdminUserRESTController {
 		model.addAttribute("items", list);
 		return "/admin/user";
 	}
-
 }
