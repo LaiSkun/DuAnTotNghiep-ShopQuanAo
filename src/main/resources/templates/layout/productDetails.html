@@ -45,10 +45,10 @@
 								</div>
 								<div class="thum-image">
 									<ul id="gallery_01" class="prev-thum">
-										<li class="pt" th:each="image: ${colors.images}"
+										<li class="pt" th:each="image,loop : ${colors.images}"
 											th:data-imgbigurl="@{'/images/product/' + ${image.image}}"><img
 											th:src="@{'/images/product/' + ${image.image}}" alt=""
-											id="product_image${loop.index}"></li>
+											th:id=" 'product_image' + ${loop.index}"></li>
 									</ul>
 									<a class="control-left" id="thum-prev"
 										href="javascript:void(0);"> <i class="fa fa-chevron-left">
@@ -82,7 +82,7 @@
 											th:data-productid="${product.productID}"
 											th:attr="onchange='changeColor(\'' + ${colorItem.colorID} + '\')'">
 										<label th:for="${colorItem.colorID}"
-											th:style="'background: ' + ${colorItem.color_hex}"></label> 
+											th:style="'background: ' + ${colorItem.color_hex}"></label>
 									</div>
 								</div>
 								<hr class="border">
@@ -659,20 +659,24 @@
 				}
 			});
 		}
-		 $('.pt').click(function() {
-				var image = $(this).attr('data-imgbigurl');
-				$('#product_thumbnail').attr('src',image);
-	        });
-		 $('.thum-image .pt').on('click', function(){
-				$('.thum-image .pt').removeClass('active');
-				$(this).addClass('active');
-				var imgurl = $(this).data('imgbigurl');
-				var bigImg = $('.preview-small').attr('src');
-				if(imgurl != bigImg) {
-					$('.preview-small').attr({src: imgurl});
-					$('.zoomImg').attr({src: imgurl});
-				}
-			});
+		$('.pt').click(function() {
+			var image = $(this).attr('data-imgbigurl');
+			$('#product_thumbnail').attr('src', image);
+		});
+		$('.thum-image .pt').on('click', function() {
+			$('.thum-image .pt').removeClass('active');
+			$(this).addClass('active');
+			var imgurl = $(this).data('imgbigurl');
+			var bigImg = $('.preview-small').attr('src');
+			if (imgurl != bigImg) {
+				$('.preview-small').attr({
+					src : imgurl
+				});
+				$('.zoomImg').attr({
+					src : imgurl
+				});
+			}
+		});
 	</script>
 </body>
 </html>
