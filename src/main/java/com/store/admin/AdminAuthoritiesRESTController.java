@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.store.model.Authorities;
+import com.store.model.Users;
 import com.store.service.AuthoritiesService;
+import com.store.service.UserService;
 
 
 
@@ -25,13 +27,21 @@ import com.store.service.AuthoritiesService;
 public class AdminAuthoritiesRESTController {
 	@Autowired
 	AuthoritiesService authoritiesService;
-
+	@Autowired
+	UserService userService;
+	
+	
 	@GetMapping
 	public List<Authorities> findAll() {
 		
 			return authoritiesService.findAuthoritiesOfAdministrators();
 		
 	}
+	
+	@GetMapping("/filterByRole/{roleId}")
+    public List<Users> getUsersByRole(@PathVariable("roleId") String roleId) {
+        return userService.findByAuthorities_Role_RoleID(roleId);
+    }
 	
 	@PostMapping
 	public Authorities post(@RequestBody Authorities auth) {

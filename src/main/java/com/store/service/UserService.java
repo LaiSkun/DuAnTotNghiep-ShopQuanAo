@@ -18,4 +18,6 @@ public interface UserService {
 	public List<Users> getAdministrators();
 
 	public List<Users> searchUsers(String keyword);
+
+	public List<Users> findByAuthorities_Role_RoleID(String roleId);
 }

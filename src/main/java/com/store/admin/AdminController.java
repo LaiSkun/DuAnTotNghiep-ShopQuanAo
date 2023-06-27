@@ -41,4 +41,8 @@ public class AdminController {
 	public String adminOrder() {
 		return "/admin/order/order";
 	}
+	@RequestMapping("/admin/status")
+	public String adminStatus() {
+		return "/admin/status/status";
+	}
 }

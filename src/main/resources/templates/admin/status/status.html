@@ -28,7 +28,7 @@
 			style="position: absolute; left: 34vw; top: 10vh;">
 			<div class="col-12">
 				<form th:action="@{/admin/user/new}" method="post"
-					th:object="${user}">
+					>
 					<div class="card">
 						<i id="exit" class="fa-solid fa-x" style="margin-left: 37vw;"></i>
 
@@ -39,20 +39,20 @@
 										<label for="email">UserID</label> <input type="text"
 											class="form-control" name="email" id="UserID"
 											aria-describedby="UserIDId" placeholder="UserID"
-											th:field="*{userID}">
+											>
 
 									</div>
 									<div class="form-group">
 										<label for="email">Email</label> <input type="text"
 											class="form-control" name="email" id="email"
 											aria-describedby="emailhelpId" placeholder="Email"
-											th:field="*{email}">
+											>
 
 									</div>
 									<div class="form-group">
 										<label for="Phone">Phone</label> <input type="text"
 											class="form-control" name="Phone" id="Phone"
-											placeholder="Phone" th:field="*{phone}">
+											placeholder="Phone" >
 									</div>
 
 								</div>
@@ -61,12 +61,12 @@
 										<label for="">username</label> <input type="text"
 											class="form-control" name="username" id="username"
 											aria-describedby="usernamehelpId" placeholder="username"
-											th:field="*{username}">
+											>
 									</div>
 									<div class="form-group">
 										<label for="">password</label> <input type="password"
 											class="form-control" name="password" id="password"
-											placeholder="password" th:field="*{password}">
+											placeholder="password" >
 									</div>
 									<div class="form-group">
 										<label for="confirmpass">confirm pass</label> <input
@@ -78,7 +78,7 @@
 										<label for="Address">Address</label> <input type="text"
 											class="form-control" name="Address" id="Address"
 											aria-describedby="AddresshelpId" placeholder="Address"
-											th:field="*{address}">
+											>
 									</div>
 
 								</div>
@@ -126,21 +126,23 @@
 		</header>
 		<main>
 			<div class="page-header">
-				<h1>Users Management</h1>
-				<small>Home / User</small>
+				<h1>Status Management</h1>
+				<small>Home / Status</small>
 			</div>
 			<div class="page-content">
 
 				<div class="records table-responsive">
 					<div class="record-header">
 						<div class="add">
-							<span>Thêm User</span> 
-							<button id="Addrecord">Add User</button>
+							<span>Entries</span> <select name="" id="">
+								<option value="">ID</option>
+							</select>
+							<button id="Addrecord">Edit Status</button>
 						</div>
 
 						<div class="browse">
 							<form th:action="@{/admin/search}" method="get">
-								<input style="width: 200px" type="search" placeholder="Search by username" class="record-search" name="keyword">
+								<input type="search" placeholder="Search" class="record-search" name="keyword">
 								<button type="submit">Search</button>
 							</form>
 
@@ -150,14 +152,14 @@
 						<table width="100%">
 							<thead>
 								<tr>
-									<th><span class="las la-sort"></span> User ID</th>
-									<th><span class="las la-sort"></span> User Name</th>
-									<th><span class="las la-sort"></span> Password</th>
-									<th><span class="las la-sort"></span> Email</th>
-									<th><span class="las la-sort"></span> Phone</th>
-									<th><span class="las la-sort"></span> created Date</th>
-									<th><span class="las la-sort"></span> Address</th>
-									<th></th>
+									<th><span class="las la-sort"></span> OrderID</th>
+									<th><span class="las la-sort"></span> Status</th>
+									<th><span class="las la-sort"></span> Reason</th>
+									<th><span class="las la-sort"></span> Description</th>
+									<th><span class="las la-sort"></span> Notes</th>
+									<th><span class="las la-sort"></span> Date Complete</th>
+									<th><span class="las la-sort"></span> Transport Fee</th>
+									<th><span class="las la-sort"></span> Fee Collected From Customer</th>
 									<th></th>
 								</tr>
 							</thead>

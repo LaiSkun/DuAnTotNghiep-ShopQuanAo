@@ -17,4 +17,7 @@ public interface UsersDAO extends JpaRepository<Users, String> {
 			+ "where userID like 'keyword' or username like 'keyword' or email like 'keyword' ")
 	List<Users> findByKeyword(String keyword);
 	List<Users> findByUsernameContaining(String keyword);
+	
+	
+	List<Users> findByAuthorities_Role_RoleID(String roleID);
 }

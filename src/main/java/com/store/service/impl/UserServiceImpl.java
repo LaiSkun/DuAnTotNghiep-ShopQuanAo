@@ -58,6 +58,14 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return dao.findByUsernameContaining(keyword);
 	}
+
+	@Override
+	public List<Users> findByAuthorities_Role_RoleID(String roleId) {
+		// TODO Auto-generated method stub
+		return dao.findByAuthorities_Role_RoleID(roleId);
+	}
+
+	
 	
 	
 }

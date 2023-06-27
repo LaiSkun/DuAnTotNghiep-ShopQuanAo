@@ -39,4 +39,6 @@ public class AuthoritiesServiceImpl implements AuthoritiesService  {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 }
