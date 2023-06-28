@@ -1,104 +1,86 @@
 package com.store.controller;
 
 import com.store.constant.SessionConstant;
+import com.store.model.Categories;
 import com.store.model.Product_Colors;
-import com.store.model.Product_Images;
 import com.store.model.Products;
 import com.store.model.Users;
-import com.store.service.ProductColorService;
+import com.store.service.CatelogyService;
 import com.store.service.ProductImgService;
 import com.store.service.ProductService;
 import com.store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class HomeController {
-	@Autowired
-	private ProductService productService;
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private ProductImgService imgService;
-	
-	@RequestMapping({"/", "/home"})
-	public String home(Model model) {
-		List<Products> products = productService.findAll();
-		model.addAttribute("products", products);
-		return "/layout/home";
-	}
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ProductImgService imgService;
+    @Autowired
+    private CatelogyService catelogyService;
+
+    private static final int MAX_SIZE =4;
+
+    @RequestMapping({"/", "/home"})
+    public String home( @RequestParam(value = "pageM", required = false, defaultValue = "1") int pageM,
+                        @RequestParam(value = "pageW", required = false, defaultValue = "1") int pageW,
+                        Model model) {
+        List<Products> productM = new ArrayList<>();
+        try {
+            Page<Products> pageProductM = productService.findMen(MAX_SIZE, pageM);
+            productM = pageProductM.getContent();
+            model.addAttribute("totalPagesM", pageProductM.getTotalPages());
+            model.addAttribute("currentPageM", pageM);
+        } catch (Exception e) {
+            productM = productService.findAll();
+        }
+        model.addAttribute("productM", productM);
+        List<Products> productW = new ArrayList<>();
+        try {
+            Page<Products> pageProduct = productService.findWomen(MAX_SIZE, pageW);
+            productW = pageProduct.getContent();
+            model.addAttribute("totalPagesW", pageProduct.getTotalPages());
+            model.addAttribute("currentPageW", pageW);
+        } catch (Exception e) {
+            productW = productService.findAll();
+        }
+
+        model.addAttribute("productW", productW);
+        return "/layout/home";
+    }
 
 
-	@RequestMapping({"/productgird"})
-	public String productGird(Model model) {
-		List<Products> products = productService.findAll();
-		model.addAttribute("products", products);
-		return "/layout/productgird";
-	}
+    @RequestMapping("/login")
+    public String doGetLogin(Model model) {
+        model.addAttribute("userRequest", new Users());
+        return "layout/login";
+    }
 
-	@RequestMapping({"/productMen"})
-	public String productMen(Model model) {
-		List<Products> products = productService.findMen();
-		model.addAttribute("productMen", products);
-		return "/layout/productMen";
-	}
+    @PostMapping("/login")
+    public String doPostLogin(@ModelAttribute("userRequest") Users userRequest, HttpSession session) {
+        Users userResponse = userService.doLogin(userRequest.getUserID(), userRequest.getPassword());
+        if (userResponse != null) {
+            session.setAttribute(SessionConstant.CURRENT_USER, userResponse);
+            return "redirect:/home";
+        } else {
+            return "redirect:/login";
+        }
+    }
 
-	@RequestMapping({"/productWomen"})
-	public String productWomen(Model model) {
-		List<Products> products = productService.findWomen();
-		model.addAttribute("productWomen", products);
-		return "/layout/productWomen";
-	}
-
-	@RequestMapping("/product/{productID}")
-	public String productID(@PathVariable("productID") String productID, Model model) {
-		Products product = productService.findByProductID(productID);
-		if (product == null) {
-			return "redirect:/home";
-		} else {
-			Product_Colors color = product.getColors().get(0);
-			model.addAttribute("colors", color);
-			model.addAttribute("product", product);
-			model.addAttribute("productID", productID);
-		}
-		List<Products> products = productService.findAll();
-		model.addAttribute("products", products);
-		return "layout/productDetails";
-	}
-	
-	@RequestMapping( "/productlist")
-	public String productlist(Model model) {
-		List<Products> products = productService.findAll();
-		model.addAttribute("products", products);
-		return "/layout/productlist";
-	}
-
-	@RequestMapping ("/login")
-	public String doGetLogin(Model model) {
-		model.addAttribute("userRequest", new Users());
-		return "layout/login";
-	}
-
-	@PostMapping("/login")
-	public String doPostLogin(@ModelAttribute("userRequest") Users userRequest, HttpSession session){
-		Users userResponse = userService.doLogin(userRequest.getUserID(), userRequest.getPassword());
-		if (userResponse != null){
-			session.setAttribute(SessionConstant.CURRENT_USER, userResponse);
-			return "redirect:/home";
-		} else {
-			return "redirect:/login";
-		}
-	}
-	@RequestMapping ("/logout")
-	public String doGetLogout(HttpSession session){
-		session.removeAttribute(SessionConstant.CURRENT_USER);
-		return "redirect:/home";
-	}
+    @RequestMapping("/logout")
+    public String doGetLogout(HttpSession session) {
+        session.removeAttribute(SessionConstant.CURRENT_USER);
+        return "redirect:/home";
+    }
 }

@@ -28,7 +28,7 @@ import lombok.Setter;
 public class Product_Colors {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int colorID;
+	Integer colorID;
 	
 	@Nationalized
 	String color_hex;

@@ -76,13 +76,13 @@
 								<p th:text="${product.description}"></p>
 								<h3>Color</h3>
 								<div class="pd-color-choose">
-									<div th:each="colorItem: ${product.colors}" class="cc-item">
-										<input type="radio" name="color" th:id="${colorItem.colorID}"
+									<div  th:each="colorItem: ${product.colors}" class="cc-item">
+										<input class="color" type="radio" name="color" th:id="${colorItem.colorID}"
 											th:value="${colorItem.colorID}"
 											th:data-productid="${product.productID}"
 											th:attr="onchange='changeColor(\'' + ${colorItem.colorID} + '\')'">
 										<label th:for="${colorItem.colorID}"
-											th:style="'background: ' + ${colorItem.color_hex}"></label> 
+											th:data-color-hex="${colorItem.color_hex}" th:style="'background: ' + ${colorItem.color_hex}"></label>
 									</div>
 								</div>
 								<hr class="border">
@@ -108,7 +108,7 @@
 										</select>
 									</div>
 									<div class="button_group">
-										<button class="button">Add To Cart</button>
+										<button class="button" id="addcard" th:attr="onclick='addToCart(\'' +${product.productID}+ '\')'">Add To Cart</button>
 										<button class="button compare">
 											<i class="fa fa-exchange"> </i>
 										</button>
@@ -269,21 +269,21 @@
 								<strong> Hot </strong> Products
 							</h3>
 							<div class="control">
-								<a id="prev_hot" class="prev" href="#"> &lt; </a> <a
-									id="next_hot" class="next" href="#"> &gt; </a>
+								<a  class="prev"th:href="@{${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}"> &lt; </a>
+
+								<a  class="next" th:href="@{${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}"> &gt; </a>
 							</div>
 							<ul id="hot">
 								<li>
 									<div class="row">
 										<div class="col-md-4 col-sm-4" th:each="product : ${products}">
 											<div class="products">
-												<div class="offer">- %20</div>
 												<div class="thumbnail">
-													<img th:src="@{'/images/product/' + ${product.img}}"
+													<img th:src="@{'/images/product/' + ${product.img}}" style="width: 170px"
 														alt="Product Name">
 												</div>
-												<div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-												<h4 class="price">$451.00</h4>
+												<div class="productname" th:text="${product.name}"></div>
+												<h4 class="price" th:text="${#numbers.formatCurrency(product.price)}"></h4>
 												<div class="button_group">
 													<button class="button add-cart" type="button">Add
 														To Cart</button>
@@ -299,138 +299,6 @@
 
 									</div>
 								</li>
-								<li>
-									<div class="row">
-										<div class="col-md-4 col-sm-4">
-											<div class="products">
-												<div class="offer">- %20</div>
-												<div class="thumbnail">
-													<img src="images/products/small/products-01.png"
-														alt="Product Name">
-												</div>
-												<div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-												<h4 class="price">$451.00</h4>
-												<div class="button_group">
-													<button class="button add-cart" type="button">Add
-														To Cart</button>
-													<button class="button compare" type="button">
-														<i class="fa fa-exchange"> </i>
-													</button>
-													<button class="button wishlist" type="button">
-														<i class="fa fa-heart-o"> </i>
-													</button>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 col-sm-4">
-											<div class="products">
-												<div class="thumbnail">
-													<img src="images/products/small/products-02.png"
-														alt="Product Name">
-												</div>
-												<div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-												<h4 class="price">$451.00</h4>
-												<div class="button_group">
-													<button class="button add-cart" type="button">Add
-														To Cart</button>
-													<button class="button compare" type="button">
-														<i class="fa fa-exchange"> </i>
-													</button>
-													<button class="button wishlist" type="button">
-														<i class="fa fa-heart-o"> </i>
-													</button>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 col-sm-4">
-											<div class="products">
-												<div class="offer">New</div>
-												<div class="thumbnail">
-													<img src="images/products/small/products-03.png"
-														alt="Product Name">
-												</div>
-												<div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-												<h4 class="price">$451.00</h4>
-												<div class="button_group">
-													<button class="button add-cart" type="button">Add
-														To Cart</button>
-													<button class="button compare" type="button">
-														<i class="fa fa-exchange"> </i>
-													</button>
-													<button class="button wishlist" type="button">
-														<i class="fa fa-heart-o"> </i>
-													</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="row">
-										<div class="col-md-4 col-sm-4">
-											<div class="products">
-												<div class="offer">- %20</div>
-												<div class="thumbnail">
-													<img src="images/products/small/products-01.png"
-														alt="Product Name">
-												</div>
-												<div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-												<h4 class="price">$451.00</h4>
-												<div class="button_group">
-													<button class="button add-cart" type="button">Add
-														To Cart</button>
-													<button class="button compare" type="button">
-														<i class="fa fa-exchange"> </i>
-													</button>
-													<button class="button wishlist" type="button">
-														<i class="fa fa-heart-o"> </i>
-													</button>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 col-sm-4">
-											<div class="products">
-												<div class="thumbnail">
-													<img src="images/products/small/products-02.png"
-														alt="Product Name">
-												</div>
-												<div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-												<h4 class="price">$451.00</h4>
-												<div class="button_group">
-													<button class="button add-cart" type="button">Add
-														To Cart</button>
-													<button class="button compare" type="button">
-														<i class="fa fa-exchange"> </i>
-													</button>
-													<button class="button wishlist" type="button">
-														<i class="fa fa-heart-o"> </i>
-													</button>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 col-sm-4">
-											<div class="products">
-												<div class="offer">New</div>
-												<div class="thumbnail">
-													<img src="images/products/small/products-03.png"
-														alt="Product Name">
-												</div>
-												<div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-												<h4 class="price">$451.00</h4>
-												<div class="button_group">
-													<button class="button add-cart" type="button">Add
-														To Cart</button>
-													<button class="button compare" type="button">
-														<i class="fa fa-exchange"> </i>
-													</button>
-													<button class="button wishlist" type="button">
-														<i class="fa fa-heart-o"> </i>
-													</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</li>
 							</ul>
 						</div>
 						<div class="clearfix"></div>
@@ -440,37 +308,15 @@
 							<h4 class="title">
 								Special <strong> Deals </strong>
 							</h4>
-							<div class="special-item">
+							<div class="special-item" th:each="product : ${products}">
 								<div class="product-image">
 									<a href="#"> <img
-										src="images/products/thum/products-01.png" alt="">
+											th:src="@{'/images/product/' + ${product.img}}" alt="">
 									</a>
 								</div>
 								<div class="product-info">
-									<p>Licoln Corner Unit</p>
-									<h5 class="price">$300.00</h5>
-								</div>
-							</div>
-							<div class="special-item">
-								<div class="product-image">
-									<a href="#"> <img
-										src="images/products/thum/products-02.png" alt="">
-									</a>
-								</div>
-								<div class="product-info">
-									<p>Licoln Corner Unit</p>
-									<h5 class="price">$300.00</h5>
-								</div>
-							</div>
-							<div class="special-item">
-								<div class="product-image">
-									<a href="#"> <img
-										src="images/products/thum/products-03.png" alt="">
-									</a>
-								</div>
-								<div class="product-info">
-									<p>Licoln Corner Unit</p>
-									<h5 class="price">$300.00</h5>
+									<p th:text="${product.name}"></p>
+									<h5 class="price" th:text="${#numbers.formatCurrency(product.price)}"></h5>
 								</div>
 							</div>
 						</div>
@@ -506,7 +352,7 @@
 						<div class="fbl-box leftbar">
 							<h3 class="title">Facebook</h3>
 							<span class="likebutton"> <a href="#"> <img
-									src="images/fblike.png" alt="">
+									th:src="@{/images/fblike.png}" alt="">
 							</a>
 							</span>
 							<p>12k people like Flat Shop.</p>
@@ -521,7 +367,7 @@
 								<li><a href="#"> </a></li>
 							</ul>
 							<div class="fbplug">
-								<a href="#"> <span> <img src="images/fbicon.png"
+								<a href="#"> <span> <img th:src="@{/images/fbicon.png}"
 										alt="">
 								</span> Facebook social plugin
 								</a>
@@ -544,27 +390,27 @@
 							<ul class="brand_item">
 								<li><a href="#">
 										<div class="brand-logo">
-											<img src="images/envato.png" alt="">
+											<img th:src="@{/images/envato.png}" alt="">
 										</div>
 								</a></li>
 								<li><a href="#">
 										<div class="brand-logo">
-											<img src="images/themeforest.png" alt="">
+											<img th:src="@{/images/themeforest.png}" alt="">
 										</div>
 								</a></li>
 								<li><a href="#">
 										<div class="brand-logo">
-											<img src="images/photodune.png" alt="">
+											<img th:src="@{/images/photodune.png}" alt="">
 										</div>
 								</a></li>
 								<li><a href="#">
 										<div class="brand-logo">
-											<img src="images/activeden.png" alt="">
+											<img th:src="@{/images/activeden.png}" alt="">
 										</div>
 								</a></li>
 								<li><a href="#">
 										<div class="brand-logo">
-											<img src="images/envato.png" alt="">
+											<img th:src="@{/images/envato.png}" alt="">
 										</div>
 								</a></li>
 							</ul>
@@ -573,27 +419,27 @@
 							<ul class="brand_item">
 								<li><a href="#">
 										<div class="brand-logo">
-											<img src="images/envato.png" alt="">
+											<img th:src="@{/images/envato.png}" alt="">
 										</div>
 								</a></li>
 								<li><a href="#">
 										<div class="brand-logo">
-											<img src="images/themeforest.png" alt="">
+											<img th:src="@{/images/themeforest.png}" alt="">
 										</div>
 								</a></li>
 								<li><a href="#">
 										<div class="brand-logo">
-											<img src="images/photodune.png" alt="">
+											<img th:src="@{/images/photodune.png}" alt="">
 										</div>
 								</a></li>
 								<li><a href="#">
 										<div class="brand-logo">
-											<img src="images/activeden.png" alt="">
+											<img th:src="@{/images/activeden.png}" alt="">
 										</div>
 								</a></li>
 								<li><a href="#">
 										<div class="brand-logo">
-											<img src="images/envato.png" alt="">
+											<img th:src="@{/images/envato.png}" alt="">
 										</div>
 								</a></li>
 							</ul>
@@ -624,8 +470,9 @@
 		
 	</script>
 	<script type="text/javascript" th:src="@{/js/script.min.js}">
-		
+
 	</script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<!-- Mã JavaScript -->
 	<script th:inline="javascript">
 		function changeColor(id) {
@@ -655,7 +502,7 @@
 							'/images/product/' + data[3].image);
 					$('#product_image3').parent().attr('data-imgbigurl',
 							'/images/product/' + data[3].image);
-					console.log(data[0].image);
+					// console.log(data[0].image);
 				}
 			});
 		}
@@ -673,6 +520,38 @@
 					$('.zoomImg').attr({src: imgurl});
 				}
 			});
+		 document.querySelector("#addcard").addEventListener("click", () => {
+			 console.log($(".color"));
+		 })
+	</script>
+	<script>
+		function addToCart(productID, quantity = 1){
+			var api_url = `${location.protocol}\/\/${location.host}`;
+			console.log(api_url);
+			var endpoint = `${api_url}/api/cart/update?productID=${productID}&quantity=${quantity}&isReplace=false`;
+			$.ajax({
+				url: endpoint,
+				type:'GET',
+				dataType: 'json',
+				success: function (data){
+					$('#headerToTalPrice').text(numberWithDot(data.totalPrice));
+					$('#headerToTalQuantity').text(data.totalQuantity);
+					alert("Đã thêm")
+				},
+				error: function (data){
+					alert('Thêm mới thất bại');
+				}
+			})
+			function numberWithDot(x){
+				return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +' ₫';
+			}
+		}
+
+	</script>
+	<script>
+		window.onload = () => {
+			location.href.includes("page") && window.scrollBy(0,966.4000244140625) ;
+		}
 	</script>
 </body>
 </html>

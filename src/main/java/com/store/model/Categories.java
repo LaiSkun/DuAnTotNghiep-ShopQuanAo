@@ -19,4 +19,7 @@ public class Categories {
 	@Id
 	String categoryID;
 	String name;
+
+	@OneToMany(mappedBy = "category")
+	List<Products> products;
 }

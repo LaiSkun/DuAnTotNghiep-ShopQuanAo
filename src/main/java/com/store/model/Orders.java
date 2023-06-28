@@ -37,7 +37,7 @@ public class Orders {
 	@Column(name = "Createdate")
 	Date createDate = new Date();
 	@ManyToOne
-	@JoinColumn(name = "Username")
+	@JoinColumn(name = "userID")
 	Users user;
 	
 	@JsonIgnore
