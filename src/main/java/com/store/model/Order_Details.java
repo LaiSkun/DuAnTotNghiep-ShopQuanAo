@@ -1,30 +1,30 @@
 package com.store.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.ToString;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import javax.persistence.*;
+import lombok.Data;
 
 
 @SuppressWarnings("serial")
 @Data
-@Entity
-@Table(name = "order_details")
+@Entity 
+@Table(name = "order_detalis")
 public class Order_Details {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long orderDetailID;
-    Double price;
-    Integer quantity;
-    @JsonIgnore
-    @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productID")
-    Products product;
-    @JsonIgnore
-    @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderID")
-    Orders order;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long orderDetailsID;
+	Double price;
+	Integer quantity;
+	@ManyToOne
+	@JoinColumn(name = "productID")
+	Products product;
+	@ManyToOne
+	@JoinColumn(name = "orderID")
+	Orders order;
 }
