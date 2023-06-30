@@ -34,7 +34,6 @@ public class Products {
     @JsonIgnore
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     List<Order_Details> orderDetails;
-
     public Products(String productID, String name, String img, Double price, Date createDate, int available, boolean deprecated, String description, Categories category, List<Order_Details> orderDetails) {
         this.productID = productID;
         this.name = name;
@@ -47,7 +46,7 @@ public class Products {
         this.category = category;
         this.orderDetails = orderDetails;
     }
-
     public Products() {
     }
+
 }

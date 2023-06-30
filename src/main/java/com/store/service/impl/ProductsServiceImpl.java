@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -22,68 +24,73 @@ import java.util.Optional;
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 @Transactional
 public class ProductsServiceImpl implements ProductService {
-	@Autowired
-	private ProductDAO productDAO;
-	@Override
-	@Transactional(rollbackOn = {Exception.class, Throwable.class})
-	public void deleteLogical(String productID) {
-		productDAO.updateLocal(productID);
-	}
+    @Autowired
+    private ProductDAO productDAO;
+	//chuyển về trạng thái ngưng bán
+    @Override
+    @Transactional(rollbackOn = {Exception.class, Throwable.class})
+    public void deleteLogical(String productID) {
+        productDAO.updateLocal(productID);
+    }
+	//xóa sản phẩm
+    @Override
+    public void deleteProduct(String productID) {
+        productDAO.deleteProductsByProductID(productID);
+    }
+	//thêm sản phẩm (lưu)
+    @Override
+    @Transactional(rollbackOn = {Exception.class, Throwable.class})
+    public Products save(Products product) throws SQLException {
+        return productDAO.saveAndFlush(product);
+    }
+	//sản phẩm đang basn
+    @Override
+    public List<Products> findDeprecatedTrue() {
+        return productDAO.findByDeprecated(Boolean.FALSE);
+    }
+	//sản phẩm ngưng bán
+    @Override
+    public List<Products> findDeprecatedFalse() {
+        return productDAO.findByDeprecated(Boolean.TRUE);
+    }
+	// sản phẩm theo id
+    @Override
+    public Optional<Products> findByID(String productID) {
+        return productDAO.findById(productID);
+    }
+	// sản phẩm theo name
+    @Override
+    public Products findProducts(String name) {
+        return productDAO.findByProductID(name);
+    }
+    // tìm tất cả sản phẩm
+    @Override
+    public Page<Products> findAll(int pageSize, int pageNumber) throws Exception {
+        if (pageNumber >= 1) {
+            return productDAO.findAll(PageRequest.of(pageNumber - 1, pageSize));
+        } else {
+            throw new Exception("page false ");
+        }
+    }
+    // phân trang
+    public Page<Products> findPaginated(Pageable pageable) {
+        List<Products> products = productDAO.findAll();
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Products> list;
 
-	@Override
-	public void deleteProduct(String productID) {
-		productDAO.deleteProductsByProductID(productID);
-	}
+        if (products.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, products.size());
+            list = products.subList(startItem, toIndex);
+        }
+        return new PageImpl<Products>(list, PageRequest.of(currentPage, pageSize), products.size());
+    }
 
-	@Override
-	@Transactional(rollbackOn = {Exception.class, Throwable.class})
-	public Products save(Products product)throws SQLException{
-		System.out.println(product.getCreateDate());
-	return productDAO.saveAndFlush(product);
-	}
-
-	@Override
-	public List<Products> findDeprecatedTrue() {
-		return productDAO.findByDeprecated(Boolean.FALSE);
-	}
-	@Override
-	public List<Products> findDeprecatedFalse() {
-		return productDAO.findByDeprecated(Boolean.TRUE);
-	}
-
-	@Override
-	public Optional<Products> findByID(String productID) {
-		return productDAO.findById(productID);
-	}
-
-	@Override
-	public Products findProducts(String name) {
-	return productDAO.findByProductID(name);
-	}
-
-
-
-	@Override
-	public Page<Products> findAll(int pageSize, int pageNumber) throws Exception {
-		if(pageNumber >= 1) {
-			return productDAO.findAll(PageRequest.of(pageNumber - 1, pageSize));
-		}else{
-			throw  new Exception("page false ");
-		}
-	}
-	public Page<Products> findPaginated(Pageable pageable) {
-		List<Products> products = productDAO.findAll();
-		int pageSize = pageable.getPageSize();
-		int currentPage = pageable.getPageNumber();
-		int startItem = currentPage * pageSize;
-		List<Products> list;
-
-		if (products.size() < startItem) {
-			list = Collections.emptyList();
-		} else {
-			int toIndex = Math.min(startItem + pageSize, products.size());
-			list = products.subList(startItem, toIndex);
-		}
-		return new PageImpl<Products>(list, PageRequest.of(currentPage, pageSize), products.size());
-	}
+    @Override
+    public void updateStatusTrue(String productID) {
+         productDAO.updateStatusTrue(productID);
+    }
 }

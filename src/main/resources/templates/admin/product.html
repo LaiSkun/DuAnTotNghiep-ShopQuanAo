@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport">
@@ -12,12 +11,21 @@
     <link rel="stylesheet" th:href="@{/css/vendors/fans.css}">
 </head>
 <script>
-
     function chooseFileavt(fileinput) {
         if (fileinput.files && fileinput.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
                 $('#avt').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(fileinput.files[0]);
+        }
+    }
+
+    function chooseFileavt2(fileinput) {
+        if (fileinput.files && fileinput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#avt2').attr('src', e.target.result);
             }
             reader.readAsDataURL(fileinput.files[0]);
         }
@@ -45,26 +53,26 @@
 
 </script>
 <body>
+<!--handle message-->
 <div aria-atomic="true" aria-live="assertive" class="toast" id="status" role="alert" th:class="${status}">
     <div class="toast-header">
         <!--        <img src="..." class="rounded mr-2" alt="...">-->
-        <strong class="mr-auto">Bootstrap</strong>
+        <strong class="mr-auto">Thông báo</strong>
         <small class="text-muted">just now</small>
         <button aria-label="Close" class="ml-2 mb-1 close" data-dismiss="toast" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="toast-body" th:text="${message}">
-
     </div>
 </div>
-
+<!--table add, update product-->
 <div id="handle" th:class="${handle}">
-    <section class="row product-form">
+    <section class="row product-form" >
         <div class="col-12">
             <form enctype="multipart/form-data" id="submit" method="POST" th:object='${productRequest}'>
                 <div class="card">
-                    <i class="fa-solid fa-xmark" id="exit" style="margin-left: 54vw;"></i>
+                    <i class="exit fa-solid fa-xmark" onclick="handleExit()"></i>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-4">
@@ -131,11 +139,10 @@
                                           rows="2" th:field="*{description}"></textarea></div>
                         </div>
                         <div class="card-footer text-muted">
-                            <button class="btn " id="createForm">create</button>
-                            <button class="btn" id="updateForm">Update</button>
-
-                            <button class="btn ">delete</button>
-                            <button class="btn ">reset</button>
+                            <button class="btn " id="createForm" onclick="createProduct()">Thêm</button>
+                            <button class="btn" onclick="updateForm()" th:style="${handleUpdate}">
+                                Chỉnh Sửa
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -144,9 +151,102 @@
 
     </section>
 </div>
+<!--table add, update productImgColor-->
+<div id="handle2" th:class="${handle2}">
+    <section class="row product-form">
+        <div class="col-12">
+            <form enctype="multipart/form-data" id="submitImgAndColor" method="POST" th:object='${productImgRequest}'>
+                <div class="card">
+                    <i class="exit fa-solid fa-xmark" onclick="handleExit()"></i>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="border p-3">
+                                    <input accept="image/gif, image/png,image/jpeg,imagee/jpg" id="avtimg2"
+                                           name="img2"
+                                           onchange="chooseFileavt2(this)"
+                                           style="display: none;" th:field="*{img}" type="file">
+                                    <label for="avtimg2"><img alt="" src="/images/addAvatar.png" style="width: 40px;">
+                                        Choose product image</label>
+                                     <img alt="" id="avt2"
+                                      th:src="${productImgRequest.img == null && imgName2 != null} ? '/getimage/'+${imgName2} : *{img}"
+                                      width="100">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="ProductIDList">ProductID</label>
+                                    <select class="form-control" id="ProductIDList" name="" th:field="*{product.productID}" >
+                                        <option th:each="productAll : ${productAll}" th:text="${productAll.name}"
+                                                th:value="${productAll.ProductID}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="card-footer text-muted">
+                                        <button id="createButtonProduct" class="btn createImgProduct" onclick="createImgProduct()">Thêm</button>
+                                        <button id="updateButtonProduct" class="btn" th:class="${updateImgProduct}" onclick="updateImgProduct()">Chỉnh Sửa</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label> Colors</label>
+                                    <select class="form-control" id="colorList" name=""
+                                            onchange="this.size = 1; this.blur()"
+                                            th:field="*{colorHex}"
+                                            th:onfocus="'this.size='+ ${colorList.size()}">
+                                        <option class="custom-opt" th:each="color : ${colorList}"
+                                                th:style="'--data-color:'+${color.RGBColor}"
+                                                th:text="${color.NameColor}"
+                                                th:value="${color.RGBColor}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group" >
+                                    <input aria-describedby="color Id" class="form-control" id="colorId"
+                                           name="Available" style="scale: 0"
+                                           placeholder="ColorID" th:field="*{id}" type="number">
+                                    <input aria-describedby="Img Id" class="form-control" id="imgId"
+                                           name="AV"
+                                           placeholder="Available"style="scale: 0" th:field="*{imgid}" type="number">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </section>
+</div>
+<!--table select category-->
+<div id="handle3" class="defaultHandle3" th:class="${handle3}">
+    <section class="row product-form">
+        <div class="col-6" th:class="${formProductByCategory}">
+            <div class="card">
+                <i class="exit fa-solid fa-xmark" onclick="handleExit()"></i>
+                <div class="card-body">
+                    <form method="post" id="listProductByCategory" name="listProductByCategory"
+                          th:object="${productRequest}">
+                        <div th:each="cate : ${categories}">
+                            <input type="checkbox" th:id="${cate.categoryID}" th:value="${cate.categoryID}"
+                                   th:field="*{listProductByCategory}" th:checked="${productRequest.listProductByCategory.contains(cate.categoryID)}"/>
+                            <label th:for="${cate.categoryID}" th:text="${cate.name}"></label>
+                        </div>
+
+                    </form>
+                            <button class="btn" id="productCate" onclick="productCate()">Lọc</button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
 <input id="menu-toggle" type="checkbox">
+<!--sidebar-->
 <div th:replace="admin/sidemenu :: div"></div>
+<!-- main-->
 <div class="main-content">
+    <!--header-->
     <header>
         <div class="header-content">
             <label for="menu-toggle">
@@ -178,33 +278,35 @@
         </div>
     </header>
     <main>
+        <!--Title page-->
         <div class="page-header">
             <h1>Products Management</h1>
             <small>Home / User</small>
         </div>
         <div class="page-content">
+            <!--            analytics-->
             <div class="analytics">
 
-                <div class="card">
+                <div class="card" id="product" onclick="product()">
                     <div class="card-head">
-                        <h2>107,200</h2>
-                        <span class="las la-user-friends"></span>
+                        <h3>Quản Lý Sản Phẩm</h3>
+                        <span><i class="fa-solid fa-shirt"></i></span>
                     </div>
                     <div class="card-progress">
-                        <small>User activity this month</small>
+                        <small>Tất cả sản phẩm</small>
                         <div class="card-indicator">
                             <div class="indicator one" style="width: 60%"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" id="productImgDetail" onclick="productImgDetail()">
                     <div class="card-head">
-                        <h2>340,230</h2>
+                        <h3>Quản Lý Chi Tiết Sản Phẩm</h3>
                         <span class="las la-eye"></span>
                     </div>
                     <div class="card-progress">
-                        <small>Page views</small>
+                        <small>Quản lý các màu của sản phẩm </small>
                         <div class="card-indicator">
                             <div class="indicator two" style="width: 80%"></div>
                         </div>
@@ -238,94 +340,32 @@
                 </div>
 
             </div>
-            <div class="records table-responsive">
-                <div class="record-header">
-                    <div class="add">
-                        <form th:action="@{/admin/product}" method="get">
-                            <span for="select-form">Status</span>
-                            <select id="select-form" name="type" onchange="this.form.submit()">
-                                <option th:selected="${type == ''}" value="">Tất cả</option>
-                                <option th:selected="${type == 'db'}" value="db">Đang bán</option>
-                                <option th:selected="${type == 'nb'}" value="nb">Ngưng bán</option>
-
-                            </select>
-                        </form>
-
-                        <button id="Addrecord"><i class="fa-regular fa-square-plus"></i> Add Product</button>
-                    </div>
-
-                    <div class="browse">
-                        <input class="record-search" placeholder="Search" type="search">
-<!--                        <select name="">-->
-<!--                            <option value="">Status</option>-->
-<!--                        </select>-->
-                        <button id="show">show</button>
+            <div class="records table-responsive" th:class="${table2}" id="tb2" >
+                <!--nav status and add product and show productColorImg-->
+                <div>
+                    <div class="record-header">
+                        <div class="add">
+                            <form method="get" th:action="@{/admin/product}">
+                                <span for="select-form">Status</span>
+                                <select id="select-form" name="type" onchange="this.form.submit()">
+                                    <option th:selected="${type == ''}" value="">Tất cả</option>
+                                    <option th:selected="${type == 'db'}" value="db">Đang bán</option>
+                                    <option th:selected="${type == 'nb'}" value="nb">Ngưng bán</option>
+                                    <option th:selected="${type == 'category'}" value="category">category</option>
+                                </select>
+                            </form>
+                            <button id="Addrecord" onclick="Addrecord()"><i class="fa-regular fa-square-plus"></i>
+                                Thêm sản phẩm
+                            </button>
+                            <button id="showFormFilter" th:class="${showFormFilter}" onclick="showFormFilter()"  ><i class="fa-regular fa-square-plus"></i>
+                                Lọc theo danh mục
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <table id="tb1" class="table-product">
-                        <thead>
-                        <tr>
-                            <th><span class="las la-sort"></span> Mã sản phẩm</th>
-                            <th><span class="las la-sort"></span> Tên sản phẩm</th>
-                            <th><span class="las la-sort"></span> Màu sản phẩm</th>
-                            <th><span class="las la-sort"></span> Mã màu</th>
-                            <th><span class="las la-sort"></span> Ảnh</th>
-                            <th><span class="las la-sort"></span> Status</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody id="">
-                        <tr th:each="productImg : ${productImg}">
-                            <td>[[${productImg.product_color.product.productID}]]</td>
-                            <td>[[${productImg.product_color.product.name}]]</td>
-                            <td>[[${productImg.product_color.color_name}]]</td>
-                            <td>[[${productImg.product_color.color_hex}]]</td>
-                            <td><img th:src="@{'/getimage/'+ ${productImg.image}}" width="80px"></td>
-                            <td>[[${productImg.product_color.product.deprecated ? "Ngưng bán" : "Đang bán"}]]</td>
-                            <td>
-                                <button class="btn ">
-                                <a id="edit2" th:href="@{'/admin/product/edit/'}"><i style="color: #212529"
-                                            class="fa-solid fa-pen-to-square"></i></a>
-                                </button>
-                                <button class="btn btn-outline-light text-dark" data-toggle="modal"
-                                        th:attr="data-target='#recordDeleteModal2'"
-                                        type="button"><i
-                                        class="fa-solid fa-trash"></i></button>
-                                <!-- Modal -->
-                                <div aria-hidden="true" aria-labelledby="recordDeleteModalLabel2"
-                                     class="modal fade" role="dialog" tabindex="-1"
-                                     th:attr="id='recordDeleteModal2'">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="recordDeleteModalLabel2">Xóa sản phẩm</h5>
-                                                <button aria-label="Close" class="close" data-dismiss="modal"
-                                                        type="button">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Bạn có chắc chắn muốn xóa sản phẩm ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-secondary" data-dismiss="modal" type="button">
-                                                    No
-                                                </button>
-                                                <a class="btn btn-primary"
-                                                   th:attr="href='/admin/product/updateStatusProduct?productID='">Yes</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Modal end -->
-                            </td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                <div>
-                    <table id="tb2" class="table-product">
+                    <!--table product -->
+                    <table class="table-product">
                         <thead>
                         <tr>
                             <th><span class="las la-sort"></span> Product Name</th>
@@ -349,11 +389,13 @@
                             <td>[[${product.category.name}]]</td>
                             <td>[[${product.deprecated == true ? "Ngưng bán" : "Đang bán"}]]</td>
                             <td><p id="desc">[[${product.description}]]</p></td>
-                            <td>
+                            <td th:if="${product.deprecated == false}">
                                 <button class="btn ">
-                                    <a id="edit" th:href="@{'/admin/product/edit/'+ ${product.productID}}"><i style="color: #212529"
-                                                                                                              class="fa-solid fa-pen-to-square"></i></a>
+                                    <a id="edit" th:href="'/admin/product/edit/'+ ${product.productID}"><i
+                                            class="fa-solid fa-pen-to-square"
+                                            style="color: #212529"></i></a>
                                 </button>
+
                                 <button class="btn btn-outline-light text-dark" data-toggle="modal"
                                         th:attr="data-target='#recordDeleteModal'+ ${product.productID}"
                                         type="button"><i
@@ -365,17 +407,19 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="recordDeleteModalLabel">Xóa sản phẩm</h5>
+                                                <h5 class="modal-title" id="recordDeleteModalLabel">Cập nhật trạng
+                                                    thái</h5>
                                                 <button aria-label="Close" class="close" data-dismiss="modal"
                                                         type="button">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                Bạn có chắc chắn muốn xóa sản phẩm ?
+                                                Bạn có chắc chắn muốn chuyển sản phẩm sang trạng thái ngưng bán ?
                                             </div>
                                             <div class="modal-footer">
-                                                <button class="btn btn-secondary" data-dismiss="modal" type="button">
+                                                <button class="btn btn-secondary" data-dismiss="modal"
+                                                        type="button">
                                                     No
                                                 </button>
                                                 <a class="btn btn-primary"
@@ -386,22 +430,160 @@
                                 </div>
                                 <!-- Modal end -->
                             </td>
+                            <td th:unless="${product.deprecated == false }">
+                                <button class="btn " data-toggle="modal"
+                                        th:attr="data-target='#recordUpdateModal2'+ ${product.productID}">
+                                    <i class="fa-sharp fa-solid fa-square-plus"></i>
+                                </button>
+
+                                <!-- Modal -->
+                                <div aria-hidden="true" aria-labelledby="recordUpdateModalLabel2"
+                                     class="modal fade" role="dialog" tabindex="-1"
+                                     th:attr="id='recordUpdateModal2'+${product.productID}">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="recordUpdateModalLabel2">Cập nhật trạng
+                                                    thái</h5>
+                                                <button aria-label="Close" class="close" data-dismiss="modal"
+                                                        type="button">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn có chắc chắn muốn chuyển sản phẩm về trạng thái đang bán ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" data-dismiss="modal"
+                                                        type="button">
+                                                    No
+                                                </button>
+                                                <a class="btn btn-primary"
+                                                   th:attr="href=@{'/admin/product/updateStatusTrue?productID='+ ${product.productID}}">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal end -->
+                                <button class="btn btn-outline-light text-dark" data-toggle="modal"
+                                        th:attr="data-target='#recordDeleteModal3'+ ${product.productID}"
+                                        type="button"><i
+                                        class="fa-solid fa-trash"></i></button>
+                                <!-- Modal -->
+                                <div aria-hidden="true" aria-labelledby="recordDeleteModalLabel3"
+                                     class="modal fade" role="dialog" tabindex="-1"
+                                     th:attr="id='recordDeleteModal3'+${product.productID}">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="recordDeleteModalLabel3">Xóa sản
+                                                    phẩm</h5>
+                                                <button aria-label="Close" class="close" data-dismiss="modal"
+                                                        type="button">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn có chắc chắn muốn xóa sản phẩm ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" data-dismiss="modal"
+                                                        type="button">
+                                                    No
+                                                </button>
+                                                <a class="btn btn-primary"
+                                                   th:attr="href='/admin/product/updateStatusProduct?productID='+ ${product.productID}">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal end -->
+
+                            </td>
                         </tr>
 
                         </tbody>
                     </table>
-                    <div th:if="${productpage.totalPages > 0}" class="pagination"
-                         th:each="pageNumber : ${pageNumbers}">
-                        <a th:href="@{/listBooks(size=${productpage.size}, page=${pageNumber})}"
-                           th:value="${pageNumber}"
-                           th:class="${pageNumber==productpage.number + 1} ? active">a</a>
-                    </div>
                 </div>
+                <!--pagination-->
+                <div class="pagination" th:each="pageNumber : ${pageNumbers}"
+                     th:if="${productpage.totalPages > 0}">
+                    <a th:class="${pageNumber==productpage.number + 1} ? active"
+                       th:href="@{/listBooks(size=${productpage.size}, page=${pageNumber})}"
+                       th:value="${pageNumber}">a</a>
                 </div>
             </div>
+            <!--    =============================================================================================== -->
+            <div class="handletable records table-responsive" th:class="${table1}" id="tb1">
+                <!--nav status and add product and show productColorImg-->
+                <div>
+                    <div class="records table-responsive">
+                        <!--nav status and add product and show productColorImg-->
+                        <div>
+                            <div class="record-header">
+                                <div class="add">
+                                    <form method="get" th:action="@{/admin/product}">
+                                        <span for="select-form2">Status</span>
+                                    </form>
 
+                                    <button id="Addrecord2" onclick="Addrecord2()"><i
+                                            class="fa-regular fa-square-plus"></i> Thêm màu sản phẩm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <!--table product Img Color-->
+                            <table class=" table-product">
+                                <thead>
+                                <tr>
+                                    <th><span class="las la-sort"></span> Mã sản phẩm</th>
+                                    <th><span class="las la-sort"></span> Tên sản phẩm</th>
+                                    <th><span class="las la-sort"></span> Màu sản phẩm</th>
+                                    <th><span class="las la-sort"></span> Mã màu</th>
+                                    <th><span class="las la-sort"></span> Ảnh</th>
+                                    <th><span class="las la-sort"></span> Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="productImg : ${productImg}">
+                                    <td>[[${productImg.productcolor.product.productID}]]</td>
+                                    <td>[[${productImg.productcolor.product.name}]]</td>
+                                    <td>[[${productImg.productcolor.color_name}]]</td>
+                                    <td>[[${productImg.productcolor.colorhex}]]</td>
+                                    <td><img th:src="@{'/getimage/'+ ${productImg.image}}" width="80px"></td>
+                                    <td>[[${productImg.productcolor.product.deprecated ? "Ngưng bán" : "Đang bán"}]]
+                                    </td>
+                                    <td>
+                                        <button class="btn ">
+                                            <a id="edit2" onclick="editProductImg()"
+                                               th:href="@{'/admin/product/productImgEdit/'+ ${productImg.productcolor.colorID}}"><i
+                                                    class="fa-solid fa-pen-to-square"
+                                                    style="color: #212529"></i></a>
+                                        </button>
+                                        <button class="btn">
+                                            <a onclick="handleDeleteProductImg()" th:href="@{'/admin/product/deleteProductImgAndColor?productImgId='+${productImg.imgID}}"
+                                                type="button"><i class="fa-solid fa-trash" style="color: #212529"></i></a>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--pagination-->
+<!--                            <div class="pagination" th:each="pageNumber : ${pageNumbers}"-->
+<!--                                 th:if="${productpage.totalPages > 0}">-->
+<!--                                <a th:class="${pageNumber==productpage.number + 1} ? active"-->
+<!--                                   th:href="@{/listBooks(size=${productpage.size}, page=${pageNumber})}"-->
+<!--                                   th:value="${pageNumber}">a</a>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </main>
 </div>
 </body>
@@ -418,33 +600,78 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
-    document.querySelector("#show").addEventListener("click",() => {
-        document.querySelector("#tb1").setAttribute("style", "display : table")
-        document.querySelector("#tb2").setAttribute("style", "display : none")
-    })
-    const Add = document.querySelector("#Addrecord")
-    const handleclick = () => {
+    // handle show productImgColor
+    const productImgDetail = () => {
+        document.querySelector("#tb2").classList.add("table2")
+        document.querySelector("#tb1").classList.add("table1")
+        document.querySelector("#tb2").classList.remove("tabledefault")
+        document.querySelector("#tb1").classList.remove("tabledefault")
+    }
+    // handle show product
+    const product = () => {
+        document.querySelector("#tb2").classList.add("tabledefault")
+        document.querySelector("#tb1").classList.add("tabledefault")
+        document.querySelector("#tb2").classList.remove("table2")
+        document.querySelector("#tb1").classList.remove("table1")
+    }
+    const Addrecord = () => {
+        document.querySelector("#createForm").setAttribute("style", "display : block")
         handle.classList.toggle("handle")
     }
-    Add.addEventListener("click", handleclick)
-    document.querySelector("#exit").addEventListener("click", () => {
+    const Addrecord2 = () => {
+        document.querySelector("#createButtonProduct").setAttribute("style", "display : block");
+        handle2.classList.toggle("handle2")
+
+    }
+
+    //handle toogle form add product
+    function handleExit() {
         handle.classList.remove("handle")
-    })
-    $("#createForm").click(function () {
-        console.log("day")
+        handle2.classList.remove("handle2")
+        handle3.classList.remove("handle3")
+        if (location.href.includes("http://localhost:8080/admin/product/edit/")) {
+            location.href = "http://localhost:8080/admin/product"
+        }
+        location.href.includes("http://localhost:8080/admin/product?type=category") && document.querySelector("#showFormFilter").setAttribute("style", "scale : 1; transition : .4s ease");
+    }
+    const showFormFilter = () => {
+        handle3.classList.add("handle3")
+    }
+    const handleDeleteProductImg = () => {
+        productImgDetail()
+    }
+    // handle call Form add product
+    const createProduct = () => {
         $('#submit').prop('action', '/admin/product/create');
         $("#submit").submit();
+    }
+    //handle call form add product color and product img
+    const createImgProduct = () => {
+        $('#submitImgAndColor').prop('action', '/admin/product/createImgProduct');
+        $('#submitImgAndColor').submit();
 
-    });
-    $("#updateForm").click(function () {
+    }
+    const updateImgProduct = () => {
+        $('#submitImgAndColor').prop('action', '/admin/product/updateProductImgAndColor');
+        $('#submitImgAndColor').submit();
+    }
+    //handle call update product
+    const updateForm = () => {
         $('#submit').prop('action', '/admin/product/update');
         $("#submit").submit();
-
-    });
+    }
+    const productCate = () => {
+        $('#listProductByCategory').prop('action', '/admin/product?type=category');
+        $("#listProductByCategory").submit();
+    }
+    //edit productImg form
+    const editProductImg = () => {
+        location.href.includes("http://localhost:8080/admin/product/editProductImg") && productImgDetail()
+    }
+    //handle delete message after 5s
     const status = document.querySelector("#status")
     $(".done_delete").length == 1 && setTimeout(() => {
         status.classList.remove("done_delete")
-    }, 2000)
-
+    }, 5000)
 </script>
 </html>

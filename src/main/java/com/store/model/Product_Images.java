@@ -19,5 +19,12 @@
 		String image;
 		@ManyToOne
 		@JoinColumn(name = "colorID")
-		Product_Colors product_color;
+		Product_Colors productcolor;
+
+		public Product_Images(String image, Product_Colors productcolor) {
+			this.image = image;
+			this.productcolor = productcolor;
+		}
+		public Product_Images() {
+		}
 	}

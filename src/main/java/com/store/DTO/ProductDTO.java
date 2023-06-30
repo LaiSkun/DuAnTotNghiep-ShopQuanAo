@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @Data
@@ -34,7 +35,7 @@ public class ProductDTO {
 
     public ProductDTO() {
     }
-
+    public List<String> listProductByCategory = new ArrayList<>();
     public ProductDTO(String productID, String name, MultipartFile img, Double price, Date createDate, int available, boolean deprecated, String description, Categories category, List<Order_Details> orderDetails) {
         this.productID = productID;
         this.name = name;

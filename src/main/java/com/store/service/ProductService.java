@@ -27,9 +27,9 @@ public interface ProductService {
     List<Products> findDeprecatedFalse();
 
     Optional<Products> findByID(String productID);
-
+//    List<Products> findByCategory(String cate);
     Products findProducts(String name);
     Page<Products> findAll(int pageSize, int pageNumber) throws Exception;
     Page<Products> findPaginated(Pageable pageable);
+    public  void updateStatusTrue(String productID);
 }
-
