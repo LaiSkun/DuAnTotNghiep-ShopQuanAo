@@ -22,9 +22,18 @@ public class Product_Colors {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long colorID;
-	String color_hex;
+	String colorhex;
 	String color_name;
 	@ManyToOne
 	@JoinColumn(name = "productID")
 	Products product;
+	public Product_Colors(String colorhex, String color_name, Products product) {
+		this.colorhex = colorhex;
+		this.color_name = color_name;
+		this.product = product;
+	}
+
+	public Product_Colors() {
+
+	}
 }
