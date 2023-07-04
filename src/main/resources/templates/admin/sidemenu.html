@@ -15,29 +15,30 @@
 		<div class="side-content">
 			<div class="profile">
 				<div class="profile-img bg-img"
-					style="background-image: url(img/3.jpeg)"></div>
+					style="background-image: url(/images/3.jpeg)"></div>
 				<h4>David Green</h4>
 				<small>Art Director</small>
 			</div>
 
 			<div class="side-menu">
 				<ul>
-					<li><a th:href="@{/admin}" class="active"> <span
+					<li><a th:href="@{/admin}" class="active"> <span id="admin"
 							class="las la-home"></span> <small>Dashboard</small>
 					</a></li>
-					<li><a th:href="@{/admin/user}"> <span
+					<li><a th:href="@{/admin/user}"> <span id="userIcon"
 							class="las la-user-alt"></span> <small>Users</small>
 					</a></li>
 					<li><a th:href="@{/admin/authorizing}"> <span
 							 class="fa-sharp fa-solid fa-users"></span> <small>Authorities</small>
 					</a></li>
-					<li><a th:href="@{/admin/product}"> <span
+					<li><a th:href="@{/admin/product}"> <span id="productIcon"
 							class="fa-solid fa-shirt" style="color: #899dc1;"></span> <small>Product</small>
 					</a></li>
-					<li><a th:href="@{/admin/order}"> <span
+					<li><a th:href="@{/admin/order}"> <span id="oderIcon"
 							class="las la-shopping-cart"></span> <small>Orders</small>
 					</a></li>
-					<li><a th:href="@{/admin/status}"> <span class="las la-tasks"></span> <small>Status</small>
+					<li><a th:href="@{/admin/status}"> <span class="las la-tasks"></span> <small>Status</small></a></li>
+					<li><a href=""> <span id="tasksIcon" class="las la-tasks"></span> <small>Tasks</small>
 					</a></li>
 
 				</ul>

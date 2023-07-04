@@ -1,28 +1,26 @@
-package com.store.model;
+package com.store.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.store.model.Categories;
+import com.store.model.Order_Details;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-
-@SuppressWarnings("serial")
 @Data
-@Entity
-@Table(name = "products")
-public class Products {
-    @Id
+public class ProductDTO {
     String productID;
     String name;
-    String img;
+    MultipartFile img;
     Double price;
     @Column(name = "Createdate")
-    @DateTimeFormat(pattern = "dd-mm-yyyy")
-    Date createDate ;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    Date createDate = new Date();
     int available;
     boolean deprecated;
     String description;
@@ -34,7 +32,11 @@ public class Products {
     @JsonIgnore
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     List<Order_Details> orderDetails;
-    public Products(String productID, String name, String img, Double price, Date createDate, int available, boolean deprecated, String description, Categories category, List<Order_Details> orderDetails) {
+
+    public ProductDTO() {
+    }
+    public List<String> listProductByCategory = new ArrayList<>();
+    public ProductDTO(String productID, String name, MultipartFile img, Double price, Date createDate, int available, boolean deprecated, String description, Categories category, List<Order_Details> orderDetails) {
         this.productID = productID;
         this.name = name;
         this.img = img;
@@ -46,7 +48,4 @@ public class Products {
         this.category = category;
         this.orderDetails = orderDetails;
     }
-    public Products() {
-    }
-
 }
