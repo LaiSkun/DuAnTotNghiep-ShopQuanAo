@@ -1,17 +1,10 @@
 
 /* handle */
-.handle {
-    scale: 1 !important;
-    transition: .8s ease-in-out;
-}
 .handle2 {
     scale: 1 !important;
     transition: .8s ease-in-out;
 }
-#handle {
-    scale: 0;
-    transition: .8s ease-in-out;
-}
+
 #handle2 {
     scale: 0;
     transition: .8s ease-in-out;
