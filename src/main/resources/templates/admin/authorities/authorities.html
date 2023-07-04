@@ -72,8 +72,8 @@
 				<div class="records table-responsive">
 
 					<div class="record-header">
-						<div class="add">
-							<span>Entries</span> <select ng-change="filterUsersByRole()" ng-model="selectedRole" style="width: 150px">
+						<div class="add" ng-init="selectedRole">
+							<span>Entries</span> <select ng-change="filterUsersByRole()" ng-model="selectedRole"  style="width: 150px" >
 								<option ng-repeat="role in roles" ng-value="role">{{role.rolename}}</option>
 							</select>
 
