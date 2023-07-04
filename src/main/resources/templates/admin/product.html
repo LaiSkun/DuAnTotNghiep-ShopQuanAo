@@ -380,7 +380,7 @@
                         </tr>
                         </thead>
                         <tbody id="sttProduct">
-                        <tr th:each="product : ${product}">
+                        <tr th:each="product : ${productPage}">
                             <td>[[${product.name}]]</td>
                             <td>[[${product.available}]]</td>
                             <td>[[${product.price}]]</td>
@@ -504,15 +504,19 @@
 
                         </tbody>
                     </table>
-                </div>
-                <!--pagination-->
-                <div class="pagination" th:each="pageNumber : ${pageNumbers}"
-                     th:if="${productpage.totalPages > 0}">
-                    <a th:class="${pageNumber==productpage.number + 1} ? active"
-                       th:href="@{/listBooks(size=${productpage.size}, page=${pageNumber})}"
-                       th:value="${pageNumber}">a</a>
+                    <!--pagination -->
+                    <div id="pagination">
+                        <div th:if="${productPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}">
+                            <a
+                               th:href="@{${url}(size=${productPage.size}, page=${pageNumber})}"
+                               th:text="${pageNumber}"
+                               th:class="${pageNumber== productPage.number + 1} ? active : pagination"
+                            ></a>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <button onclick="handleReadjustPage()">aloooooooooo</button>
             <!--    =============================================================================================== -->
             <div class="handletable records table-responsive" th:class="${table1}" id="tb1">
                 <!--nav status and add product and show productColorImg-->
@@ -547,7 +551,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="productImg : ${productImg}">
+                                <tr th:each="productImg : ${productImg}" style="max-height: 20vh; height: 20vh">
                                     <td>[[${productImg.productcolor.product.productID}]]</td>
                                     <td>[[${productImg.productcolor.product.name}]]</td>
                                     <td>[[${productImg.productcolor.color_name}]]</td>
@@ -571,12 +575,14 @@
                                 </tbody>
                             </table>
                             <!--pagination-->
-<!--                            <div class="pagination" th:each="pageNumber : ${pageNumbers}"-->
-<!--                                 th:if="${productpage.totalPages > 0}">-->
-<!--                                <a th:class="${pageNumber==productpage.number + 1} ? active"-->
-<!--                                   th:href="@{/listBooks(size=${productpage.size}, page=${pageNumber})}"-->
-<!--                                   th:value="${pageNumber}">a</a>-->
-<!--                            </div>-->
+                            <div id="pagination2">
+                            <div th:each="pageNumber2 : ${pageNumbers2}"
+                                 th:if="${productImg.totalPages > 0}">
+                                <a th:class="${pageNumber2==productImg.number + 1} ? active : pagination"
+                                   th:href="@{/admin/product(size2=${productImg.size}, page2=${pageNumber2})}"
+                                   th:text="${pageNumber2}"></a>
+                            </div>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -632,6 +638,9 @@
         if (location.href.includes("http://localhost:8080/admin/product/edit/")) {
             location.href = "http://localhost:8080/admin/product"
         }
+        if (location.href.includes("http://localhost:8080/admin/product/productImgEdit/")) {
+            location.href = "http://localhost:8080/admin/product?size2=5&page2=1"
+        }
         location.href.includes("http://localhost:8080/admin/product?type=category") && document.querySelector("#showFormFilter").setAttribute("style", "scale : 1; transition : .4s ease");
     }
     const showFormFilter = () => {
@@ -668,6 +677,14 @@
     const editProductImg = () => {
         location.href.includes("http://localhost:8080/admin/product/editProductImg") && productImgDetail()
     }
+    window.addEventListener("load", ()=> {
+        location.href.includes("size2=") && productImgDetail()
+        location.href.includes("/product") && document.querySelector("#productIcon").setAttribute("style", "color:#fff; scale:1.1")
+        location.href.includes("/user") && document.querySelector("#userIcon").setAttribute("style", "color:#fff; scale:1.1")
+        location.href.includes("/order") && document.querySelector("#oderIcon").setAttribute("style", "color:#fff; scale:1.1")
+        // location.href.includes("/product") && document.querySelector("#taskIcon").setAttribute("style", "color:#fff; scale:1.1")
+        location.href === "http://localhost:8080/admin" && document.querySelector("#admin").setAttribute("style", "color:#fff; scale:1.1")
+    })
     //handle delete message after 5s
     const status = document.querySelector("#status")
     $(".done_delete").length == 1 && setTimeout(() => {

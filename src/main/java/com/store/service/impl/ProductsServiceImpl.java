@@ -73,8 +73,9 @@ public class ProductsServiceImpl implements ProductService {
         }
     }
     // phân trang
-    public Page<Products> findPaginated(Pageable pageable) {
-        List<Products> products = productDAO.findAll();
+    @Override
+    public Page<Products> findPaginated(Pageable pageable, List sql) {
+     List<Products> products = sql;
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
@@ -86,9 +87,10 @@ public class ProductsServiceImpl implements ProductService {
             int toIndex = Math.min(startItem + pageSize, products.size());
             list = products.subList(startItem, toIndex);
         }
-        return new PageImpl<Products>(list, PageRequest.of(currentPage, pageSize), products.size());
-    }
+        Page<Products> pageProducts = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), products.size());
+        return pageProducts;
 
+    }
     @Override
     public void updateStatusTrue(String productID) {
          productDAO.updateStatusTrue(productID);

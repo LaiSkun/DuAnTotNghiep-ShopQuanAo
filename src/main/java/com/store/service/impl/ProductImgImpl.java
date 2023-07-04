@@ -7,10 +7,15 @@ import com.store.service.ProductImgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.awt.print.Pageable;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +48,23 @@ public class ProductImgImpl implements ProductImgService {
     @Override
     public void deleteImg(long id) {
         productImgDAO.deleteByImgID(id);
+    }
+
+    @Override
+    public Page<Product_Images> findPaginated(org.springframework.data.domain.Pageable pageable, List sql) {
+        List<Product_Images> products = sql;
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Product_Images> list;
+
+        if (products.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, products.size());
+            list = products.subList(startItem, toIndex);
+        }
+        Page<Product_Images> productImgPage = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), products.size());
+        return productImgPage;
     }
 }

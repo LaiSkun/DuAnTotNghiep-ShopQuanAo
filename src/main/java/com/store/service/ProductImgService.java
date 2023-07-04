@@ -5,6 +5,8 @@ import com.store.model.Product_Images;
 import com.store.model.Products;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import javax.transaction.Transactional;
 import java.sql.SQLException;
@@ -19,4 +21,6 @@ public interface ProductImgService {
     @Scope(proxyMode = ScopedProxyMode.INTERFACES)
     @Transactional
     public void deleteImg(long id);
+    Page<Product_Images> findPaginated(Pageable pageable, List sql);
+
 }
