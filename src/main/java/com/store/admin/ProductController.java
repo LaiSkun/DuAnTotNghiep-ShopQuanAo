@@ -133,7 +133,7 @@ public class ProductController {
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers2", pageNumbers2);
         }
-            return "/admin/product";
+            return "/admin/product/index";
         }
 
         @GetMapping("/updateStatusProduct")
@@ -386,7 +386,7 @@ public class ProductController {
             } else {
                 model.addAttribute("productRequest", dto);
             }
-            return "/admin/product";
+            return "/admin/product/index";
         }
 
         @RequestMapping("/productImgEdit/{id}")
@@ -432,6 +432,6 @@ public class ProductController {
 
             model.addAttribute("productImgRequest", dto);
 
-            return "/admin/product";
+            return "/admin/product/index";
         }
     }

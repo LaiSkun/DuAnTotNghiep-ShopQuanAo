@@ -1,6 +1,7 @@
 package com.store.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,26 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		dao.deleteById(id);
 	}
+
+	@Override
+	public List<Users> getAdministrators() {
+		// TODO Auto-generated method stub
+		return dao.getAdminitrators();
+	}
+
+	@Override
+	public List<Users> searchUsers(String keyword) {
+		// TODO Auto-generated method stub
+		return dao.findByUsernameContaining(keyword);
+	}
+
+	@Override
+	public List<Users> findByAuthorities_Role_RoleID(String roleId) {
+		// TODO Auto-generated method stub
+		return dao.findByAuthorities_Role_RoleID(roleId);
+	}
+
+	
 	
 	
 }
