@@ -51,7 +51,18 @@
         }
 
     }
-
+    function handleExit() {
+        handle.classList.remove("handle")
+        handle2.classList.remove("handle2")
+        handle3.classList.remove("handle3")
+        if (location.href.includes("http://localhost:8080/admin/product/edit/")) {
+            location.href = "http://localhost:8080/admin/product"
+        }
+        if (location.href.includes("http://localhost:8080/admin/product/productImgEdit/")) {
+            location.href = "http://localhost:8080/admin/product?size2=5&page2=1"
+        }
+        location.href.includes("http://localhost:8080/admin/product?type=category") && document.querySelector("#showFormFilter").setAttribute("style", "scale : 1; transition : .4s ease");
+    }
 </script>
 <body>
 <!--handle message-->
@@ -69,7 +80,7 @@
 </div>
 <!--table add, update product-->
 <div id="handle" th:class="${handle}">
-    <section class="row product-form" >
+    <section class="row product-form">
         <div class="col-12">
             <form enctype="multipart/form-data" id="submit" method="POST" th:object='${productRequest}'>
                 <div class="card">
@@ -87,11 +98,9 @@
                                     <img alt="" id="avt"
                                          th:src="${productRequest.img == null && imgName != null} ? '/getimage/'+${imgName} : *{img}"
                                          width="100">
-
                                 </div>
                             </div>
                             <div class="col-4">
-
                                 <div class="form-group">
                                     <label for="ProductID">ProductID</label>
                                     <input aria-describedby="ProductIDhelpId" class="form-control" id="ProductID"
@@ -169,23 +178,28 @@
                                            style="display: none;" th:field="*{img}" type="file">
                                     <label for="avtimg2"><img alt="" src="/images/addAvatar.png" style="width: 40px;">
                                         Choose product image</label>
-                                     <img alt="" id="avt2"
-                                      th:src="${productImgRequest.img == null && imgName2 != null} ? '/getimage/'+${imgName2} : *{img}"
-                                      width="100">
+                                    <img alt="" id="avt2"
+                                         th:src="${productImgRequest.img == null && imgName2 != null} ? '/getimage/'+${imgName2} : *{img}"
+                                         width="100">
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label for="ProductIDList">ProductID</label>
-                                    <select class="form-control" id="ProductIDList" name="" th:field="*{product.productID}" >
+                                    <select class="form-control" id="ProductIDList" name=""
+                                            th:field="*{product.productID}">
                                         <option th:each="productAll : ${productAll}" th:text="${productAll.name}"
                                                 th:value="${productAll.ProductID}"></option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <div class="card-footer text-muted">
-                                        <button id="createButtonProduct" class="btn createImgProduct" onclick="createImgProduct()">Thêm</button>
-                                        <button id="updateButtonProduct" class="btn" th:class="${updateImgProduct}" onclick="updateImgProduct()">Chỉnh Sửa</button>
+                                        <button class="btn createImgProduct" id="createButtonProduct"
+                                                onclick="createImgProduct()">Thêm
+                                        </button>
+                                        <button class="btn" id="updateButtonProduct" onclick="updateImgProduct()"
+                                                th:class="${updateImgProduct}">Chỉnh Sửa
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -202,13 +216,13 @@
                                                 th:value="${color.RGBColor}"></option>
                                     </select>
                                 </div>
-                                <div class="form-group" >
+                                <div class="form-group">
                                     <input aria-describedby="color Id" class="form-control" id="colorId"
-                                           name="Available" style="scale: 0"
-                                           placeholder="ColorID" th:field="*{id}" type="number">
+                                           name="Available" placeholder="ColorID"
+                                           style="scale: 0" th:field="*{id}" type="number">
                                     <input aria-describedby="Img Id" class="form-control" id="imgId"
                                            name="AV"
-                                           placeholder="Available"style="scale: 0" th:field="*{imgid}" type="number">
+                                           placeholder="Available" style="scale: 0" th:field="*{imgid}" type="number">
                                 </div>
                             </div>
                         </div>
@@ -220,22 +234,24 @@
     </section>
 </div>
 <!--table select category-->
-<div id="handle3" class="defaultHandle3" th:class="${handle3}">
+<div class="defaultHandle3" id="handle3" th:class="${handle3}">
     <section class="row product-form">
         <div class="col-6" th:class="${formProductByCategory}">
             <div class="card">
                 <i class="exit fa-solid fa-xmark" onclick="handleExit()"></i>
                 <div class="card-body">
-                    <form method="post" id="listProductByCategory" name="listProductByCategory"
+                    <form id="listProductByCategory" method="post" name="listProductByCategory"
                           th:object="${productRequest}">
                         <div th:each="cate : ${categories}">
-                            <input type="checkbox" th:id="${cate.categoryID}" th:value="${cate.categoryID}"
-                                   th:field="*{listProductByCategory}" th:checked="${productRequest.listProductByCategory.contains(cate.categoryID)}"/>
+                            <input th:checked="${productRequest.listProductByCategory.contains(cate.categoryID)}"
+                                   th:field="*{listProductByCategory}" th:id="${cate.categoryID}"
+                                   th:value="${cate.categoryID}"
+                                   type="checkbox"/>
                             <label th:for="${cate.categoryID}" th:text="${cate.name}"></label>
                         </div>
 
                     </form>
-                            <button class="btn" id="productCate" onclick="productCate()">Lọc</button>
+                    <button class="btn" id="productCate" onclick="productCate()">Lọc</button>
                 </div>
             </div>
         </div>
@@ -341,7 +357,7 @@
                 </div>
 
             </div>
-            <div class="records table-responsive" th:class="${table2}" id="tb2" >
+            <div class="records table-responsive" id="tb2" th:class="${table2}">
                 <!--nav status and add product and show productColorImg-->
                 <div>
                     <div class="record-header">
@@ -358,7 +374,8 @@
                             <button id="Addrecord" onclick="Addrecord()"><i class="fa-regular fa-square-plus"></i>
                                 Thêm sản phẩm
                             </button>
-                            <button id="showFormFilter" th:class="${showFormFilter}" onclick="showFormFilter()"  ><i class="fa-regular fa-square-plus"></i>
+                            <button id="showFormFilter" onclick="showFormFilter()" th:class="${showFormFilter}"><i
+                                    class="fa-regular fa-square-plus"></i>
                                 Lọc theo danh mục
                             </button>
                         </div>
@@ -507,18 +524,55 @@
                     </table>
                     <!--pagination -->
                     <div id="pagination">
-                        <div th:if="${productPage.totalPages > 0}" th:each="pageNumber : ${pageNumbers}">
-                            <a
-                               th:href="@{${url}(size=${productPage.size}, page=${pageNumber})}"
-                               th:text="${pageNumber}"
-                               th:class="${pageNumber== productPage.number + 1} ? active : pagination"
+                        <div
+                                th:if="${currentPage > 1 }">
+                            <a th:class="${currentPage == productPage.number } ? active : pagination"
+                               th:href="@{${url}(size=${productPage.size}, page=${currentPage - 1} )}"
+                            >prev</a>
+                        </div>
+                            <div
+                                    th:unless="${currentPage > 1}">
+                                <a th:class="${disabled}">prev</a>
+                            </div>
+                        <div>
+                            <a th:class="${currentPage == 1 } ? active : pagination"
+                               th:href="@{${url}(size=${productPage.size}, page=1 )}"
+                               th:text="1"
                             ></a>
                         </div>
+                        <div th:if="${ 1 < currentPage and currentPage < productPage.totalPages}">
+                            <a th:class="${currentPage } ? active "
+                               th:href="@{${url}(size=${productPage.size}, page=${currentPage} )}"
+                                th:text="${currentPage}"
+                            ></a>
+                        </div>
+
+                        <div>
+                            <a th:class="${currentPage} ?  pagination"
+                            >...</a>
+                        </div>
+                        <div>
+                            <a th:class="${currentPage == 4 } ? active : pagination"
+                               th:href="@{${url}(size=${productPage.size}, page=${productPage.totalPages} )}"
+                               th:text="${productPage.totalPages}"
+                            ></a>
+                        </div>
+                        <div
+                                th:if="${productPage.totalPages > currentPage}">
+                            <a th:class="${currentPage ==productPage.number} ? active : pagination"
+                               th:href="@{${url}(size=${productPage.size}, page=${currentPage+1})}"
+                            >next</a>
+                        </div>
+                            <div th:unless="${productPage.totalPages > currentPage}">
+                                <a th:class="${disabled}">next</a>
+                            </div>
+
                     </div>
                 </div>
             </div>
+
             <!--    =============================================================================================== -->
-            <div class="handletable records table-responsive" th:class="${table1}" id="tb1">
+            <div class="handletable records table-responsive" id="tb1" th:class="${table1}">
                 <!--nav status and add product and show productColorImg-->
                 <div>
                     <div class="records table-responsive">
@@ -551,7 +605,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="productImg : ${productImg}" style="max-height: 20vh; height: 20vh">
+                                <tr style="max-height: 20vh; height: 20vh" th:each="productImg : ${productImg}">
                                     <td>[[${productImg.productcolor.product.productID}]]</td>
                                     <td>[[${productImg.productcolor.product.name}]]</td>
                                     <td>[[${productImg.productcolor.color_name}]]</td>
@@ -567,8 +621,10 @@
                                                     style="color: #212529"></i></a>
                                         </button>
                                         <button class="btn">
-                                            <a onclick="handleDeleteProductImg()" th:href="@{'/admin/product/deleteProductImgAndColor?productImgId='+${productImg.imgID}}"
-                                                type="button"><i class="fa-solid fa-trash" style="color: #212529"></i></a>
+                                            <a onclick="handleDeleteProductImg()"
+                                               th:href="@{'/admin/product/deleteProductImgAndColor?productImgId='+${productImg.imgID}}"
+                                               type="button"><i class="fa-solid fa-trash"
+                                                                style="color: #212529"></i></a>
                                         </button>
                                     </td>
                                 </tr>
@@ -576,12 +632,48 @@
                             </table>
                             <!--pagination-->
                             <div id="pagination2">
-                            <div th:each="pageNumber2 : ${pageNumbers2}"
-                                 th:if="${productImg.totalPages > 0}">
-                                <a th:class="${pageNumber2==productImg.number + 1} ? active : pagination"
-                                   th:href="@{/admin/product(size2=${productImg.size}, page2=${pageNumber2})}"
-                                   th:text="${pageNumber2}"></a>
-                            </div>
+                                <div
+                                        th:if="${currentPage2 > 1 }">
+                                    <a th:class="${currentPage2 == productImg.number } ? active : pagination"
+                                       th:href="@{${url}(size2=${productImg.size}, page2=${currentPage2 - 1} )}"
+                                    >prev</a>
+                                </div>
+                                <div
+                                        th:unless="${currentPage2 > 1}">
+                                    <a th:class="${disabled}">prev</a>
+                                </div>
+                                <div>
+                                    <a th:class="${currentPage2 == 1 } ? active : pagination"
+                                       th:href="@{${url}(size2=${productImg.size}, page2=1 )}"
+                                       th:text="1"
+                                    ></a>
+                                </div>
+                                <div th:if="${ 1 < currentPage2 and currentPage2 < productImg.totalPages}">
+                                    <a th:class="${currentPage2 } ? active "
+                                       th:href="@{${url}(size2=${productImg.size}, page2=${currentPage2} )}"
+                                       th:text="${currentPage2}"
+                                    ></a>
+                                </div>
+
+                                <div>
+                                    <a th:class="${currentPage2} ?  pagination"
+                                    >...</a>
+                                </div>
+                                <div>
+                                    <a th:class="${currentPage2 == productImg.totalPages } ? active : pagination"
+                                       th:href="@{${url}(size2=${productImg.size}, page2=${productImg.totalPages} )}"
+                                       th:text="${productImg.totalPages}"
+                                    ></a>
+                                </div>
+                                <div
+                                        th:if="${productImg.totalPages > currentPage2}">
+                                    <a th:class="${currentPage2 == productImg.number} ? active : pagination"
+                                       th:href="@{${url}(size2=${productImg.size}, page2=${currentPage2+1})}"
+                                    >next</a>
+                                </div>
+                                <div th:unless="${productImg.totalPages > currentPage2}">
+                                    <a th:class="${disabled}">next</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -631,18 +723,7 @@
     }
 
     //handle toogle form add product
-    function handleExit() {
-        handle.classList.remove("handle")
-        handle2.classList.remove("handle2")
-        handle3.classList.remove("handle3")
-        if (location.href.includes("http://localhost:8080/admin/product/edit/")) {
-            location.href = "http://localhost:8080/admin/product"
-        }
-        if (location.href.includes("http://localhost:8080/admin/product/productImgEdit/")) {
-            location.href = "http://localhost:8080/admin/product?size2=5&page2=1"
-        }
-        location.href.includes("http://localhost:8080/admin/product?type=category") && document.querySelector("#showFormFilter").setAttribute("style", "scale : 1; transition : .4s ease");
-    }
+
     const showFormFilter = () => {
         handle3.classList.add("handle3")
     }
@@ -668,6 +749,7 @@
         $('#submitImgAndColor').submit();
 
     }
+
     const updateImgProduct = () => {
         $('#submitImgAndColor').prop('action', '/admin/product/updateProductImgAndColor');
         $('#submitImgAndColor').submit();
@@ -685,12 +767,9 @@
     const editProductImg = () => {
         location.href.includes("http://localhost:8080/admin/product/editProductImg") && productImgDetail()
     }
-    window.addEventListener("load", ()=> {
+    window.addEventListener("load", () => {
         location.href.includes("size2=") && productImgDetail()
         location.href.includes("/product") && document.querySelector("#productIcon").setAttribute("style", "color:#fff; scale:1.1")
-        location.href.includes("/user") && document.querySelector("#userIcon").setAttribute("style", "color:#fff; scale:1.1")
-        location.href.includes("/order") && document.querySelector("#oderIcon").setAttribute("style", "color:#fff; scale:1.1")
-        // location.href.includes("/product") && document.querySelector("#taskIcon").setAttribute("style", "color:#fff; scale:1.1")
         location.href === "http://localhost:8080/admin" && document.querySelector("#admin").setAttribute("style", "color:#fff; scale:1.1")
     })
     //handle delete message after 5s
