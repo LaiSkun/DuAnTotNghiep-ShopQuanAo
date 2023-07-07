@@ -64,10 +64,13 @@ public class ProductController {
             List<Products> productsDepFalse = productService.findDeprecatedFalse();
             List<Categories> categories = categoryDAO.findAll();
             List<Product_Colors> productColors = productColorsService.findAll();
-            model.addAttribute("productColor", productColors);
             List<Product_Images> productImg = productImgService.findAll();
             List<Products> productAll = productDAO.findAll();
             List<Colors> colorList = colorsDAO.findAll();
+            model.addAttribute("disabled", "disabled");
+            model.addAttribute("productColor", productColors);
+            model.addAttribute("currentPage", currentPage);
+        model.addAttribute("currentPage2", currentPage2);
             model.addAttribute("categories", categories);
             model.addAttribute("productRequest", productRequest);
             model.addAttribute("productImgRequest", new ProductImgDTO());
