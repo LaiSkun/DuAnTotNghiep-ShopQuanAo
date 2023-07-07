@@ -20,4 +20,6 @@ public interface UsersDAO extends JpaRepository<Users, String> {
 	
 	
 	List<Users> findByAuthorities_Role_RoleID(String roleID);
+
+	Users findByUserID(String userID);
 }

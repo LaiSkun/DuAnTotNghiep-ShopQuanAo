@@ -1,7 +1,7 @@
 package com.store.service;
 
-import com.store.model.Product_Colors;
-import com.store.model.Product_Images;
+
+
 import com.store.model.Products;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -33,4 +33,24 @@ public interface ProductService {
     public  void updateStatusTrue(String productID);
     Page<Products> findPaginated(Pageable pageable, List sql);
 
+
+    // ProductUser
+
+    List<Products> findAll();
+
+    Page<Products> findMen(int pageSize, int pageNumber) throws  Exception;
+
+    Page<Products> findWomen(int pageSize, int pageNumber) throws  Exception;
+
+    Page<Products> findByAll(int pageSize, int pageNumber) throws  Exception;
+
+    Products findByProductID(String productID);
+
+    Products findById(String productID);
+
+    Page<Products> findAllByCategoryId(String categoryId,int pageSize, int pageNumber) throws  Exception;
+
+    Page<Products> listAll(String keyword,int pageSize, int pageNumber) throws  Exception;
+
+    void updateQuantity(Integer newAvailable,String productID);
 }

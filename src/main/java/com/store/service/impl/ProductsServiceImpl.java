@@ -95,4 +95,89 @@ public class ProductsServiceImpl implements ProductService {
     public void updateStatusTrue(String productID) {
          productDAO.updateStatusTrue(productID);
     }
+
+    // ProductUser
+
+    @Override
+    public List<Products> findAll() {
+        return productDAO.findByDeprecatedAndAvailableGreaterThan(Boolean.TRUE, 0);
+    }
+
+    @Override
+    public Page<Products> findMen(int pageSize, int pageNumber) throws  Exception {
+        if (pageNumber >= 1) {
+
+
+            return productDAO.findMen( PageRequest.of(pageNumber - 1, pageSize));
+        }else{
+            throw new Exception ("Page number must be grat than 0");
+        }
+    }
+
+    @Override
+    public Page<Products> findWomen (int pageSize, int pageNumber) throws  Exception {
+        if (pageNumber >= 1) {
+
+
+            return productDAO.findWoman( PageRequest.of(pageNumber - 1, pageSize));
+        }else{
+            throw new Exception ("Page number must be grat than 0");
+        }
+    }
+
+    @Override
+    public Page<Products> findByAll(int pageSize, int pageNumber) throws  Exception {
+        if (pageNumber >= 1) {
+
+
+            return productDAO.findByDeprecatedAndAvailableGreaterThan(Boolean.TRUE, 0, PageRequest.of(pageNumber - 1, pageSize));
+        }else{
+            throw new Exception ("Page number must be grat than 0");
+        }
+    }
+
+
+
+
+    @Override
+    public Products findByProductID(String productID) {
+        return productDAO.findByProductID(productID);
+    }
+
+    @Override
+    public Products findById(String productID) {
+        Optional<Products> optional = productDAO.findById(productID);
+        return optional.isPresent() ? optional.get() : null;
+    }
+
+    @Override
+    public Page<Products> findAllByCategoryId(String categoryId,int pageSize, int pageNumber) throws  Exception {
+        if (pageNumber >= 1) {
+
+
+            return productDAO.finByCategoryId(categoryId, PageRequest.of(pageNumber - 1, pageSize));
+        }else{
+            throw new Exception ("Page number must be grat than 0");
+        }
+    }
+
+
+    @Override
+    public Page<Products> listAll(String keyword,int pageSize, int pageNumber) throws  Exception{
+        if (pageNumber >= 1) {
+
+            if (keyword != null) {
+                return productDAO.findAll(keyword, PageRequest.of(pageNumber - 1, pageSize));
+            }
+            return productDAO.findByDeprecatedAndAvailableGreaterThan(Boolean.TRUE, 0, PageRequest.of(pageNumber - 1, pageSize)) ;
+
+        }else{
+            throw new Exception ("Page number must be grat than 0");
+        }
+    }
+
+    @Override
+    public void updateQuantity(Integer newAvailable, String productID) {
+        productDAO.updateQuantity(newAvailable, productID);
+    }
 }

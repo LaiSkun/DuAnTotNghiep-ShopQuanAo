@@ -23,6 +23,7 @@ public class ProductDTO {
     Date createDate = new Date();
     int available;
     boolean deprecated;
+    long colorId;
     String description;
     @JsonIgnore
     @ToString.Exclude

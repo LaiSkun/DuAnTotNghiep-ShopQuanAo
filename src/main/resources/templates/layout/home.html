@@ -87,166 +87,78 @@
          <div class="container_fullwidth">
             <div class="container">
                <div class="hot-products">
-                  <h3 class="title"><strong>Hot</strong> Products</h3>
-                  <div class="control"><a id="prev_hot" class="prev" href="#">&lt;</a><a id="next_hot" class="next" href="#">&gt;</a></div>
-                  <ul id="hot">
+                  <h3 class="title"><strong>Men</strong> Products</h3>
+                  <ul id="MEN">
                      <li>
                         <div class="row">
-                           <div class="col-md-3 col-sm-6">
+                           <div class="col-md-3 col-sm-6" th:each="productM : ${productM}">
                               <div class="products">
-                                 <div class="offer">- %20</div>
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-01.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-02.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="offer">New</div>
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-03.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-04.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="row">
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="offer">- %20</div>
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-01.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-02.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="offer">New</div>
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-03.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-04.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                 <div class="thumbnail"><a th:href="@{'/product/' + ${productM.productID}}"><img th:src="@{'/images/product/' + ${productM.category.categoryID} + '/' + ${productM.img}}" style="width: 170px" alt="Product Name"></a></div>
+                                 <div class="productname" th:text="${productM.name}"></div>
+                                 <h4 class="price" th:text="${#numbers.formatCurrency(productM.price)}"></h4>
+                                 <div class="button_group"><a th:href="@{'/product/' + ${productM.productID}}"><button class="button add-cart" type="button" >Add To Cart</button></a><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
                               </div>
                            </div>
                         </div>
                      </li>
                   </ul>
                </div>
+               <div class="pager">
+                  <li th:class="${currentPageM == 1 ? 'disabled' : ''}">
+                     <a href="#" class="prev-page" th:href="@{${currentPageM > 1} ? ${'?pageM=' + (currentPageM -1)} : ''}">
+                        <i class="fa fa-angle-left">
+                        </i>
+                     </a>
+                  </li>
+                  <li th:each="i : ${#numbers.sequence(1, totalPagesM)}"
+                      >
+                     <a th:class="${currentPageM == i ? 'active' : ''}" th:href="@{'?pageM=' +${i}}"  th:text="${i}">
+
+                     </a>
+                  </li>
+                  <li th:class="${currentPageM == totalPagesM ? 'disabled' : ''}">
+                     <a href="#" class="next-page" th:href="@{${currentPageM < totalPagesM} ? ${'?pageM=' + (currentPageM +1)} : ''}">
+                        <i class="fa fa-angle-right">
+                        </i>
+                     </a>
+                  </li>
+               </div>
                <div class="clearfix"></div>
                <div class="featured-products">
-                  <h3 class="title"><strong>Featured </strong> Products</h3>
-                  <div class="control"><a id="prev_featured" class="prev" href="#">&lt;</a><a id="next_featured" class="next" href="#">&gt;</a></div>
-                  <ul id="featured">
+                  <h3 class="title"><strong>Women </strong> Products</h3>
+                  <ul id="hot">
                      <li>
                         <div class="row">
-                           <div class="col-md-3 col-sm-6">
+                           <div class="col-md-3 col-sm-6" th:each="productW : ${productW}">
                               <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-05.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-06.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="offer">New</div>
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-07.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-04.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                     <li>
-                        <div class="row">
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-01.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-02.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-03.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
-                              </div>
-                           </div>
-                           <div class="col-md-3 col-sm-6">
-                              <div class="products">
-                                 <div class="thumbnail"><a href="details.html"><img src="images/products/small/products-04.png" alt="Product Name"></a></div>
-                                 <div class="productname">Iphone 5s Gold 32 Gb 2013</div>
-                                 <h4 class="price">$451.00</h4>
-                                 <div class="button_group"><button class="button add-cart" type="button">Add To Cart</button><button class="button compare" type="button"><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
+                                 <div class="thumbnail">
+                                    <a th:href="@{'/product/' + ${productW.productID}}"><img th:src="@{'/images/product/' + ${productW.category.categoryID} + '/' + ${productW.img}}" style="width: 170px" alt="Product Name"></a></div>
+                                 <div class="productname" th:text="${productW.name}"></div>
+                                 <h4 class="price" th:text="${#numbers.formatCurrency(productW.price)}"></h4>
+                                 <div class="button_group"><a th:href="@{'/product/' + ${productW.productID}}"> <button class="button add-cart" type="button"  >Add To Cart</button> </a><button class="button compare" type="button"> </a><i class="fa fa-exchange"></i></button><button class="button wishlist" type="button"><i class="fa fa-heart-o"></i></button></div>
                               </div>
                            </div>
                         </div>
                      </li>
                   </ul>
+               </div>
+               <div class="pager"  >
+                  <li th:class="${currentPageW == 1 ? 'disabled' : ''}" >
+                     <a onclick="handlepaying()" href="#" class="prev-page" th:href="@{${currentPageW > 1} ? ${'?pageW=' + (currentPageW -1)} : ''}">
+                        <i class="fa fa-angle-left">
+                        </i>
+                     </a>
+                  </li>
+                  <li th:each="i : ${#numbers.sequence(1, totalPagesW)}">
+                     <a onclick="handlepaying()" th:class="${currentPageW == i ? 'active' : ''}" th:href="@{'?pageW=' +${i}}"  th:text="${i}" >
+                     </a>
+                  </li>
+                  <li th:class="${currentPageW == totalPagesW ? 'disabled' : ''}">
+                     <a onclick="handlepaying()" href="men" class="next-page" th:href="@{${currentPageW < totalPagesW} ? ${'?pageW=' + (currentPageW +1)} : ''}">
+                        <i class="fa fa-angle-right">
+                        </i>
+                     </a>
+                  </li>
                </div>
                <div class="clearfix"></div>
                <div class="our-brand">
@@ -324,13 +236,42 @@
     </div>
     
 	<!-- Bootstrap core JavaScript==================================================-->
-	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/jquery.sequence-min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script type="text/javascript" th:src="@{js/jquery-1.10.2.min.js}"></script>
+	<script type="text/javascript" th:src="@{js/jquery.easing.1.3.js}"></script>
+	<script type="text/javascript" th:src="@{js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{js/jquery.sequence-min.js}"></script>
 	<script type="text/javascript"
-		src="js/jquery.carouFredSel-6.2.1-packed.js"></script>
-	<script defer src="js/jquery.flexslider.js"></script>
-	<script type="text/javascript" src="js/script.min.js"></script>
+		th:src="@{js/jquery.carouFredSel-6.2.1-packed.js}"></script>
+	<script defer th:src="@{js/jquery.flexslider.js}"></script>
+	<script type="text/javascript" th:src="@{js/script.min.js}"></script>
+    <script>
+       function addToCart(productID){
+          var endpoint = 'api/cart/update?productID='+ productID + '&quantity=1&isReplace=false';
+          $.ajax({
+             url: endpoint,
+             type:'GET',
+             dataType: 'json',
+             success: function (data){
+                $('#headerToTalPrice').text(numberWithDot(data.totalPrice));
+                $('#headerToTalQuantity').text(data.totalQuantity);
+                alert("Đã thêm")
+             },
+             error: function (data){
+                alert('Thêm mới thất bại');
+             }
+          })
+          function numberWithDot(x){
+             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") +' ₫';
+          }
+       }
+    </script>
+<script>
+   window.onload = () => {
+      location.href.includes("pageW") && window.scrollBy(0, 1090.4000244140625) ;
+      location.href.includes("pageM") && window.scrollBy(0, 564) ;
+
+   }
+</script>
 </body>
 </html>

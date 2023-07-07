@@ -1,7 +1,6 @@
 package com.store.service;
 
 import com.store.model.Product_Colors;
-import com.store.model.Product_Images;
 import com.store.model.Products;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
