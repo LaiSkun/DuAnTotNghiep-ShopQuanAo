@@ -1,5 +1,6 @@
 package com.store.admin;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,10 @@ public class AdminStatusController {
 	public String edit(@PathVariable("id") Integer id, Model model) {
 		Status status = statusService.findById(id);
 		model.addAttribute("status", status);
+		
+		
+		
+		
 		List<Status> list = statusService.findAll();
 		model.addAttribute("statuss", list);
 		return "/admin/status/status";

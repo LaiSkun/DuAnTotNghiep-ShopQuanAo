@@ -30,7 +30,7 @@ import lombok.Data;
 public class Orders {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long orderID;
+	Integer orderID;
 	String address;
 	String phone;
 	String email;
