@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-   <meta charset="ISO-8859-1">
+   <meta charset="UTF-8">
    <title>Insert title here</title>
 </head>
 <body>
@@ -63,25 +63,25 @@
                   </li>
                   <li class="option-cart">
                      <a th:href="@{/cart}" class="cart-icon">cart <span class="cart_no" id="headerToTalQuantity" th:text="${session.currentCart.totalQuantity}"></span></a>
-                     <ul class="option-cart-item" >
-                        <li>
-                           <div class="cart-item" th:each="detail,index : ${session.currentCart.details}">
-                              <div class="image"><img src="images/products/thum/products-01.png" alt=""></div>
-                              <div class="item-description">
-                                 <div class="productname" th:text="${detail.value.name}">
-                                 </div>
-                                 <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>
-                              </div>
-                              <div class="right">
-                                 <h5 th:text="${#numbers.formatCurrency(detail.value.price)}">
+<!--                     <ul class="option-cart-item" >-->
+<!--                        <li>-->
+<!--                           <div class="cart-item" th:each="detail,index : ${session.currentCart.details}">-->
+<!--                              <div class="image"><img src="images/products/thum/products-01.png" alt=""></div>-->
+<!--                              <div class="item-description">-->
+<!--                                 <div class="productname" th:text="${detail.value.name}">-->
+<!--                                 </div>-->
+<!--                                 <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>-->
+<!--                              </div>-->
+<!--                              <div class="right">-->
+<!--                                 <h5 th:text="${#numbers.formatCurrency(detail.value.price)}">-->
 
-                                 </h5>
-                                 <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>
-                              </div>
-                           </div>
-                        </li>
-                        <li><span class="total" id="headerToTalPrice" th:text="${#numbers.formatCurrency(session.currentCart.totalPrice)}">Total <strong></strong></span><button class="checkout" onClick="location.href='checkout.html'">CheckOut</button></li>-->
-                     </ul>
+<!--                                 </h5>-->
+<!--                                 <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>-->
+<!--                              </div>-->
+<!--                           </div>-->
+<!--                        </li>-->
+<!--                        <li><span class="total" id="headerToTalPrice" th:text="${#numbers.formatCurrency(session.currentCart.totalPrice)}">Total <strong></strong></span><button class="checkout" onClick="location.href='checkout.html'">CheckOut</button></li>&ndash;&gt;-->
+<!--                     </ul>-->
                   </li>
                </ul>
                <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
@@ -96,38 +96,39 @@
                      </li>
                      <li><a th:href="@{/productgird}">Product</a> </li>
                      <li><a th:href="@{/productlist}">ProductList</a></li>
-                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Fashion</a>
-                        <div class="dropdown-menu mega-menu">
-                           <div class="row">
-                              <div class="col-md-6 col-sm-6">
-                                 <ul class="mega-menu-links">
-                                    <li><a href="productgird.html">New Collection</a></li>
-                                    <li><a href="productgird.html">Shirts & tops</a></li>
-                                    <li><a href="productgird.html">Laptop & Brie</a></li>
-                                    <li><a href="productgird.html">Dresses</a></li>
-                                    <li><a href="productgird.html">Blazers & Jackets</a></li>
-                                    <li><a href="productgird.html">Shoulder Bags</a></li>
-                                 </ul>
-                              </div>
-                              <div class="col-md-6 col-sm-6">
-                                 <ul class="mega-menu-links">
-                                    <li><a href="productgird.html">New Collection</a></li>
-                                    <li><a href="productgird.html">Shirts & tops</a></li>
-                                    <li><a href="productgird.html">Laptop & Brie</a></li>
-                                    <li><a href="productgird.html">Dresses</a></li>
-                                    <li><a href="productgird.html">Blazers & Jackets</a></li>
-                                    <li><a href="productgird.html">Shoulder Bags</a></li>
-                                 </ul>
-                              </div>
-                           </div>
-                        </div>
-                     </li>
-                     <li><a href="productgird.html">gift</a></li>
-                     <li><a href="productgird.html">kids</a></li>
-                     <li><a href="productgird.html">blog</a></li>
-                     <li><a href="productgird.html">jewelry</a></li>
+<!--                     <li class="dropdown">-->
+<!--                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Fashion</a>-->
+<!--                        <div class="dropdown-menu mega-menu">-->
+<!--                           <div class="row">-->
+<!--                              <div class="col-md-6 col-sm-6">-->
+<!--                                 <ul class="mega-menu-links">-->
+<!--                                    <li><a href="productgird.html">New Collection</a></li>-->
+<!--                                    <li><a href="productgird.html">Shirts & tops</a></li>-->
+<!--                                    <li><a href="productgird.html">Laptop & Brie</a></li>-->
+<!--                                    <li><a href="productgird.html">Dresses</a></li>-->
+<!--                                    <li><a href="productgird.html">Blazers & Jackets</a></li>-->
+<!--                                    <li><a href="productgird.html">Shoulder Bags</a></li>-->
+<!--                                 </ul>-->
+<!--                              </div>-->
+<!--                              <div class="col-md-6 col-sm-6">-->
+<!--                                 <ul class="mega-menu-links">-->
+<!--                                    <li><a href="productgird.html">New Collection</a></li>-->
+<!--                                    <li><a href="productgird.html">Shirts & tops</a></li>-->
+<!--                                    <li><a href="productgird.html">Laptop & Brie</a></li>-->
+<!--                                    <li><a href="productgird.html">Dresses</a></li>-->
+<!--                                    <li><a href="productgird.html">Blazers & Jackets</a></li>-->
+<!--                                    <li><a href="productgird.html">Shoulder Bags</a></li>-->
+<!--                                 </ul>-->
+<!--                              </div>-->
+<!--                           </div>-->
+<!--                        </div>-->
+<!--                     </li>-->
+<!--                     <li><a href="productgird.html">gift</a></li>-->
+<!--                     <li><a href="productgird.html">kids</a></li>-->
+<!--                     <li><a href="productgird.html">blog</a></li>-->
+<!--                     <li><a href="productgird.html">jewelry</a></li>-->
                      <li><a th:href="@{/contact}">contact us</a></li>
+                     <li th:if="${session.currentUser != null}"><a th:id="${session.currentUser.userID}"  th:href="@{'/cart/check/' + ${session.currentUser.userID}}">Sản phẩm đã mua</a></li>
                   </ul>
                </div>
             </div>

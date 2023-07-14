@@ -52,5 +52,5 @@ public interface ProductService {
 
     Page<Products> listAll(String keyword,int pageSize, int pageNumber) throws  Exception;
 
-    void updateQuantity(Integer newAvailable,String productID);
+
 }

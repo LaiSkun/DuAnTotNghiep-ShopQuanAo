@@ -87,7 +87,6 @@ public class ProductUserController {
         }
 
         model.addAttribute("products", products);
-        List<Categories> categories = catelogyService.findAll();
         return "layout/productDetails";
     }
 

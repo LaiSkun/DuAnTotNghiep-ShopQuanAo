@@ -30,24 +30,21 @@ public interface ProductDAO extends JpaRepository<Products, String> {
     Products findProductId(String productID);
 
     // Product User
-    List<Products> findByDeprecatedAndAvailableGreaterThan(Boolean Deprecated, Integer available);
 
-    @Query(value = "SELECT * from products where categoryID like '%nam' and deprecated = 1 and available > 0", nativeQuery = true)
+    @Query(value = "SELECT * from products where categoryID like '%nam' and deprecated = 1 ", nativeQuery = true)
 
     Page<Products> findMen(Pageable pageable);
 
-    @Query(value = "SELECT * from products where categoryID like '%nu' and deprecated = 1 and available > 0", nativeQuery = true)
+    @Query(value = "SELECT * from products where categoryID like '%nu' and deprecated = 1  ", nativeQuery = true)
     Page<Products> findWoman(Pageable pageable);
 
-    @Query(value = "SELECT * from products where categoryID = :categoryId and deprecated = 1 and available > 0",nativeQuery = true)
+    @Query(value = "SELECT * from products where categoryID = :categoryId and deprecated = 1  ",nativeQuery = true)
     Page<Products> finByCategoryId(String categoryId, Pageable pageable);
 
-    @Query(value = "SELECT * from products  where [name] LIKE %?1% and deprecated = 1 and available > 0", nativeQuery = true)
+    @Query(value = "SELECT * from products  where [name] LIKE %?1% and deprecated = 1  ", nativeQuery = true)
     Page<Products> findAll(String keyword, Pageable pageable);
 
-    Page<Products> findByDeprecatedAndAvailableGreaterThan(Boolean Deprecated, Integer available,Pageable pageable);
+    @Query(value = "SELECT * from products where deprecated = 1  ", nativeQuery = true)
+    Page<Products> findByDeprecated(Pageable pageable);
 
-    @Modifying(clearAutomatically = true)
-    @Query(value = "UPDATE products SET quantity = ? WHERE id = ?",nativeQuery = true)
-    void updateQuantity(Integer newAvailable,String productID);
 }

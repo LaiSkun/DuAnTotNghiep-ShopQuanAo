@@ -100,7 +100,7 @@ public class ProductsServiceImpl implements ProductService {
 
     @Override
     public List<Products> findAll() {
-        return productDAO.findByDeprecatedAndAvailableGreaterThan(Boolean.TRUE, 0);
+        return productDAO.findByDeprecated(Boolean.TRUE);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class ProductsServiceImpl implements ProductService {
         if (pageNumber >= 1) {
 
 
-            return productDAO.findByDeprecatedAndAvailableGreaterThan(Boolean.TRUE, 0, PageRequest.of(pageNumber - 1, pageSize));
+            return productDAO.findByDeprecated(Boolean.TRUE, PageRequest.of(pageNumber - 1, pageSize));
         }else{
             throw new Exception ("Page number must be grat than 0");
         }
@@ -169,15 +169,11 @@ public class ProductsServiceImpl implements ProductService {
             if (keyword != null) {
                 return productDAO.findAll(keyword, PageRequest.of(pageNumber - 1, pageSize));
             }
-            return productDAO.findByDeprecatedAndAvailableGreaterThan(Boolean.TRUE, 0, PageRequest.of(pageNumber - 1, pageSize)) ;
+            return productDAO.findByDeprecated(Boolean.TRUE, PageRequest.of(pageNumber - 1, pageSize)) ;
 
         }else{
             throw new Exception ("Page number must be grat than 0");
         }
     }
 
-    @Override
-    public void updateQuantity(Integer newAvailable, String productID) {
-        productDAO.updateQuantity(newAvailable, productID);
-    }
 }

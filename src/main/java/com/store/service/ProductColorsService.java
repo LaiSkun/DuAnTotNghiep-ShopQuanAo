@@ -18,4 +18,9 @@ public interface ProductColorsService {
     @Scope(proxyMode = ScopedProxyMode.INTERFACES)
     @Transactional
     public void deleteColor(long id);
+
+
+    Product_Colors findById(Long colorID);
+
+    void updateQuantity(Integer newAvailable,Long colorID);
 }

@@ -23,7 +23,6 @@ public class Products {
     @Column(name = "Createdate")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     Date createDate ;
-    int available;
     boolean deprecated;
     String description;
     @JsonIgnore
@@ -42,7 +41,6 @@ public class Products {
         this.img = img;
         this.price = price;
         this.createDate = createDate;
-        this.available = available;
         this.deprecated = deprecated;
         this.description = description;
         this.category = category;

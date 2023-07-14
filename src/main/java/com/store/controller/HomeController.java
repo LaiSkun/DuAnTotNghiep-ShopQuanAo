@@ -79,8 +79,7 @@ public class HomeController {
 		return "redirect:/home";
 	}
 	@RequestMapping("/contact")
-	public String doGetContact(Model model) {
-		model.addAttribute("userRequest", new Users());
+	public String doGetContact() {
 		return "layout/contact";
 	}
 }

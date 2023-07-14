@@ -18,7 +18,8 @@ import lombok.Setter;
 public class Product_Colors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long colorID;
+    Long colorID;
+    int available;
     String colorhex;
     String color_name;
     @ManyToOne
@@ -34,4 +35,6 @@ public class Product_Colors {
     public Product_Colors() {
 
     }
+    @OneToMany(mappedBy = "productcolor")
+    private List<Product_Images> images;
 }
