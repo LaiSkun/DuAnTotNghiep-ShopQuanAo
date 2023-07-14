@@ -17,11 +17,15 @@ public class Order_Details {
     Long orderDetailID;
     Double price;
     Integer quantity;
+
     @JsonIgnore
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productID")
     Products product;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "colorID")
+    Product_Colors colorId;
     @JsonIgnore
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)

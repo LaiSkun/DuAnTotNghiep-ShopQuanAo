@@ -32,12 +32,12 @@ public class Orders {
 	String address;
 	String phone;
 	String email;
-	Double totalPrice;
+	Double price;
 	@Temporal(TemporalType.DATE)
-	@Column(name = "Createdate")
-	Date createDate = new Date();
+	@Column(name = "Date")
+	Date date = new Date();
 	@ManyToOne
-	@JoinColumn(name = "Username")
+	@JoinColumn(name = "userId")
 	Users user;
 	
 	@JsonIgnore

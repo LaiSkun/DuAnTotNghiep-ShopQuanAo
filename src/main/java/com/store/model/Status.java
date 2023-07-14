@@ -3,24 +3,31 @@ package com.store.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @SuppressWarnings("serial")
 @Data
 @Entity 
 @Table(name = "status")
 public class Status {
+
 	@Id
-	String statusID;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	Long statusID;
+	String statusname;
+	String reason;
 	String description;
+	String notes;
+	@Column(name = "dateComplete")
+	@DateTimeFormat(pattern = "dd-mm-yyyy")
+	Date createDate ;
+	Double transportFee;
+	Double feeCollected;
 	@ManyToOne
 	@JoinColumn(name = "orderID")
 	Orders order;

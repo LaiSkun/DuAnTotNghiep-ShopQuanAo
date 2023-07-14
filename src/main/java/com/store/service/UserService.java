@@ -20,4 +20,7 @@ public interface UserService {
 	public List<Users> searchUsers(String keyword);
 
 	public List<Users> findByAuthorities_Role_RoleID(String roleId);
+
+
+	Users doLogin(String userID, String checkpassword);
 }
