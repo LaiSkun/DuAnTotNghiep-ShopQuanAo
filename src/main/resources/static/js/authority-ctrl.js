@@ -5,10 +5,11 @@ app.controller("authority-ctrl", function($scope, $http, $location) {
 	$scope.roles = [];
 	$scope.admins = [];
 	$scope.authorities = [];
-
+	
 	$scope.initialize = function() {
 		$http.get("/admin/roles").then(resp => {
 			$scope.roles = resp.data;
+			
 		})
 
 		$http.get("/admin/checkadmin").then(resp => {
@@ -57,9 +58,10 @@ app.controller("authority-ctrl", function($scope, $http, $location) {
 		})
 	}
 	$scope.filterUsersByRole = function() {
+		
 		// Lấy vai trò đã chọn
 		var selectedRole = $scope.selectedRole;
-
+	
 		// Gọi API để lấy danh sách người dùng theo vai trò
 		$http.get('/admin/authorities/filterByRole/' + selectedRole.roleID)
 			.then(function(response) {

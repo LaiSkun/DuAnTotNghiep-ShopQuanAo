@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,7 +50,13 @@ public class AdminUserController {
 	}
 
 	@PostMapping("/admin/user/new")
-	public String createUser(@ModelAttribute("user") Users user) {	
+	public String createUser(Model model ,@Validated @ModelAttribute("user") Users user,Errors errors) {	
+		if(errors.hasErrors()) {
+			model.addAttribute("message", "Vui lòng sửa các lỗi sau: ");
+			List<Users> list = userService.findAll();
+			model.addAttribute("users", list);
+			return "/admin/user/user";
+		}
 		Roles customerRole = roleService.findByRoleID("customer");
 		Authorities authorities = new Authorities();
 		authorities.setUser(user);
