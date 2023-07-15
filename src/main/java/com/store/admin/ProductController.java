@@ -389,6 +389,7 @@ public class ProductController {
             } else {
                 model.addAttribute("productRequest", dto);
             }
+            // đang lỗi ở đây
             return "/admin/product/index";
         }
 

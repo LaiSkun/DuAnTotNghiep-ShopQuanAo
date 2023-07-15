@@ -1,15 +1,15 @@
 package com.store.model;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Data;
+import java.util.List;
 
 @SuppressWarnings("serial")
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "categories")
 public class Categories {

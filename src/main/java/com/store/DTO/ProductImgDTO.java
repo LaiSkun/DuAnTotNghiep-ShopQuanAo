@@ -24,7 +24,6 @@ public class ProductImgDTO {
         ColorHex = colorHex;
         this.img = img;
     }
-
     public ProductImgDTO() {
     }
 }
