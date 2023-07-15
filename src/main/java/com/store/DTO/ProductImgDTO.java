@@ -16,6 +16,7 @@ public class ProductImgDTO {
     String Color;
     String ColorHex;
     MultipartFile img;
+    int avaible;
     long imgid;
 
     public ProductImgDTO(Products product, String color, String colorHex, MultipartFile img) {
@@ -24,7 +25,13 @@ public class ProductImgDTO {
         ColorHex = colorHex;
         this.img = img;
     }
+    public ProductImgDTO(Products product,int avaible, String color, String colorHex){
+        this.product = product;
+        Color = color;
+        this.avaible = avaible;
+        ColorHex = colorHex;
 
+    }
     public ProductImgDTO() {
     }
 }

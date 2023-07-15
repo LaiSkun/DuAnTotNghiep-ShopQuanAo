@@ -51,10 +51,12 @@
         }
 
     }
+
     function handleExit() {
         handle.classList.remove("handle")
         handle2.classList.remove("handle2")
         handle3.classList.remove("handle3")
+        handle4.classList.remove("handle4")
         if (location.href.includes("http://localhost:8080/admin/product/edit/")) {
             location.href = "http://localhost:8080/admin/product"
         }
@@ -113,12 +115,6 @@
                                            name="productName"
                                            placeholder="product Name" th:field="*{name}" type="text">
                                 </div>
-                                <div class="form-group">
-                                    <label for="viewcount">Available</label>
-                                    <input aria-describedby="AvailablehelpId" class="form-control" id="Available"
-                                           name="Available"
-                                           placeholder="Available" th:field="*{available}" type="number">
-                                </div>
 
                             </div>
                             <div class="col-4">
@@ -161,6 +157,65 @@
 
     </section>
 </div>
+<button onclick=" demo()">click</button>
+<!--table add, update productColor-->
+<div id="handle4" th:class="${handle4}">
+    <section class="row product-form" style="align-items: center; justify-content: center">
+        <div class="col-8">
+            <form enctype="multipart/form-data" id="submitColor" method="POST" th:object='${productColorRequest}'>
+                <div class="card">
+                    <i class="exit fa-solid fa-xmark" style="margin-left: 35vw " onclick="handleExit()"></i>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="ProductIDList1">Product Name</label>
+                                    <select class="form-control" id="ProductIDList1" onchange="getProductID()" name=""
+                                            th:field="*{product.productID}">
+                                        <option th:each="productAll : ${productAll}" th:text="${productAll.name}"
+                                                th:value="${productAll.ProductID}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="avaible">Avaible</label>
+                                    <input th:field="*{avaible}"  class="form-control" id="avaible" type="number">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label> Colors</label>
+                                    <select class="form-control" id="colorList" name=""
+                                            onchange="this.size = 1; this.blur()"
+                                            th:field="*{colorHex}"
+                                            th:onfocus="'this.size='+ ${colorList.size()}">
+                                        <option class="custom-opt" th:each="color : ${colorList}"
+                                                th:style="'--data-color:'+${color.RGBColor}"
+                                                th:text="${color.NameColor}"
+                                                th:value="${color.RGBColor}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group prdIdInput" style="margin-top: 54px; opacity: 0">
+                                    <label for="idPrd">ProductID</label>
+                                    <input disabled class="form-control" id="idPrd" type="text">
+                                </div>
+                            </div>
+                        </div>
+                                <div class="card-footer text-muted">
+                                    <button class="btn createImgProduct" id="createButtonProductColor"
+                                            onclick="createColorProduct()" type="button">Thêm
+                                    </button>
+
+                                    <button class="btn" id="updateButtonProductColor" onclick="updateImgProduct()"
+                                            th:class="${updateImgProduct}">Chỉnh Sửa
+                                    </button>
+                                </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </section>
+</div>
 <!--table add, update productImgColor-->
 <div id="handle2" th:class="${handle2}">
     <section class="row product-form">
@@ -185,44 +240,42 @@
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
+                                    <form method="get" th:action="@{/admin/product?type=''}">
                                     <label for="ProductIDList">ProductID</label>
-                                    <select class="form-control" id="ProductIDList" name=""
-                                            th:field="*{product.productID}">
-                                        <option th:each="productAll : ${productAll}" th:text="${productAll.name}"
-                                                th:value="${productAll.ProductID}"></option>
-                                    </select>
+                                        <select class="form-control" id="ProductIDList" name="productID" onchange="submitlistProduct(this)"
+                                                th:field="*{product.productID}">
+                                            <option th:each="productAll, idx : ${productAll}"
+                                                    name="listProductColor"
+                                                    th:text="${productAll.name}"
+                                                    th:placeholder="${productID}"
+                                                    th:value="${productAll.ProductID}"></option>
+                                        </select>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    <div class="card-footer text-muted">
-                                        <button class="btn createImgProduct" id="createButtonProduct"
-                                                onclick="createImgProduct()">Thêm
-                                        </button>
-                                        <button class="btn" id="updateButtonProduct" onclick="updateImgProduct()"
-                                                th:class="${updateImgProduct}">Chỉnh Sửa
-                                        </button>
-                                    </div>
+                                <div class="form-group" id="IdProduct">
+                                    <label>ProductID</label>
+                                    <input disabled  class="form-control" type="text">
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="form-group">
                                     <label> Colors</label>
-                                    <select class="form-control" id="colorList" name=""
-                                            onchange="this.size = 1; this.blur()"
-                                            th:field="*{colorHex}"
-                                            th:onfocus="'this.size='+ ${colorList.size()}">
-                                        <option class="custom-opt" th:each="color : ${colorList}"
-                                                th:style="'--data-color:'+${color.RGBColor}"
-                                                th:text="${color.NameColor}"
-                                                th:value="${color.RGBColor}"></option>
+                                    <select class="form-control" id="ListColorProduct" name="">
+
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <input aria-describedby="color Id" class="form-control" id="colorId"
-                                           name="Available" placeholder="ColorID"
-                                           style="scale: 0" th:field="*{id}" type="number">
-                                    <input aria-describedby="Img Id" class="form-control" id="imgId"
-                                           name="AV"
-                                           placeholder="Available" style="scale: 0" th:field="*{imgid}" type="number">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="card-footer text-muted">
+                                    <button class="btn createImgProduct" id="createButtonProduct"
+                                            onclick="createImgProduct()">Thêm
+                                    </button>
+                                    <button class="btn" id="updateButtonProduct" onclick="updateImgProduct()"
+                                            th:class="${updateImgProduct}">Chỉnh Sửa
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -328,32 +381,7 @@
                             <div class="indicator two" style="width: 80%"></div>
                         </div>
                     </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-head">
-                        <h2>$653,200</h2>
-                        <span class="las la-shopping-cart"></span>
-                    </div>
-                    <div class="card-progress">
-                        <small>Monthly revenue growth</small>
-                        <div class="card-indicator">
-                            <div class="indicator three" style="width: 65%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-head">
-                        <h2>47,500</h2>
-                        <span class="las la-envelope"></span>
-                    </div>
-                    <div class="card-progress">
-                        <small>New E-mails received</small>
-                        <div class="card-indicator">
-                            <div class="indicator four" style="width: 90%"></div>
-                        </div>
-                    </div>
+                    <h2 id="demo"></h2>
                 </div>
 
             </div>
@@ -365,7 +393,7 @@
                             <form method="get" th:action="@{/admin/product}">
                                 <span for="select-form">Status</span>
                                 <select id="select-form" name="type" onchange="this.form.submit()">
-                                    <option th:selected="${type == ''}" value="">Tất cả</option>
+                                    <option  th:selected="${type == ''}" value="">Tất cả</option>
                                     <option th:selected="${type == 'db'}" value="db">Đang bán</option>
                                     <option th:selected="${type == 'nb'}" value="nb">Ngưng bán</option>
                                     <option th:selected="${type == 'category'}" value="category">category</option>
@@ -387,7 +415,6 @@
                         <thead>
                         <tr>
                             <th><span class="las la-sort"></span> Product Name</th>
-                            <th><span class="las la-sort"></span> Available</th>
                             <th><span class="las la-sort"></span> Price</th>
                             <th><span class="las la-sort"></span> Image</th>
                             <th><span class="las la-sort"></span> Created Date</th>
@@ -400,7 +427,6 @@
                         <tbody id="sttProduct">
                         <tr th:each="product : ${productPage}">
                             <td>[[${product.name}]]</td>
-                            <td>[[${product.available}]]</td>
                             <td>[[${product.price}]]</td>
                             <td><img th:src="@{'/getimage/'+ ${product.img}}" width="80px"></td>
                             <td>[[${#dates.format(product.createDate, "dd-MM-yyyy")}]]</td>
@@ -527,13 +553,14 @@
                         <div
                                 th:if="${currentPage > 1 }">
                             <a th:class="${currentPage == productPage.number } ? active : pagination"
+
                                th:href="@{${url}(size=${productPage.size}, page=${currentPage - 1} )}"
                             >prev</a>
                         </div>
-                            <div
-                                    th:unless="${currentPage > 1}">
-                                <a th:class="${disabled}">prev</a>
-                            </div>
+                        <div
+                                th:unless="${currentPage > 1}">
+                            <a th:class="${disabled}">prev</a>
+                        </div>
                         <div>
                             <a th:class="${currentPage == 1 } ? active : pagination"
                                th:href="@{${url}(size=${productPage.size}, page=1 )}"
@@ -542,8 +569,9 @@
                         </div>
                         <div th:if="${ 1 < currentPage and currentPage < productPage.totalPages}">
                             <a th:class="${currentPage } ? active "
+
                                th:href="@{${url}(size=${productPage.size}, page=${currentPage} )}"
-                                th:text="${currentPage}"
+                               th:text="${currentPage}"
                             ></a>
                         </div>
 
@@ -554,18 +582,20 @@
                         <div>
                             <a th:class="${currentPage == 4 } ? active : pagination"
                                th:href="@{${url}(size=${productPage.size}, page=${productPage.totalPages} )}"
+
                                th:text="${productPage.totalPages}"
                             ></a>
                         </div>
                         <div
                                 th:if="${productPage.totalPages > currentPage}">
-                            <a th:class="${currentPage ==productPage.number} ? active : pagination"
-                               th:href="@{${url}(size=${productPage.size}, page=${currentPage+1})}"
-                            >next</a>
+                            <a onclick="handlePagination()"
+                               th:class="${currentPage ==productPage.number} ? active : pagination">
+                                <!--                               th:href="@{${url}(size=${productPage.size}, page=${currentPage+1})}"-->
+                                next</a>
                         </div>
-                            <div th:unless="${productPage.totalPages > currentPage}">
-                                <a th:class="${disabled}">next</a>
-                            </div>
+                        <div th:unless="${productPage.totalPages > currentPage}">
+                            <a th:class="${disabled}">next</a>
+                        </div>
 
                     </div>
                 </div>
@@ -580,11 +610,10 @@
                         <div>
                             <div class="record-header">
                                 <div class="add">
-                                    <form method="get" th:action="@{/admin/product}">
-                                        <span for="select-form2">Status</span>
-                                    </form>
-
                                     <button id="Addrecord2" onclick="Addrecord2()"><i
+                                            class="fa-regular fa-square-plus"></i> Thêm ảnh theo màu sản phẩm
+                                    </button>
+                                    <button id="Addrecord3" onclick="Addrecord3()"><i
                                             class="fa-regular fa-square-plus"></i> Thêm màu sản phẩm
                                     </button>
                                 </div>
@@ -600,6 +629,7 @@
                                     <th><span class="las la-sort"></span> Màu sản phẩm</th>
                                     <th><span class="las la-sort"></span> Mã màu</th>
                                     <th><span class="las la-sort"></span> Ảnh</th>
+                                    <th><span class="las la-sort"></span> Ảnh</th>
                                     <th><span class="las la-sort"></span> Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -607,6 +637,7 @@
                                 <tbody>
                                 <tr style="max-height: 20vh; height: 20vh" th:each="productImg : ${productImg}">
                                     <td>[[${productImg.productcolor.product.productID}]]</td>
+                                    <td>[[${productImg.productcolor.product.category.categoryID}]]</td>
                                     <td>[[${productImg.productcolor.product.name}]]</td>
                                     <td>[[${productImg.productcolor.color_name}]]</td>
                                     <td>[[${productImg.productcolor.colorhex}]]</td>
@@ -721,9 +752,32 @@
         handle2.classList.toggle("handle2")
 
     }
+    const Addrecord3 = () => {
+        document.querySelector("#createButtonProductColor").setAttribute("style", "display : block");
+        handle4.classList.toggle("handle4")
 
+    }
+    const handlePagination = () => {
+        let listProduct = document.getElementsByName("listProductByCategory")
+        let listProductChecked = []
+        listProduct.forEach(item => item.checked && listProductChecked.push(item.value))
+        localStorage.setItem('list', listProductChecked);
+        window.location.href = "http://localhost:8080/admin/product?type=category&size=5&page=2"
+        // th:href="@{${url}(size=${productPage.size}, page=1 )}"
+    }
+    const listProductByCategory = document.querySelector("#listProductByCategory")
+    window.addEventListener("load", () => {
+        let listProduct = document.getElementsByName("listProductByCategory")
+        let listProductChecked = localStorage.getItem("list").split(",")
+        listProduct.forEach(item => {
+            listProductChecked.forEach(itemcheck => {
+                if (item.value == itemcheck) {
+                    item.checked = true
+                }
+            })
+        })
+    })
     //handle toogle form add product
-
     const showFormFilter = () => {
         handle3.classList.add("handle3")
     }
@@ -732,14 +786,6 @@
     }
     // handle call Form add product
     const createProduct = () => {
-        // document.querySelector("#avtimg") == null ||
-        // document.querySelector("#ProductID") == null ||
-        // document.querySelector("#productName") == null ||
-        // document.querySelector("#Available") ==
-        // document.querySelector("#categoryid")
-        // document.querySelector("#createdDate")
-        // document.querySelector("#viewcount")
-        // document.querySelector("#description")
         $('#submit').prop('action', '/admin/product/create');
         $("#submit").submit();
     }
@@ -748,6 +794,18 @@
         $('#submitImgAndColor').prop('action', '/admin/product/createImgProduct');
         $('#submitImgAndColor').submit();
 
+    }
+    const createColorProduct = () => {
+        let avaible =  document.querySelector("#avaible").value
+        if (avaible != null && parseInt(avaible) != NaN && avaible > 0){
+            $('#submitColor').prop('action', '/admin/product/createColorProduct');
+            $('#submitColor').submit();
+        } else {
+            document.querySelector(".toast-body").innerHTML="Số lượng bạn nhập không hợp lệ"
+            const status = document.querySelector("#status")
+            status.classList.add("done_delete")
+            setTimeout( () => status.classList.remove("done_delete"), 4000)
+        }
     }
 
     const updateImgProduct = () => {
@@ -760,7 +818,7 @@
         $("#submit").submit();
     }
     const productCate = () => {
-        $('#listProductByCategory').prop('action', '/admin/product?type=category');
+        $('#listProductByCategory').prop('action', '/admin/product?type=category&size=5&page=1');
         $("#listProductByCategory").submit();
     }
     //edit productImg form
@@ -771,11 +829,77 @@
         location.href.includes("size2=") && productImgDetail()
         location.href.includes("/product") && document.querySelector("#productIcon").setAttribute("style", "color:#fff; scale:1.1")
         location.href === "http://localhost:8080/admin" && document.querySelector("#admin").setAttribute("style", "color:#fff; scale:1.1")
+        let list = document.getElementsByName("listProductColor")
+       let prevProductID = localStorage.getItem("currentProductID")
+        list.forEach( item => {
+            if (item.getAttribute("placeholder") == item.getAttribute("value")) {
+                item.setAttribute("selected", "selected")
+                localStorage.setItem("currentProductID", item.getAttribute("value"))
+            }
+        })
+        let currentProductID = localStorage.getItem("currentProductID")
+        if (prevProductID != currentProductID){
+            productImgDetail()
+            Addrecord2()
+        }
+        document.querySelector("#ProductIDList1").value = "Ao-Balo";
+        let idprd = document.querySelector("#ProductIDList").value
+        let list1 = JSON.parse(localStorage.getItem("listProductColor"))
+        let list2 =[]
+        let comboboxColor = document.querySelector("#ListColorProduct")
+
+        list1.forEach( item => item["product"]["productID"] == idprd && list2.push(item) )
+        list2.forEach(item => {
+            let node = document.createElement("option")
+            node.setAttribute("value", item["colorID"])
+            node.setAttribute("id", item["colorID"])
+            node.innerHTML = item["color_name"]
+            comboboxColor.appendChild(node)
+        })
+        document.querySelector("#IdProduct").children[1].setAttribute("value", idprd)
     })
     //handle delete message after 5s
-    const status = document.querySelector("#status")
     $(".done_delete").length == 1 && setTimeout(() => {
+    const status = document.querySelector("#status")
         status.classList.remove("done_delete")
     }, 5000)
+    //handle delete message
+
+    function submitlistProduct(id){
+        let idprd = document.querySelector("#ProductIDList").value
+        let list = JSON.parse(localStorage.getItem("listProductColor"))
+        let list2 =[]
+        list.forEach( item => item["product"]["productID"] == idprd && list2.push(item) )
+        let comboboxColor = document.querySelector("#ListColorProduct")
+        let length = comboboxColor.children.length
+            for (i = length -1; i >= 0  ; i-- ){
+                comboboxColor.removeChild(comboboxColor.children[i])
+            }
+
+        list2.forEach(item => {
+           let node = document.createElement("option")
+           node.setAttribute("value", item["colorID"] )
+           node.setAttribute("id", item["colorID"])
+           node.innerHTML = item["color_name"]
+           comboboxColor.appendChild(node)
+       })
+        document.querySelector("#IdProduct").children[1].setAttribute("value", idprd)
+    }
+    const getProductID = () => {
+        //lấy product id cho table product color
+        let currentProductId = document.querySelector("#ProductIDList1")
+        let inputProductID = document.querySelector("#idPrd")
+        inputProductID.setAttribute("value", currentProductId.value)
+        document.querySelector(".prdIdInput").setAttribute("style", "margin-top: 54px; opacity: 1")
+    }
+
+   const ListProduct = async () => {
+       const response = await fetch("/admin/product/list");
+       const data = await response.json();
+       localStorage.setItem("listProductColor", JSON.stringify(data))
+   }
+  ListProduct()
+
+
 </script>
 </html>

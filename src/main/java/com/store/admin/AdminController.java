@@ -36,11 +36,6 @@ public class AdminController {
 //	public String adminProduct() {
 //		return "/admin/product/product";
 //	}
-
-	@RequestMapping("/admin/order")
-	public String adminOrder() {
-		return "/admin/order/order";
-	}
 	@RequestMapping("/admin/status")
 	public String adminStatus() {
 		return "/admin/status/status";

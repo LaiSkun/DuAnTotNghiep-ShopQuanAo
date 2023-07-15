@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ProductColorDAO extends JpaRepository<Product_Colors, Long> {
     Optional<Product_Colors> findByProductAndColorhex(Products id, String colorHex);
     void deleteByColorID(long id);
+    List<Product_Colors> findByProduct_ProductID(String productID);
 }

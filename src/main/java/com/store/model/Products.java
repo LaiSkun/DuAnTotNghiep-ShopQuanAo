@@ -2,6 +2,8 @@ package com.store.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,7 +13,8 @@ import java.util.List;
 
 
 @SuppressWarnings("serial")
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "products")
 public class Products {
@@ -23,7 +26,6 @@ public class Products {
     @Column(name = "Createdate")
     @DateTimeFormat(pattern = "dd-mm-yyyy")
     Date createDate ;
-    int available;
     boolean deprecated;
     String description;
     @JsonIgnore
@@ -34,13 +36,12 @@ public class Products {
     @JsonIgnore
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     List<Order_Details> orderDetails;
-    public Products(String productID, String name, String img, Double price, Date createDate, int available, boolean deprecated, String description, Categories category, List<Order_Details> orderDetails) {
+    public Products(String productID, String name, String img, Double price, Date createDate, boolean deprecated, String description, Categories category, List<Order_Details> orderDetails) {
         this.productID = productID;
         this.name = name;
         this.img = img;
         this.price = price;
         this.createDate = createDate;
-        this.available = available;
         this.deprecated = deprecated;
         this.description = description;
         this.category = category;

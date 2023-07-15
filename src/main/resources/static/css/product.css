@@ -4,7 +4,14 @@
     scale: 1 !important;
     transition: .8s ease-in-out;
 }
-
+.handle4{
+    scale: 1 !important;
+    transition: .8s ease-in-out;
+}
+#handle4{
+    scale: 0;
+    transition: .8s ease-in-out;
+}
 #handle2 {
     scale: 0;
     transition: .8s ease-in-out;
@@ -42,6 +49,12 @@
 }
 #updateForm{
     display: none;
+}
+#handle4 > .row form .card {
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    border: 2px solid #191970;
+    border-radius: 15px;
 }
 #handle > .row form .card {
     background-color: transparent;
@@ -88,11 +101,12 @@ td {
     height: 612px;
 }
 .table1{
-    transform: translateY(-64vw) ;
+    /*transform: translateY(-950px) ;*/
     transition: .5s ease;
 }
 .table2{
-    transform: translateY(176vw) ;
+    /*transform: translateY(176vw) ;*/
+    display: none;
     transition: .5s ease;
 }
 .analytics .card {
@@ -249,4 +263,14 @@ label{
     padding: 9px 15px;
     color: #191970;
     border-radius: 4px;
+}
+#updateButtonProductColor{
+    display: none;
+}
+#Addrecord3{
+    margin-left: 10px;
+}
+#colorList {
+    position: absolute;
+    max-width: 237px;
 }
