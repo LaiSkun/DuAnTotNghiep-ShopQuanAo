@@ -163,6 +163,7 @@
 								<tr>
 									<th><span class="las la-sort"></span> OrderID</th>
 									<th><span class="las la-sort"></span> Status</th>
+									<th><span class="las la-sort"></span> Description</th>
 									<th><span class="las la-sort"></span> Reason</th>
 									<th><span class="las la-sort"></span> Notes</th>
 									<th><span class="las la-sort"></span> Date Complete</th>
@@ -178,9 +179,10 @@
 								<tr th:each="p: ${statuss}">
 									<td>[[${p.statusID}]]</td>
 									<td>[[${p.statusname}]]</td>
+									<td>[[${p.description}]]</td>
 									<td>[[${p.reason}]]</td>
 									<td>[[${p.notes}]]</td>
-									<td th:text="${#dates.format(p.dateComplete, 'dd/MM/yyyy')}"></td>
+									<td th:text="${#dates.format(p.createDate, 'dd/MM/yyyy')}"></td>
 									<td
 										th:text="${#numbers.formatDecimal(p.transportFee, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
 
@@ -191,6 +193,27 @@
 								</tr>
 							</tbody>
 						</table>
+							
+
+							<!-- Hiển thị các liên kết chuyển đến các trang khác nhau -->
+							<ul class="pagination">
+								<li class="page-item"
+									th:class="${currentPage == 1 ? 'disabled' : ''}"><a
+									class="page-link" th:href="@{/admin/status(page=0)}">First</a></li>
+								<li class="page-item"
+									th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+									<a class="page-link"
+									th:href="@{/admin/status(page=${pageNumber - 1})}"
+									th:text="${pageNumber}"></a>
+								</li>
+								<li class="page-item"
+									th:class="${currentPage == totalPages ? 'disabled' : ''}">
+									<a class="page-link"
+									th:href="@{/admin/status(page=${totalPages - 1})}">Last</a>
+								</li>
+							</ul>
+
+						
 					</div>
 
 				</div>

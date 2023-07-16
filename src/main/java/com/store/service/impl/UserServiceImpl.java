@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.store.dao.UsersDAO;
@@ -16,12 +17,6 @@ import com.store.service.UserService;
 public class UserServiceImpl implements UserService{
 	@Autowired
 	UsersDAO dao;
-
-	@Override
-	public List<Users> findAll() {
-		// TODO Auto-generated method stub
-		return dao.findAll();
-	}
 
 	@Override
 	public Users findById(String id) {
@@ -76,7 +71,12 @@ public class UserServiceImpl implements UserService{
 			return null;
 		}
 	}
-	
-	
-	
+
+	@Override
+	public List<Users> findAll() {
+		// TODO Auto-generated method stub
+		return dao.findAll();
+	}
+
+
 }

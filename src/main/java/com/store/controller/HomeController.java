@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +56,6 @@ public class HomeController {
 		return "/layout/home";
 	}
 
-
 	@RequestMapping("/login")
 	public String doGetLogin(Model model) {
 		model.addAttribute("userRequest", new Users());
@@ -82,4 +82,5 @@ public class HomeController {
 	public String doGetContact() {
 		return "layout/contact";
 	}
+	
 }

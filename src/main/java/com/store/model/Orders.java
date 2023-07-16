@@ -30,13 +30,12 @@ import lombok.Data;
 public class Orders {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Integer orderID;
+	Long orderID;
 	String address;
 	String phone;
 	String email;
 	Double price;
 	@Temporal(TemporalType.DATE)
-<<<<<<< HEAD
 	@Column(name = "Createdate")
 	Date createDate = new Date();
 	
@@ -44,13 +43,7 @@ public class Orders {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userID")
 	private Users user;
-=======
-	@Column(name = "Date")
-	Date date = new Date();
-	@ManyToOne
-	@JoinColumn(name = "userId")
-	Users user;
->>>>>>> 0b447236b566bd92ac6f04a17d9603daf007ae45
+
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "order")

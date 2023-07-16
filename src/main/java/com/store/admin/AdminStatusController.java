@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.store.model.Authorities;
 import com.store.model.Roles;
@@ -28,11 +29,31 @@ public class AdminStatusController {
 	StatusService statusService;
 
 	@GetMapping("/admin/status")
-	public String adminStatus(Model model) {
-		List<Status> list = statusService.findAll();
-		model.addAttribute("statuss", list);
+	public String adminStatus(Model model, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size) {
+		
+		
+		List<Status> status = statusService.findAll();
+
+		int totalItems = status.size();
+		int totalPages = (int) Math.ceil(totalItems / (double) size);
+		int startItem = page * size + 1;
+		int endItem = Math.min((page + 1) * size, totalItems);
+
+		List<Status> statusList = status.subList(page * size, endItem);
+
+		model.addAttribute("statuss", statusList);
 		model.addAttribute("status", new Status());
+		model.addAttribute("currentPage", page + 1);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("startItem", startItem);
+		model.addAttribute("endItem", endItem);
+		
+		
 		return "/admin/status/status";
+		
+		
+		
 	}
 	@GetMapping("/admin/status/new")
 	public String getForm(Model model) {
@@ -49,15 +70,29 @@ public class AdminStatusController {
 	}
 	
 	@RequestMapping("/admin/status/edit/{id}")
-	public String edit(@PathVariable("id") Integer id, Model model) {
+	public String edit(@PathVariable("id") long id, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size, Model model) {
 		Status status = statusService.findById(id);
 		model.addAttribute("status", status);
 		
-		
-		
-		
 		List<Status> list = statusService.findAll();
 		model.addAttribute("statuss", list);
+		
+		
+	    
+	    int totalItems = list.size();
+	    int totalPages = (int) Math.ceil(totalItems / (double) size);
+	    int startItem = page * size + 1;
+	    int endItem = Math.min((page + 1) * size, totalItems);
+	    
+	    List<Status> statusList = list.subList(page * size, endItem);
+	    
+	    model.addAttribute("statuss", statusList);
+	    model.addAttribute("currentPage", page + 1);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("startItem", startItem);
+	    model.addAttribute("endItem", endItem);
+	    
 		return "/admin/status/status";
 	}
 }

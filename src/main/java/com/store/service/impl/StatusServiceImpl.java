@@ -1,8 +1,10 @@
 package com.store.service.impl;
 
-<<<<<<< HEAD
-import java.util.List;
 
+
+
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class StatusServiceImpl implements StatusService {
 	}
 
 	@Override
-	public Status findById(Integer id) {
+	public Status findById(Long id) {
 		// TODO Auto-generated method stub
 		return dao.findByStatusID(id);
 	}
@@ -33,22 +35,11 @@ public class StatusServiceImpl implements StatusService {
 		return dao.save(status);	
 	}
 
-=======
-import com.store.dao.StatusDAO;
-import com.store.model.Status;
-import com.store.service.StatusService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+	@Override
+	public Status insert(Status status) {
+		// TODO Auto-generated method stub
+		return dao.saveAndFlush(status);
+	}
 
-@Service
-public class StatusServiceImpl implements StatusService {
-    @Autowired
-    private StatusDAO statusDAO;
-
-
-    @Override
-    public Status insert(Status status) {
-        return statusDAO.saveAndFlush(status);
-    }
->>>>>>> 0b447236b566bd92ac6f04a17d9603daf007ae45
+	
 }

@@ -34,6 +34,10 @@ public class CartController {
     public String dogetIndex(Model model){
         return "layout/cart";
     }
+    @GetMapping("/order")
+    public String doOrder(Model model){
+        return "layout/orderCheck";
+    }
     @GetMapping("/update")
     public String doGetUpdate(
             @RequestParam("productID") String productID,

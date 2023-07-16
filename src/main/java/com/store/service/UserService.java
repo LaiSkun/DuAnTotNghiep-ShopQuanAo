@@ -2,11 +2,13 @@ package com.store.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import com.store.model.Users;
 
 public interface UserService {
-	public List<Users> findAll();
-
+	
 	public Users findById(String id);
 
 	public Users create(Users product);
@@ -23,4 +25,7 @@ public interface UserService {
 
 
 	Users doLogin(String userID, String checkpassword);
+
+	public List<Users> findAll();
+
 }

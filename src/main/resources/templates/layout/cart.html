@@ -48,7 +48,7 @@
 
             <!--                    </th>-->
             <th>Image</th>
-            <th>Dtails</th>
+            <th>Details</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th>
@@ -143,16 +143,16 @@
               </form>
             </div>
           </div>
-          <div class="col-md-4 col-sm-6">
+          <div class="col-md-12 col-sm-6">
             <div class="shippingbox">
               <div class="grandtotal">
                 <h5>GRAND TOTAL</h5>
                 <span id="CartToTalPrice"
-                      th:text="${#numbers.formatCurrency(session.currentCart.totalPrice)}">
+                      th:text="${#numbers.formatDecimal(session.currentCart.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'">
 									</span>
               </div>
-              <button th:attr="onclick='checkout()'"> Process To Checkout
-              </button >
+            <a th:href="@{/cart/order}" class="active"> <h1>Payment </h1> 
+					</a>
             </div>
           </div>
         </div>
@@ -270,7 +270,7 @@
       $('#row').replaceWith(data);
     });
   }
-  function checkout() {
+  /* function checkout() {
     var address = $('#address').val();
     var phone = $('#phone_number').val();
     var email = $('#email').val();
@@ -284,7 +284,7 @@
         401: handle401
       }
     });
-  }
+  } */
   function handle200() {
     alert('thanh cong');
     window.location.href = '/home';

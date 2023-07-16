@@ -80,15 +80,13 @@
                   <label th:for="${colorItem.colorID}"
                          th:data-color-hex="${colorItem.colorhex}"
                          th:style="'background: ' + ${colorItem.colorhex}"></label>
-                  <p>
-                    SL: <span class=" light-red" th:text="${colorItem.available}"> </span>
-                  </p>
+                 
                 </div>
               </div>
               <hr class="border">
               <div class="price">
                 Price : <span class="new_price"
-                              th:text="${#numbers.formatCurrency(product.price)}"> </span>
+                              th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"> </span>
                 <!--                    <span class="old_price">-->
                 <!--                      450.00-->
                 <!--                      <sup>-->

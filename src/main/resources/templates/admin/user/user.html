@@ -27,14 +27,14 @@
 		<section class="row"
 			style="position: absolute; left: 34vw; top: 10vh;">
 			<div class="col-12">
-			<div th:text="${message}"></div>
+				<div th:text="${message}"></div>
 				<form th:action="@{/admin/user/new}" method="post"
 					th:object="${user}">
 					<div class="card">
 						<i id="exit" class="fa-solid fa-x" style="margin-left: 37vw;"></i>
 
 						<div class="card-body">
-						
+
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
@@ -54,7 +54,8 @@
 									<div class="form-group">
 										<label for="Phone">Phone</label> <input type="text"
 											class="form-control" name="Phone" id="Phone"
-											placeholder="Phone" th:field="*{phone}"><i th:errors="*{phone}"></i>
+											placeholder="Phone" th:field="*{phone}"><i
+											th:errors="*{phone}"></i>
 									</div>
 
 								</div>
@@ -68,7 +69,8 @@
 									<div class="form-group">
 										<label for="">password</label> <input type="password"
 											class="form-control" name="password" id="password"
-											placeholder="password" th:field="*{password}"><i th:errors="*{password}"></i>
+											placeholder="password" th:field="*{password}"><i
+											th:errors="*{password}"></i>
 									</div>
 									<div class="form-group">
 										<label for="confirmpass">confirm pass</label> <input
@@ -136,13 +138,15 @@
 				<div class="records table-responsive">
 					<div class="record-header">
 						<div class="add">
-							<span>Thêm User</span> 
+							<span>Thêm User</span>
 							<button id="Addrecord">Add User</button>
 						</div>
 
 						<div class="browse">
 							<form th:action="@{/admin/search}" method="get">
-								<input style="width: 200px" type="search" placeholder="Search by username" class="record-search" name="keyword">
+								<input style="width: 200px" type="search"
+									placeholder="Search by username" class="record-search"
+									name="keyword">
 								<button type="submit">Search</button>
 							</form>
 
@@ -181,6 +185,31 @@
 								</tr>
 							</tbody>
 						</table>
+						
+							<!-- Hiển thị số trang -->
+
+
+							<ul class="pagination">
+								<li class="page-item"
+									th:class="${currentPage == 1 ? 'disabled' : ''}"><a
+									class="page-link" th:href="@{/admin/user(page=0)}">First</a></li>
+								<li class="page-item"
+									th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+									<a class="page-link"
+									th:href="@{/admin/user(page=${pageNumber - 1})}"
+									th:text="${pageNumber}"></a>
+								</li>
+								<li class="page-item"
+									th:class="${currentPage == totalPages ? 'disabled' : ''}">
+									<a class="page-link"
+									th:href="@{/admin/user(page=${totalPages - 1})}">Last</a>
+								</li>
+							</ul>
+
+
+
+
+						
 					</div>
 
 				</div>
@@ -202,4 +231,5 @@
             handle.classList.remove("handle")
         })
     </script>
+
 </html>

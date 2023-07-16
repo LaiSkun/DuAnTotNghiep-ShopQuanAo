@@ -3,7 +3,7 @@ package com.store.model;
 import java.util.Date;
 import java.util.List;
 
-<<<<<<< HEAD
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,9 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-=======
+
 import javax.persistence.*;
->>>>>>> 0b447236b566bd92ac6f04a17d9603daf007ae45
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,25 +29,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity 
 @Table(name = "status")
 public class Status {
-<<<<<<< HEAD
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer statusID;
-	String statusname;
-	String reason;
-	String notes;
-	Date dateComplete = new Date();
-	Double transportFee;
-	Double feeCollected;
-	
-	
-	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY)
-=======
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long statusID;
+	long statusID;
 	String statusname;
 	String reason;
 	String description;
@@ -58,7 +44,6 @@ public class Status {
 	Double transportFee;
 	Double feeCollected;
 	@ManyToOne
->>>>>>> 0b447236b566bd92ac6f04a17d9603daf007ae45
 	@JoinColumn(name = "orderID")
 	private Orders orders;
 }
