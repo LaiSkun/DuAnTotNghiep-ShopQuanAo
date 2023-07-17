@@ -4,6 +4,7 @@ import com.store.model.Categories;
 import com.store.model.Product_Colors;
 import com.store.model.Products;
 import com.store.service.CatelogyService;
+import com.store.service.ProductColorsService;
 import com.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,8 @@ public class ProductUserController {
     private ProductService productService;
     @Autowired
     private CatelogyService catelogyService;
+    @Autowired
+    private ProductColorsService productColorsService;
 
     private static final int MAX_SIZE = 6;
     private static final int MAX_SIZEFull = 100;
@@ -67,13 +70,14 @@ public class ProductUserController {
     public String productID(@PathVariable("productID") String productID,
                             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                             Model model) {
-        Products product = productService.findByProductID(productID);
-        if (product == null) {
+        List<Product_Colors> product_colors = productColorsService.findbyProductID(productID);
+        Products product = productService.findById(productID);
+        if (product_colors == null) {
             return "redirect:/home";
         } else {
-            Product_Colors color = product.getColors().get(0);
-            model.addAttribute("colors", color);
+
             model.addAttribute("product", product);
+            model.addAttribute("product_color", product_colors);
             model.addAttribute("productID", productID);
         }
         List<Products> products = new ArrayList<>();

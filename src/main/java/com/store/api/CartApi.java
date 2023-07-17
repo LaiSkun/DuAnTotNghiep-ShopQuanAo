@@ -47,22 +47,17 @@ public class CartApi {
 										   @RequestParam("email") String email,
 										   HttpSession session) {
 		Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
-		if (!ObjectUtils.isEmpty(currentUser)) {
 			CartDto currentCart = SessionUtil.getCurrenCart(session);
 			try {
-				cartService.insert(currentCart, currentUser, address, phone, email		);
+				cartService.insert(currentCart, currentUser, address, phone, email);
 				session.setAttribute(SessionConstant.CURRENT_CART, new CartDto());
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (Exception ex) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
-		} else {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
 	}
 
-
-	}
 
 
 	

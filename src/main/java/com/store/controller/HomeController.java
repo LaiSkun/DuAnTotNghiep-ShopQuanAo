@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -63,12 +61,13 @@ public class HomeController {
 	}
 
 	@PostMapping("/login")
-	public String doPostLogin(@ModelAttribute("userRequest") Users userRequest, HttpSession session) {
+	public String doPostLogin(@ModelAttribute("userRequest") Users userRequest, HttpSession session, RedirectAttributes ra) {
 		Users userResponse = userService.doLogin(userRequest.getUserID(), userRequest.getPassword());
 		if (userResponse != null) {
 			session.setAttribute(SessionConstant.CURRENT_USER, userResponse);
 			return "redirect:/home";
 		} else {
+			ra.addFlashAttribute("message", "Đăng nhập thất bại !");
 			return "redirect:/login";
 		}
 	}
@@ -81,5 +80,23 @@ public class HomeController {
 	@RequestMapping("/contact")
 	public String doGetContact() {
 		return "layout/contact";
+	}
+
+	@GetMapping("/register")
+	public String doGetRegister(Model model) {
+		model.addAttribute("userRequest", new Users());
+		return "layout/register";
+	}
+
+	@PostMapping("/register")
+	public String goPostRegister(@ModelAttribute("userRequest") Users userRequest, HttpSession session, RedirectAttributes ra){
+		Users userResponse = userService.save(userRequest, userRequest.getUserID());
+		if(userResponse != null){
+			session.setAttribute("currentUser", userResponse);
+			return"redirect:/home";
+		}else {
+			ra.addFlashAttribute("message", "Username đã tồn tại !");
+			return "redirect:/register";
+		}
 	}
 }
