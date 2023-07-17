@@ -1,0 +1,236 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link th:href="@{css/style.css}" rel="stylesheet" type="text/css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body class="bg-light">
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your cart</span> <span
+                    class="badge badge-secondary badge-pill" th:text="${session.currentCart.totalQuantity}"> </span>
+            </h4>
+            <ul class="list-group mb-3">
+                <li th:data-product-id="${detail.value.productID}"
+                    th:each="detail,index : ${session.currentCart.details}"
+                    class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div class="row">
+                        <td><img id="product_thumbnail " class='items' style="height:80px ; width: 60px"
+                                 th:src="@{'images/product/'+ ${detail.value.categoryID} + '/' + ${detail.value.img}}" alt="" >
+                        </td>
+                        <p class=" my-0 " id="nameProduct" th:text="${detail.value.nameProduct}" style ='display : none'></p>
+                        <p class=" my-0 " id="valNameProduct"> </p>
+
+                    </div>
+                    <span class="text-muted"
+                          th:text="${#numbers.formatDecimal(detail.value.price, 0, 'COMMA', 0, 'POINT')} "></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between bg-light">
+                    <div class="text-success">
+                        <h6 class="my-0">Promo code</h6>
+                        <small>EXAMPLECODE</small>
+                    </div>
+                    <span class="text-success"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between"><span>Total
+							(USD)</span> <strong
+                        th:text="${#numbers.formatDecimal(session.currentCart.totalPrice, 0, 'COMMA', 0, 'POINT')} "
+                ></strong>
+                </li>
+            </ul>
+
+            <form class="card p-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Promo code">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary">Redeem</button>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <div class="row">
+                    <button class="col-4 mr-5 btn btn-danger"
+                            style="font-size: 12px; height: 40px;">Return to cart
+                    </button>
+                    <button class="col  "
+                            style="font-size: 18px;" type="submit"
+                            th:attr="onclick='checkout()'">Complete Order
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Billing address</h4>
+            <form class="row needs-validation" novalidate>
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="username">Username</label>
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" id="username" required
+                                   th:value="${session.currentUser.username}">
+                            <div class="invalid-feedback" style="width: 100%;">Your
+                                username is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email">Email </span></label> <input type="email"
+                                                                        class="form-control" name="" id="email"
+                                                                        placeholder="you@example.com">
+                        <div class="invalid-feedback">Please enter a valid email
+                            address for shipping updates.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address">Address</label> <input class="form-control"
+                                                                    type="text" name="" id="address"
+                                                                    placeholder="1234 Main St"
+                                                                    required>
+                        <div class="invalid-feedback">Please enter your shipping
+                            address.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address">Phone <span class="text-muted">(Optional)</span></label>
+                        <input class="form-control" type="text" name="" id="phone_number"
+                               placeholder="Phone number">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="zip">Postal/Zip Code</label> <input type="text"
+                                                                        class="form-control" id="zip" placeholder=""
+                                                                        required>
+                        <div class="invalid-feedback">Zip code required.</div>
+                    </div>
+
+                    <hr class="mb-4">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input"
+                               id="same-address"> <label class="custom-control-label"
+                                                         for="same-address">Shipping address is the same as my
+                        billing address</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input"
+                               id="save-info"> <label class="custom-control-label"
+                                                      for="save-info">Save this information for next time</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <h4 class="mb-3">Payment method</h4>
+                    <div class="d-block my-3">
+                        <div class="custom-control custom-radio">
+                            <input id="credit" name="paymentMethod" type="radio"
+                                   class="custom-control-input" checked required> <label
+                                class="custom-control-label" for="credit">Thanh toán
+                            qua Momo</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="debit" name="paymentMethod" type="radio"
+                                   class="custom-control-input" required> <label
+                                class="custom-control-label" for="debit">Thanh toán
+                            VNPAY</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="paypal" name="paymentMethod" type="radio"
+                                   class="custom-control-input" required> <label
+                                class="custom-control-label" for="paypal">Thanh toán
+                            COD</label>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2019 Company Name</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script>
+    window.jQuery
+    || document
+        .write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')
+</script>
+<script src="/docs/4.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
+        crossorigin="anonymous"></script>
+<script th:src="form-validation.js"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function checkout() {
+        var address = $('#address').val();
+        var phone = $('#phone_number').val();
+        var email = $('#email').val();
+        var endpoint = '/api/cart/checkout?address=' + address + '&phone=' + phone + '&email=' + email ;
+        $.ajax({
+            url: endpoint,
+            type: 'GET',
+            statusCode: {
+                200: handle200,
+                400: handle400
+            }
+        });
+    }
+    function handle200() {
+        alert('Đặt hàng thành công');
+        window.location.href = '/home';
+    }
+    function handle400() {
+        alert('Vui lòng nhập đầy đủ thông tin');
+    }
+    window.addEventListener("load", () => {
+       let list = document.getElementsByClassName("items")
+        for (index = 0; index < list.length; index++){
+            let url =  "http://localhost:8080/" + list[index].getAttribute("src")
+            list[index].setAttribute("src", url)
+            console.log(list[index])
+        }
+    })
+    window.addEventListener("load", () => {
+        let name = document.querySelector("#nameProduct").innerHTML
+        document.querySelector("#valNameProduct").innerHTML = name.replace( name.slice(name.indexOf("(")), "")
+    })
+</script>
+
+</body>
+</html>

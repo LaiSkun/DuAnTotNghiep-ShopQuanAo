@@ -65,9 +65,9 @@
             </td>
             <td>
               <div class="shop-details">
-                <div class="productname" th:text="${detail.value.name}">
-
+                <div class="productname" id="nameProduct" th:text="${detail.value.nameProduct} " style ='display : none'>
                 </div>
+                <div class="productname" id="valNameProduct"></div>
                 <p>
                   <img alt="" src="images/star.png"> <a
                         class="review_num" href="#"> 02 Review(s) </a>
@@ -115,46 +115,17 @@
         <div class="row">
           <div class="col-md-4 col-sm-6">
             <div class="shippingbox">
-              <h5>Address</h5>
-              <form>
-                <input
-                        type="text" name="" id="address">
-                <div class="clearfix"></div>
-              </form>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="shippingbox">
-              <h5>Email</h5>
-              <form>
-                <input
-                        type="text" name="" id="email">
-                <div class="clearfix"></div>
-              </form>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="shippingbox">
-              <h5>Phone</h5>
-              <form>
-                <input
-                        type="text" name="" id="phone_number">
-                <div class="clearfix"></div>
-              </form>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="shippingbox">
               <div class="grandtotal">
                 <h5>GRAND TOTAL</h5>
                 <span id="CartToTalPrice"
                       th:text="${#numbers.formatCurrency(session.currentCart.totalPrice)}">
 									</span>
               </div>
-              <button th:attr="onclick='checkout()'"> Process To Checkout
-              </button >
+              <a th:href="@{/cart/checkout}" class="log"><h4>Continue Checkout</h4></a>
             </div>
           </div>
+          <br><br><br><br><br><br>
+          <h5 class="text-center" style="color: red; margin-top: -15px" th:text="${message}"></h5>
         </div>
       </div>
     </div>
@@ -270,32 +241,16 @@
       $('#row').replaceWith(data);
     });
   }
-  function checkout() {
-    var address = $('#address').val();
-    var phone = $('#phone_number').val();
-    var email = $('#email').val();
-    var endpoint = '/api/cart/checkout?address=' + address + '&phone=' + phone + '&email=' + email ;
-    $.ajax({
-      url: endpoint,
-      type: 'GET',
-      statusCode: {
-        200: handle200,
-        400: handle400,
-        401: handle401
-      }
-    });
-  }
-  function handle200() {
-    alert('thanh cong');
-    window.location.href = '/home';
-  }
-  function handle400() {
-    alert('that bai , thu lai');
-  }
-  function handle401() {
-    alert('vui long login truoc khi thanh toan');
-    window.location.href = '/login';
-  }
+  window.addEventListener("load", () => {
+   let cartItems = document.querySelector("#cartItems")
+    console.log(cartItems)
+    let items = cartItems.children
+    for (index = 0; index <  items.length; index++){
+     let valueName = items[index].children[1].children[0].children[0].innerHTML
+      items[index].children[1].children[0].children[1].innerHTML = valueName.replace( valueName.slice(valueName.indexOf("(")), "")
+    }
+  })
+
 </script>
 </body>
 </html>

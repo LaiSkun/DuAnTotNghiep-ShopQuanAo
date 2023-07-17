@@ -3,6 +3,10 @@ package com.store.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.store.model.Authorities;
+import com.store.model.Roles;
+import com.store.service.AuthoritiesService;
+import com.store.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,10 @@ import com.store.service.UserService;
 public class UserServiceImpl implements UserService{
 	@Autowired
 	UsersDAO dao;
+	@Autowired
+	AuthoritiesService authoritiesService;
+	@Autowired
+	RoleService roleService;
 
 	@Override
 	public List<Users> findAll() {
@@ -76,7 +84,25 @@ public class UserServiceImpl implements UserService{
 			return null;
 		}
 	}
-	
-	
-	
+
+	@Override
+	public Users save(Users user, String UserID) {
+		Users users = dao.findByUserID(UserID);
+
+		if (null == users){
+			user.setIsDeleted(Boolean.TRUE);
+			Users user1 =dao.saveAndFlush(user);
+			Roles role = roleService.findByID();
+			Authorities authorities = new Authorities();
+			authorities.setRole(role);
+			authorities.setUser(user1);
+			Authorities authorities1 = authoritiesService.create(authorities);
+
+			return user;
+		}else {
+			return null;
+		}
+	}
+
+
 }
