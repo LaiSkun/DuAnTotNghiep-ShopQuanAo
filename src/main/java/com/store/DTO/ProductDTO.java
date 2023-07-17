@@ -18,10 +18,11 @@ public class ProductDTO {
     String name;
     MultipartFile img;
     Double price;
-    @Column(name = "Createdate")
+    @Column(name = "Date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date createDate = new Date();
     boolean deprecated;
+    long colorId;
     String description;
     @JsonIgnore
     @ToString.Exclude

@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.awt.print.Pageable;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;

@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 public class ProductColorDTO {
@@ -12,9 +15,7 @@ public class ProductColorDTO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long colorID;
     String colorhex;
-    int avaible;
+    int available;
     String color_name;
-    @ManyToOne
-    @JoinColumn(name = "productID")
-    Products product;
+    String productID;
 }

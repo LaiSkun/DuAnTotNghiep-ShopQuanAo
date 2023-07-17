@@ -88,6 +88,7 @@ td {
     right: 20px;
     position: absolute;
     margin-top: 6vh;
+    z-index: 1;
     display: initial !important;
 }
 #status{
@@ -273,4 +274,119 @@ label{
 #colorList {
     position: absolute;
     max-width: 237px;
+}
+
+.default{
+    overflow: scroll;
+    display: none;
+    transition: .5s ease-in-out;
+}
+.default::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+}
+.showOrderDetailTable{
+    margin-top: 40px;
+}
+.showOrderDetailTable tbody td:last-child{
+    padding-right: 0 !important;
+}
+.activeTable thead th{
+    width: auto !important;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+.activeTable::after{
+    content: "";
+    position: absolute;
+    top: -23px;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #191970 transparent;
+}
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+#pagination{
+    padding-top: 80px;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+.table thead th {
+    width: 167px !important;
+}
+.table-product thead th {
+    width: 167px !important;
+}
+.table-product tbody td {
+    width: auto !important;
+}
+tbody tr:hover{
+    cursor: pointer;
+    background-color: #f1f4f9;
+}
+table{
+    width: 100%;
+}
+.activeTable{
+    position: absolute;
+    height: 50vh;
+    width: 55vw;
+    text-align: center;
+    display: inline;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    scale: 1;
+    transition: .5s ease;
+    border: 2px solid #191970;
+    left: 18%;
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+    margin-top: 10vh;
+}
+.exitFormOrderDetail{
+    float: right;
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    right: 12px;
+    padding-top: 4px;
+    font-size: 30px;
+    color: #191970;
+    border: 2px solid #191970;
+    transition: .3s ease;
+}
+.exitFormOrderDetail:hover{
+    background-color: #191970;
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    scale: 1.1;
+    transition: .3s ease;
 }

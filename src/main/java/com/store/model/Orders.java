@@ -17,7 +17,6 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,8 +35,8 @@ public class Orders {
 	String email;
 	Double price;
 	@Temporal(TemporalType.DATE)
-	@Column(name = "date")
-	Date createDate = new Date();
+	@Column(name = "Date")
+	Date date = new Date();
 	@ManyToOne
 	@JoinColumn(name = "userID")
 	Users user;

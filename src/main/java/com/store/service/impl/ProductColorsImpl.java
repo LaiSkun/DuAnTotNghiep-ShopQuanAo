@@ -50,4 +50,13 @@ public class ProductColorsImpl implements ProductColorsService {
     }
 
 
+    @Override
+    public Product_Colors findById(Long colorID) {
+        Optional<Product_Colors> optional = productColorDAO.findById(colorID);
+        return optional.isPresent() ? optional.get() : null;
+    }
+    @Override
+    public void updateQuantity(Integer newAvailable, Long productID) {
+        productColorDAO.updateQuantity(newAvailable, productID);
+    }
 }

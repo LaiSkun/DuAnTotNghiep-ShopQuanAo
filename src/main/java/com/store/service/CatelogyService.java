@@ -1,5 +1,10 @@
 package com.store.service;
 
-public interface CatelogyService {
+import com.store.model.Categories;
 
+import java.util.List;
+
+public interface CatelogyService {
+    List<Categories> findAll();
+    Categories findByCategoryID(String categoryID);
 }
