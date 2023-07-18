@@ -32,10 +32,8 @@ public class AdminAuthoritiesRESTController {
 	
 	
 	@GetMapping
-	public List<Authorities> findAll() {
-		
-			return authoritiesService.findAuthoritiesOfAdministrators();
-		
+	public List<Authorities> findAll() {	
+		return authoritiesService.findAuthoritiesOfAdministrators();	
 	}
 	
 	@GetMapping("/filterByRole/{roleId}")

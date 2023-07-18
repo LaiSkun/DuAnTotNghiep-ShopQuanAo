@@ -55,8 +55,9 @@ public class ProductController {
                                @RequestParam("size2") Optional<Integer> size2){
             int currentPage = page.orElse(1);
             int pageSize = size.orElse(5);
-        int currentPage2 = page2.orElse(1);
-        int pageSize2 = size2.orElse(5);
+            
+            int currentPage2 = page2.orElse(1);
+            int pageSize2 = size2.orElse(5);
             if (productRequest == null) {
                 productRequest = new ProductDTO();
             }
@@ -70,7 +71,7 @@ public class ProductController {
             model.addAttribute("disabled", "disabled");
             model.addAttribute("productColor", productColors);
             model.addAttribute("currentPage", currentPage);
-        model.addAttribute("currentPage2", currentPage2);
+            model.addAttribute("currentPage2", currentPage2);
             model.addAttribute("categories", categories);
             model.addAttribute("productRequest", productRequest);
             model.addAttribute("productImgRequest", new ProductImgDTO());

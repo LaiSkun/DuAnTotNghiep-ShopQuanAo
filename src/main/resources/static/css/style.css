@@ -2208,7 +2208,7 @@ form.newsletter input[type="submit"]:hover {
 }
 
 .shop-table th:nth-child(2), .shop-table td:nth-child(2) {
-    width: 45%;
+    width: 30%;
 }
 
 .shop-table th:nth-child(3), .shop-table td:nth-child(3), .shop-table th:nth-child(4), .shop-table td:nth-child(4), .shop-table th:nth-child(5), .shop-table td:nth-child(5), .shop-table th:nth-child(6), .shop-table td:nth-child(6) {

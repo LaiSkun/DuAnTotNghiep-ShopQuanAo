@@ -289,7 +289,7 @@
                     <div class="bg-img" style="background-image: url(/images/1.jpeg)"></div>
 
                     <span class="las la-power-off"></span>
-                    <span>Logout</span>
+                    <span><a th:href="@{/logout}" class="log">Logout</a></span>
                 </div>
             </div>
         </div>
@@ -387,7 +387,7 @@
                         <thead>
                         <tr>
                             <th><span class="las la-sort"></span> Product Name</th>
-                            <th><span class="las la-sort"></span> Available</th>
+                            
                             <th><span class="las la-sort"></span> Price</th>
                             <th><span class="las la-sort"></span> Image</th>
                             <th><span class="las la-sort"></span> Created Date</th>
@@ -400,7 +400,7 @@
                         <tbody id="sttProduct">
                         <tr th:each="product : ${productPage}">
                             <td>[[${product.name}]]</td>
-                            <td>[[${product.available}]]</td>
+                   
                             <td>[[${product.price}]]</td>
                             <td><img th:src="@{'/getimage/'+ ${product.img}}" width="80px"></td>
                             <td>[[${#dates.format(product.createDate, "dd-MM-yyyy")}]]</td>

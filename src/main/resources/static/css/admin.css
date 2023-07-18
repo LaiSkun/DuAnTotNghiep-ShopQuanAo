@@ -543,6 +543,7 @@
             width: 900px;
         }
     }
+
     .handle {
         scale: 1 !important;
         transition: .8s ease-in-out;
@@ -550,4 +551,9 @@
     #handle {
         scale: 0;
         transition: .8s ease-in-out;
+    }    
+    .pagination{
+    	margin-left: 500px;
+    	margin-top: 50px;
     }
+    
