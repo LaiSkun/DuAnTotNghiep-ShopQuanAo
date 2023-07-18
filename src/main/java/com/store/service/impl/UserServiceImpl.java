@@ -3,6 +3,10 @@ package com.store.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import com.store.model.Authorities;
+import com.store.model.Roles;
+import com.store.service.AuthoritiesService;
+import com.store.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,8 +24,21 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	UsersDAO dao;
 	@Autowired
+
 	private PasswordEncoder passwordEncoder;
 	
+
+	AuthoritiesService authoritiesService;
+	@Autowired
+	RoleService roleService;
+
+	@Override
+	public List<Users> findAll() {
+		// TODO Auto-generated method stub
+		return dao.findAll();
+	}
+
+
 	@Override
 	public Users findById(String id) {
 		// TODO Auto-generated method stub
@@ -82,11 +99,24 @@ public class UserServiceImpl implements UserService{
 	    return user; // Trả về null nếu không xác thực thành công hoặc không có vai trò admin
 	}
 
-
 	@Override
-	public List<Users> findAll() {
-		// TODO Auto-generated method stub
-		return dao.findAll();
+	public Users save(Users user, String UserID) {
+		Users users = dao.findByUserID(UserID);
+
+		if (null == users){
+			user.setIsDeleted(Boolean.TRUE);
+			Users user1 =dao.saveAndFlush(user);
+			Roles role = roleService.findByID();
+			Authorities authorities = new Authorities();
+			authorities.setRole(role);
+			authorities.setUser(user1);
+			Authorities authorities1 = authoritiesService.create(authorities);
+
+			return user;
+		}else {
+			return null;
+		}
+
 	}
 
 

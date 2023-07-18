@@ -48,6 +48,7 @@ public class Users implements Serializable{
 	String email;
 	@NotBlank(message = "Không để trống Address")
 	String address;
+	Boolean isDeleted;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "createdDate")
 	Date createDate = new Date();

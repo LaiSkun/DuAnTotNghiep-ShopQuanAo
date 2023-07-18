@@ -24,6 +24,11 @@ public class RoleServiceImpl implements RoleService {
 		// TODO Auto-generated method stub
 		return dao.findByRoleID(name);
 	}
-	
-	
+
+	@Override
+	public Roles findByID() {
+		return dao.findByID();
+	}
+
+
 }

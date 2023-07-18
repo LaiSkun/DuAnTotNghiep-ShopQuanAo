@@ -24,8 +24,14 @@ public interface UserService {
 	public List<Users> findByAuthorities_Role_RoleID(String roleId);
 
 
+
 	public Users doLogin(String userID, String checkpassword);
 
 	public List<Users> findAll();
 	
+
+	
+
+	Users save(Users user, String userID);
+
 }

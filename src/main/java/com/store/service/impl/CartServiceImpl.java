@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+
 import java.util.Date;
+
+import java.util.List;
+
 import java.util.Map;
 
 @Service
@@ -84,8 +88,15 @@ public class CartServiceImpl implements CartService {
         // insert vao order
         Orders order = new Orders();
         order.setUser(user);
-        order.setAddress(address);
-        order.setPhone(phone);
+        if(address.isEmpty() == false){
+            order.setAddress(address);
+        }
+        if(phone.isEmpty() == false){
+            order.setPhone(phone);
+        }
+        if(email.isEmpty() == false){
+            order.setEmail(email);
+        }
         order.setEmail(email);
         order.setPrice(cart.getTotalPrice());
 
@@ -116,37 +127,37 @@ public class CartServiceImpl implements CartService {
         }
     }
 
-    private CartDetailDto createNewCartDetail(CartDto cart, Products product, Long colorID, Integer quantity, String categoryID) {
+    private CartDetailDto createNewCartDetail(CartDto cart, Products product,  Long colorID, Integer quantity, String categoryID) {
         CartDetailDto cartDetail = new CartDetailDto();
         cartDetail.setProductID(product.getProductID());
         cartDetail.setPrice(product.getPrice());
         cartDetail.setQuantity(quantity);
-        cartDetail.setName(product.getName());
+        cartDetail.setNameProduct(product.getName());
         cartDetail.setImg(product.getImg());
         cartDetail.setCategoryID(categoryID);
 
         // Kiểm tra màu sản phẩm đã tồn tại trong giỏ hàng hay chưa
         Map<String, CartDetailDto> details = cart.getDetails();
         String colorIDStr = String.valueOf(colorID);
+        List<Product_Colors> productColors = productcolorsService.findbyProductID(product.getProductID());
         if (details.containsKey(colorIDStr)) {
             // Màu đã tồn tại trong giỏ hàng, cập nhật số lượng
             CartDetailDto existingDetail = details.get(colorIDStr);
             Integer existingQuantity = existingDetail.getQuantity();
             Integer newQuantity = existingQuantity + quantity;
             existingDetail.setQuantity(newQuantity);
-
             // Thêm cả 2 màu vào tên sản phẩm
             String existingColorHex = existingDetail.getColorhex();
-            String newColorHex = product.getColors().stream()
+            String newColorHex = productColors.stream()
                     .filter(c -> c.getColorID().equals(colorID))
                     .map(Product_Colors::getColorhex)
                     .findFirst()
                     .orElse(null);
             String updatedName = product.getName() + " (" + existingColorHex + ", " + newColorHex + ")";
-            existingDetail.setName(updatedName);
+            existingDetail.setNameProduct(updatedName);
         } else {
             // Màu chưa tồn tại trong giỏ hàng, tạo mới chi tiết giỏ hàng
-            Product_Colors color = product.getColors().stream()
+            Product_Colors color = productColors.stream()
                     .filter(c -> c.getColorID().equals(colorID))
                     .findFirst()
                     .orElse(null);
@@ -161,7 +172,7 @@ public class CartServiceImpl implements CartService {
             // Thêm màu vào tên sản phẩm
             String colorHex = color.getColorhex();
             String updatedName = product.getName() + " (" + colorHex + ")";
-            cartDetail.setName(updatedName);
+            cartDetail.setNameProduct(updatedName);
 
             details.put(colorIDStr, cartDetail);
         }

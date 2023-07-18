@@ -25,12 +25,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -92,7 +96,6 @@ public class HomeController {
 	    Authentication authentication = authenticationManagerBuilder.getObject().authenticate(
 	        new UsernamePasswordAuthenticationToken(username, password)
 	    );
-
 	    // Xác thực thành công, lưu thông tin người dùng vào session
 	    if (authentication.isAuthenticated()) {
 	        SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -112,14 +115,8 @@ public class HomeController {
 	    } else {
 	        throw new Exception("Invalid username or password");
 	    }
+
 	}
-
-
-	  
-	   
-	
-
-
 
 	@RequestMapping("/logout")
 	public String doGetLogout(HttpSession session) {
@@ -129,6 +126,25 @@ public class HomeController {
 	@RequestMapping("/contact")
 	public String doGetContact() {
 		return "layout/contact";
+	}
+
+
+	@GetMapping("/register")
+	public String doGetRegister(Model model) {
+		model.addAttribute("userRequest", new Users());
+		return "layout/register";
+	}
+
+	@PostMapping("/register")
+	public String goPostRegister(@ModelAttribute("userRequest") Users userRequest, HttpSession session, RedirectAttributes ra){
+		Users userResponse = userService.save(userRequest, userRequest.getUserID());
+		if(userResponse != null){
+			session.setAttribute("currentUser", userResponse);
+			return"redirect:/home";
+		}else {
+			ra.addFlashAttribute("message", "Username đã tồn tại !");
+			return "redirect:/register";
+		}
 	}
 
 }

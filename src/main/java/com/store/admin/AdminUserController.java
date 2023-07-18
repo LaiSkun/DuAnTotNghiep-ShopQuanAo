@@ -99,10 +99,24 @@ public class AdminUserController {
 	}
 
 	@GetMapping("/admin/search")
-	public String searchUsers(@RequestParam("keyword") String keyword, Model model) {
+	public String searchUsers(@RequestParam("keyword") String keyword, Model model,@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size) {
 		List<Users> users = userService.searchUsers(keyword);
-		model.addAttribute("users", users);
+		int totalItems = users.size();
+		int totalPages = (int) Math.ceil(totalItems / (double) size);
+		int startItem = page * size + 1;
+		int endItem = Math.min((page + 1) * size, totalItems);
+		List<Users> userList = users.subList(page * size, endItem);
+		
+		
+		model.addAttribute("users", userList);
 		model.addAttribute("user", new Users());
+		model.addAttribute("currentPage", page + 1);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("startItem", startItem);
+		model.addAttribute("endItem", endItem);
+		
+		
 		return "/admin/user/user";
 	}
 

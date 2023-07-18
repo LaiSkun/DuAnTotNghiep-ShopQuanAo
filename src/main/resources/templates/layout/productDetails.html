@@ -40,12 +40,12 @@
             <div class="preview_image">
               <div class="preview-small">
                 <img id="product_thumbnail"
-                     th:src="@{'/images/product/'+ ${product.category.categoryID} + '/'  + ${colors.images[0].image}}"
+                     th:src="@{'/images/product/'+ ${product.category.categoryID} + '/'  + ${product_color.get(0).images[0].image}}"
                      data-zoom-image="images/products/Large/products-01.jpg" alt="">
               </div>
               <div class="thum-image">
                 <ul id="gallery_01" class="prev-thum">
-                  <li class="pt" th:each="image,loop : ${colors.images}"
+                  <li class="pt" th:each="image,loop : ${product_color.get(0).images}"
                       th:data-imgbigurl="@{'/images/product/' + ${image.image}}"><img
                           th:src="@{'/images/product/'+ ${product.category.categoryID} + '/'  + ${image.image}}" alt=""
                           th:id=" 'product_image' + ${loop.index}"></li>
@@ -72,7 +72,7 @@
               <p th:text="${product.description}"></p>
               <h3>Color</h3>
               <div class="pd-color-choose">
-                <div th:each="colorItem: ${product.colors}" class="cc-item">
+                <div th:each="colorItem: ${product_color}" class="cc-item">
                   <input class="color" type="radio" name="color"
                          th:id="${colorItem.colorID}" th:value="${colorItem.colorID}"
                          th:data-productid="${product.productID}"
@@ -322,7 +322,7 @@
               <div class="product-info">
                 <p th:text="${product.name}"></p>
                 <h5 class="price"
-                    th:text="${#numbers.formatCurrency(product.price)}"></h5>
+                    th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} "></h5>
               </div>
             </div>
           </div>
