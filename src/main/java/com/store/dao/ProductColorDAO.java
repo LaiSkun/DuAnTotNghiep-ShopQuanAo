@@ -14,6 +14,7 @@ public interface ProductColorDAO extends JpaRepository<Product_Colors, Long> {
     void deleteByColorID(long id);
 
     Product_Colors findByColorID(Long colorID);
+
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE product_color SET available = ? WHERE colorID = ?",nativeQuery = true)
     void updateQuantity(Integer newAvailable,Long colorID);

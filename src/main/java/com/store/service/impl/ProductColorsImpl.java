@@ -59,4 +59,9 @@ public class ProductColorsImpl implements ProductColorsService {
     public void updateQuantity(Integer newAvailable, Long productID) {
         productColorDAO.updateQuantity(newAvailable, productID);
     }
+
+    @Override
+    public List<Product_Colors> findbyProductID(String ProductID) {
+        return productColorDAO.findByProduct_ProductID(ProductID);
+    }
 }

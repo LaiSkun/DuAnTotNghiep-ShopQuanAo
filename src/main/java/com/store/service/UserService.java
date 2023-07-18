@@ -23,4 +23,6 @@ public interface UserService {
 
 
 	Users doLogin(String userID, String checkpassword);
+
+	Users save(Users user, String userID);
 }

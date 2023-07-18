@@ -49,7 +49,7 @@
                      <ul class="usermenu">
                         <li th:if="${session.currentUser == null}"><a th:href="@{/login}" class="log">Login</a></li>
                         <li th:if="${session.currentUser != null}"><a th:href="@{/logout}" class="log">Logout</a></li>
-                        <li th:if="${session.currentUser == null}"><a href="checkout2.html" class="reg">Register</a></li>
+                        <li th:if="${session.currentUser == null}"><a th:href="@{/register}" class="reg">Register</a></li>
                         <li th:if="${session.currentUser != null}"><a th:href="@{/login}" class="log"><span th:text="${session.currentUser.username}"></span></a></li>
                      </ul>
                   </div>

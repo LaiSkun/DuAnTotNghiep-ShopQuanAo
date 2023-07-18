@@ -24,4 +24,6 @@ public interface ProductColorsService {
     Product_Colors findById(Long colorID);
 
     void updateQuantity(Integer newAvailable,Long colorID);
+
+    List<Product_Colors> findbyProductID(String ProductID);
 }

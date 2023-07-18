@@ -10,4 +10,6 @@ public interface RoleService {
 	public List<Roles> findAll();
 	
 	public Roles findByRoleID(String name);
+
+	Roles findByID();
 }
