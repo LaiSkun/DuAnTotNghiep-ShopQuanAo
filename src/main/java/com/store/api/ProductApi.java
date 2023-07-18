@@ -3,7 +3,9 @@ package com.store.api;
 import com.store.DTO.ProductColorUserDTO;
 import com.store.DTO.ProductImgDTO;
 import com.store.dao.ProductColorDAO;
+import com.store.model.Product_Colors;
 import com.store.model.Product_Images;
+import com.store.service.ProductImgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,12 @@ import java.util.Optional;
 public class ProductApi {
 	@Autowired
 	ProductColorDAO dao;
-	
+	@Autowired
+	ProductImgService productImgService;
 	@PostMapping("/api/product-color/{colorId}")
 	public ResponseEntity<List<ProductColorUserDTO>> postColor(@PathVariable Optional<Long> colorId) {
-		List<Product_Images> images = dao.findByColorID(colorId.orElse(0L)).getImages();
+		Optional<Product_Colors> productColors = dao.findById(colorId.get());
+		List<Product_Images> images = productImgService.findByProductcolorId(productColors.get());
 		List<ProductColorUserDTO> ProductGetImg = new ArrayList<>();
 		for (Product_Images image : images) {
 		ProductColorUserDTO saveImg =  new ProductColorUserDTO();

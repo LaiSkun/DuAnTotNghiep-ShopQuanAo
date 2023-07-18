@@ -275,16 +275,42 @@
         document.querySelector("#updateProduct").setAttribute("style", "display:block")
         document.querySelector("#createForm").removeAttribute("style")
     }
-   function showFormProductColor(val){
-      let currentVal = val.firstChild.parentElement.getAttribute("id")
-      let listProductColor =  JSON.parse(localStorage.getItem("listProductColor"))
-       let CurrentColorProduct = document.getElementsByClassName("CurrentColorProduct")
-       let listProduct = []
-       listProductColor.forEach( (item) =>   item.productID == currentVal && listProduct.push(item) )
-       listProduct.forEach( (item, index) =>  {
-           CurrentColorProduct[1].innerHTML = item["color_name"]
-           CurrentColorProduct[3].innerHTML = item["avai_lable"]
-           CurrentColorProduct[0].innerHTML = val.firstChild.innerHTML
-           CurrentColorProduct[2].innerHTML = val.childNodes[5].innerHTML
-       })
+    async function showFormProductColor (val) {
+      let currentVal =  "#body"+ val.children[0].getAttribute("id")
+       let tbodyProductColorbyProductID = document.querySelector(currentVal)
+      await ListproductColor(val.children[0].getAttribute("id"))
+        let listProductColorbyProductID = JSON.parse(localStorage.getItem("listProductColorByProductId"))
+        let span = document.createElement("span")
+        console.log(tbodyProductColorbyProductID.children.length)
+       if (tbodyProductColorbyProductID.children.length == 0){
+           await listProductColorbyProductID.forEach( item => {
+               tbodyProductColorbyProductID.innerHTML += `<tr>
+                                            <td>${item["product"].name}</td>
+                                            <td>${item["color_name"]}</td>
+                                            <td style="position: relative"> <span style=" position: absolute; height: 40px; width: 40px; bottom: 3px;border-radius: 50% ; left:65px; background-color: ${item["colorhex"]}"> </span></td>
+                                            <td>${ item["available"]}</td>
+                                            <td> ${item["product"].deprecated == true ? 'Ngưng bán' : 'Đang bán'}</td>
+                                            <td> Edit</td>
+                                        </tr>`
+           })
+       }
+           let lastChild = val.children[val.children.length - 1]
+           document.querySelector(".activeTable") != null && lastChild.classList.remove("activeTable")
+           lastChild.getAttribute("handleexit") == null ? lastChild.classList.add("activeTable") : lastChild.removeAttribute("handleExit")
+
    }
+    function exitFormOrderDetail(){
+        let dv = document.querySelector(".activeTable")
+        dv.classList.remove("activeTable")
+         dv.setAttribute("handleexit", "true")
+    }
+    async function ListproductColor(id) {
+        const response = await fetch("/admin/product/listProductColorByProductId/"+id);
+        const data = await response.json();
+        console.log('hello')
+        console.log(data)
+        localStorage.setItem("listProductColorByProductId", JSON.stringify(data))
+    }
+    window.addEventListener("load", () => {
+        location.href.includes("/order") && document.querySelector(".oderIcon").setAttribute("style", "color:#fff; scale:1.1")
+    })

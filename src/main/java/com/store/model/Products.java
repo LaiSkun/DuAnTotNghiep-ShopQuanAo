@@ -48,6 +48,4 @@ public class Products {
     }
     public Products() {
     }
-    @OneToMany(mappedBy = "product")
-    private List<Product_Colors> colors;
 }

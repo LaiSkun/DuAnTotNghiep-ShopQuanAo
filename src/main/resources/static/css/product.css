@@ -382,6 +382,7 @@ table{
     color: #191970;
     border: 2px solid #191970;
     transition: .3s ease;
+    top: 10px;
 }
 .exitFormOrderDetail:hover{
     background-color: #191970;

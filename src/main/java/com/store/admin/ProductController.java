@@ -436,47 +436,47 @@
 
         @RequestMapping("/productImgEdit/{id}")
         public String UpdateProductImgAndColor(@PathVariable("id") Long id, ModelMap model) {
-            // productImg {namne img, idcolor, imgid }
-            model.addAttribute("imgName", "ok.jpg");
-            model.addAttribute("productRequest", new ProductDTO());
-            //productColor {colorID, colorhex., color_name, productID}
-            Optional<Product_Colors> productColor = productColorsService.findByID(id);
-            List<Product_Images> productImgAll = productImgService.findAll();
-            Optional<Product_Images> productImg = productImgService.findByProductcolor(productColor.get());
-    //            model.addAttribute("productImg", productImgAll);
-            List<Products> products1 = productDAO.findAll();
-            List<Categories> categories = categoryDAO.findAll();
-    //        List<Products> productsDepFalse = productService.findDeprecatedFalse();
-            List<Colors> colorList = colorsDAO.findAll();
-            model.addAttribute("productsDepFalse", products1);
-            List<Products> productAll = productDAO.findAll();
-            model.addAttribute("productAll", productAll);
-            model.addAttribute("table2", "table2");
-            model.addAttribute("updateImgProduct", "btn updateImgProduct");
-            model.addAttribute("table1", "handletable records table-responsive table1");
-            model.addAttribute("handle2", "handle2");
-            model.addAttribute("handle4", "handle4");
-            model.addAttribute("productImgRequest", new ProductImgDTO());
-            model.addAttribute("handleUpdate", "display : block");
-            model.addAttribute("colorList", colorList);
-            ProductImgDTO dto = new ProductImgDTO();
-            if (productImg.isPresent()) {
-                Product_Images products = productImg.get();
-                model.addAttribute("imgName2", products.getImage());
-                dto.setColorHex(productColor.get().getColorhex());
-                dto.setId(productColor.get().getColorID());
-                dto.setColor(productColor.get().getColor_name());
-                dto.setProduct(productColor.get().getProduct());
-                dto.setImgid(products.getImgID());
-            } else {
-                model.addAttribute("productImgRequest", new ProductImgDTO());
-            }
-            //fill dữ liệu lên combobox trong table
-            model.addAttribute("categories", categories);
-            //fill dữ liệu lên table
-            model.addAttribute("product", products1);
-
-            model.addAttribute("productImgRequest", dto);
+//            // productImg {namne img, idcolor, imgid }
+//            model.addAttribute("imgName", "ok.jpg");
+//            model.addAttribute("productRequest", new ProductDTO());
+//            //productColor {colorID, colorhex., color_name, productID}
+//            Optional<Product_Colors> productColor = productColorsService.findByID(id);
+//            List<Product_Images> productImgAll = productImgService.findAll();
+////            Optional<Product_Images> productImg = productImgService.findByProductcolor(productColor.get());
+//    //            model.addAttribute("productImg", productImgAll);
+//            List<Products> products1 = productDAO.findAll();
+//            List<Categories> categories = categoryDAO.findAll();
+//    //        List<Products> productsDepFalse = productService.findDeprecatedFalse();
+//            List<Colors> colorList = colorsDAO.findAll();
+//            model.addAttribute("productsDepFalse", products1);
+//            List<Products> productAll = productDAO.findAll();
+//            model.addAttribute("productAll", productAll);
+//            model.addAttribute("table2", "table2");
+//            model.addAttribute("updateImgProduct", "btn updateImgProduct");
+//            model.addAttribute("table1", "handletable records table-responsive table1");
+//            model.addAttribute("handle2", "handle2");
+//            model.addAttribute("handle4", "handle4");
+//            model.addAttribute("productImgRequest", new ProductImgDTO());
+//            model.addAttribute("handleUpdate", "display : block");
+//            model.addAttribute("colorList", colorList);
+//            ProductImgDTO dto = new ProductImgDTO();
+//            if (productImg.isPresent()) {
+//                Product_Images products = productImg.get();
+//                model.addAttribute("imgName2", products.getImage());
+//                dto.setColorHex(productColor.get().getColorhex());
+//                dto.setId(productColor.get().getColorID());
+//                dto.setColor(productColor.get().getColor_name());
+//                dto.setProduct(productColor.get().getProduct());
+//                dto.setImgid(products.getImgID());
+//            } else {
+//                model.addAttribute("productImgRequest", new ProductImgDTO());
+//            }
+//            //fill dữ liệu lên combobox trong table
+//            model.addAttribute("categories", categories);
+//            //fill dữ liệu lên table
+//            model.addAttribute("product", products1);
+//
+//            model.addAttribute("productImgRequest", dto);
 
             return "/admin/product/index";
         }
