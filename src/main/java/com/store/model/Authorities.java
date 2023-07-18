@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+
+
 import lombok.Data;
 
 
@@ -26,4 +28,6 @@ public class Authorities {
 	private Users user;
 	@ManyToOne  @JoinColumn(name = "roleID")
 	private Roles role;
+	
+	
 }

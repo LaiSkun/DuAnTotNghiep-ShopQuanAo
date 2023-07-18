@@ -381,7 +381,7 @@
                   <div class="products">
                     <div class="thumbnail">
                       <a href="productDetails.html" th:href="@{'/product/' + ${product.productID}}">
-                        <img th:src="@{'/images/product/' + ${product.category.categoryID} + '/' + ${product.img}}" style="width: 170px" alt="Product Name">
+                        <img th:src="@{'/images/product/' + ${product.category.categoryID}+'/'+${product.img}}" style="width: 170px" alt="Product Name">
                       </a>
                     </div>
                     <div class="productname" th:text="${product.name}">

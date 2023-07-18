@@ -40,5 +40,12 @@ public class AuthoritiesServiceImpl implements AuthoritiesService  {
 		return null;
 	}
 
+	@Override
+	public List<Authorities> findByUserID(String userID) {
+		// TODO Auto-generated method stub
+		return dao.findByUserUserID(userID);
+	}
+
+
 
 }

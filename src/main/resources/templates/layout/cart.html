@@ -48,7 +48,7 @@
 
             <!--                    </th>-->
             <th>Image</th>
-            <th>Dtails</th>
+            <th>Details</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th>
@@ -99,7 +99,7 @@
             <td>
               <h5>
                 <strong class="red"
-                        th:text="${#numbers.formatCurrency(detail.value.price * detail.value.quantity)}">
+                        th:text="${#numbers.formatDecimal(detail.value.price * detail.value.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'"> 
 
                 </strong>
               </h5>
@@ -113,12 +113,16 @@
         </table>
         <div class="clearfix"></div>
         <div class="row">
-          <div class="col-md-4 col-sm-6">
+    
+    
+       
+          <div class="col-md-12 col-sm-6">
             <div class="shippingbox">
+
               <div class="grandtotal">
                 <h5>GRAND TOTAL</h5>
                 <span id="CartToTalPrice"
-                      th:text="${#numbers.formatCurrency(session.currentCart.totalPrice)}">
+                      th:text="${#numbers.formatDecimal(session.currentCart.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'">
 									</span>
               </div>
               <a th:href="@{/cart/checkout}" class="log"><h4>Continue Checkout</h4></a>
@@ -241,6 +245,34 @@
       $('#row').replaceWith(data);
     });
   }
+
+   function checkout() {
+    var address = $('#address').val();
+    var phone = $('#phone_number').val();
+    var email = $('#email').val();
+    var endpoint = '/api/cart/checkout?address=' + address + '&phone=' + phone + '&email=' + email ;
+    $.ajax({
+      url: endpoint,
+      type: 'GET',
+      statusCode: {
+        200: handle200,
+        400: handle400,
+        401: handle401
+      }
+    });
+  } 
+  function handle200() {
+    alert('thanh cong');
+    window.location.href = '/home';
+  }
+  function handle400() {
+    alert('that bai , thu lai');
+  }
+  function handle401() {
+    alert('vui long login truoc khi thanh toan');
+    window.location.href = '/login';
+  }
+
   window.addEventListener("load", () => {
    let cartItems = document.querySelector("#cartItems")
     console.log(cartItems)
@@ -250,6 +282,7 @@
       items[index].children[1].children[0].children[1].innerHTML = valueName.replace( valueName.slice(valueName.indexOf("(")), "")
     }
   })
+
 
 </script>
 </body>

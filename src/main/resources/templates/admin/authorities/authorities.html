@@ -51,7 +51,7 @@
 					<div class="user">
 						<div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
 
-						<span class="las la-power-off"></span> <span>Logout</span>
+						<span><a th:href="@{/logout}" class="log">Logout</a></span>
 					</div>
 				</div>
 			</div>
@@ -72,19 +72,14 @@
 				<div class="records table-responsive">
 
 					<div class="record-header">
-						<div class="add">
-							<span>Entries</span> <select ng-change="filterUsersByRole()" ng-model="selectedRole" style="width: 150px">
+						<div class="add" ng-init="selectedRole">
+							<span>Roles</span> <select ng-change="filterUsersByRole()" ng-model="selectedRole"  style="width: 150px" >
 								<option ng-repeat="role in roles" ng-value="role">{{role.rolename}}</option>
 							</select>
 
 						</div>
 
-						<div class="browse">
-							<input type="search" placeholder="Search" class="record-search">
-							<select name="" id="">
-								<option value="">Status</option>
-							</select>
-						</div>
+						
 					</div>
 
 					<div>
