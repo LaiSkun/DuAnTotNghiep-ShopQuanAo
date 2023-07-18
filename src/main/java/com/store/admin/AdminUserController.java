@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -34,19 +37,21 @@ public class AdminUserController {
 	AuthoritiesService authoritiesService;
 	@Autowired
 	RoleService roleService;
-
+	@Autowired
+    PasswordEncoder passwordEncoder;
+	
 	@GetMapping("/admin/user")
 	public String adminUser(Model model, @RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size) {
 		List<Users> users = userService.findAll();
-
+		
 		int totalItems = users.size();
 		int totalPages = (int) Math.ceil(totalItems / (double) size);
 		int startItem = page * size + 1;
 		int endItem = Math.min((page + 1) * size, totalItems);
 
 		List<Users> userList = users.subList(page * size, endItem);
-
+		
 		model.addAttribute("users", userList);
 		model.addAttribute("user", new Users());
 		model.addAttribute("currentPage", page + 1);
@@ -76,6 +81,11 @@ public class AdminUserController {
 		Authorities authorities = new Authorities();
 		authorities.setUser(user);
 		authorities.setRole(customerRole);
+
+		String rawPassword = user.getPassword();
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        user.setPassword(encodedPassword);
+		
 		userService.create(user);
 		authoritiesService.create(authorities);
 		// Cập nhật quyền customer khi tạo user mới

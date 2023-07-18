@@ -158,7 +158,7 @@
 								<tr>
 									<th><span class="las la-sort"></span> User ID</th>
 									<th><span class="las la-sort"></span> User Name</th>
-									<th><span class="las la-sort"></span> Password</th>
+									
 									<th><span class="las la-sort"></span> Email</th>
 									<th><span class="las la-sort"></span> Phone</th>
 									<th><span class="las la-sort"></span> created Date</th>
@@ -173,7 +173,7 @@
 								<tr th:each="p: ${users}">
 									<td>[[${p.userID}]]</td>
 									<td>[[${p.username}]]</td>
-									<td>[[${p.password}]]</td>
+									
 									<td>[[${p.email}]]</td>
 									<td>[[${p.phone}]]</td>
 									<td th:text="${#dates.format(p.createDate, 'dd/MM/yyyy')}"></td>

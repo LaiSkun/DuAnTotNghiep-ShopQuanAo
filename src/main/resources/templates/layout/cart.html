@@ -151,8 +151,8 @@
                       th:text="${#numbers.formatDecimal(session.currentCart.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'">
 									</span>
               </div>
-            <a th:href="@{/cart/order}" class="active"> <h1>Payment </h1> 
-					</a>
+              <button th:attr="onclick='checkout()'"> Process To Checkout
+              </button >
             </div>
           </div>
         </div>
@@ -270,7 +270,7 @@
       $('#row').replaceWith(data);
     });
   }
-  /* function checkout() {
+   function checkout() {
     var address = $('#address').val();
     var phone = $('#phone_number').val();
     var email = $('#email').val();
@@ -284,7 +284,7 @@
         401: handle401
       }
     });
-  } */
+  } 
   function handle200() {
     alert('thanh cong');
     window.location.href = '/home';

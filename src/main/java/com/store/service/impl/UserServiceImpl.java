@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.store.dao.UsersDAO;
+import com.store.model.Authorities;
 import com.store.model.Users;
 import com.store.service.UserService;
 
@@ -17,11 +19,13 @@ import com.store.service.UserService;
 public class UserServiceImpl implements UserService{
 	@Autowired
 	UsersDAO dao;
-
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
 	public Users findById(String id) {
 		// TODO Auto-generated method stub
-		return dao.findById(id).get();
+		return dao.findByUserID(id);
 	}
 
 	@Override
@@ -61,16 +65,23 @@ public class UserServiceImpl implements UserService{
 	}
 	@Override
 	public Users doLogin(String userID, String checkpassword) {
-		Users user = dao.findByUserID(userID);
-
-		if (null != user){
-			String password =user.getPassword();
-			boolean check =  password.equals(checkpassword);
-			return check ? user : null;
-		}else {
-			return null;
-		}
+	    Users user = dao.findByUserID(userID);
+	    if (null != user) {
+	        String password = user.getPassword();        
+	        boolean check = passwordEncoder.matches(checkpassword, password);
+	        if (check) {
+	            List<Authorities> authoritiesList = user.getAuthorities();
+	            for (Authorities authorities : authoritiesList) {
+	                String userRole = authorities.getRole().getRoleID();
+	                if (userRole.equalsIgnoreCase("admin")) {
+	                    return user; // Trả về người dùng nếu có vai trò admin
+	                }
+	            }
+	        }
+	    }
+	    return user; // Trả về null nếu không xác thực thành công hoặc không có vai trò admin
 	}
+
 
 	@Override
 	public List<Users> findAll() {
