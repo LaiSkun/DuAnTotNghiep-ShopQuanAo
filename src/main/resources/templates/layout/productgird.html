@@ -387,7 +387,7 @@
                     <div class="productname" th:text="${product.name}">
 
                     </div>
-                    <h4 class="price" th:text="${#numbers.formatCurrency(product.price)}">
+                    <h4 class="price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
 
                     </h4>
                     <div class="button_group">

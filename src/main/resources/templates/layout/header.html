@@ -128,7 +128,7 @@
 <!--                     <li><a href="productgird.html">blog</a></li>-->
 <!--                     <li><a href="productgird.html">jewelry</a></li>-->
                      <li><a th:href="@{/contact}">contact us</a></li>
-                     <li th:if="${session.currentUser != null}"><a th:id="${session.currentUser.userID}"  th:href="@{'/cart/check/' + ${session.currentUser.userID}}">Sản phẩm đã mua</a></li>
+                     <li th:if="${session.currentUser != null}"><a th:id="${session.currentUser.userID}"  th:href="@{'/cart/check/' + ${session.currentUser.userID}}">CHECK ORDER</a></li>
                   </ul>
                </div>
             </div>

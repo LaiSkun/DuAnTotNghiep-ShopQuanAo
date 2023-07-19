@@ -230,6 +230,7 @@
             // const handle = document.querySelector(".handle")
             handle.classList.remove("handle")
         })
+        window.addEventListener(`load`,() => location.href.includes('/admin/edit')&& document.querySelector('#handle').classList.add('handle'))
     </script>
 
 </html>

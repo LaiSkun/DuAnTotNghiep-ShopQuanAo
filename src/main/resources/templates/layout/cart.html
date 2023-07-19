@@ -86,7 +86,7 @@
               </div>
             </td>
             <td>
-              <h5 th:text="${#numbers.formatCurrency(detail.value.price)}">
+              <h5 th:text="${#numbers.formatDecimal(detail.value.price, 0, 'COMMA', 0, 'POINT')} + ' VND'">
 
               </h5>
             </td>
@@ -107,26 +107,25 @@
             <td>
               <button class=" removeButton" th:attr="onclick='removeProduct(\'' +${detail.key}+ '\')'">Xóa</button>
             </td>
-
           </tr>
-          </tfoot>
+          </tbody>
         </table>
         <div class="clearfix"></div>
         <div class="row">
-    
-    
-       
           <div class="col-md-12 col-sm-6">
             <div class="shippingbox">
-
               <div class="grandtotal">
-                <h5>GRAND TOTAL</h5>
+                <h5>TỔNG TIỀN</h5>
                 <span id="CartToTalPrice"
                       th:text="${#numbers.formatDecimal(session.currentCart.totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'">
 									</span>
               </div>
-              <a th:href="@{/cart/checkout}" class="log"><h4>Continue Checkout</h4></a>
+           
+            <hr>
+            <hr>
+              <div class="log"> <a th:href="@{/cart/checkout}">THANH TOÁN</a></div>
             </div>
+             <div class="continute-shopping"><a th:href="@{/productgird}">TIẾP TỤC MUA SẮM</a></div>
           </div>
           <br><br><br><br><br><br>
           <h5 class="text-center" style="color: red; margin-top: -15px" th:text="${message}"></h5>
@@ -172,35 +171,7 @@
             </a></li>
           </ul>
         </li>
-        <li>
-          <ul class="brand_item">
-            <li><a href="#">
-              <div class="brand-logo">
-                <img src="images/envato.png" alt="">
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="brand-logo">
-                <img src="images/themeforest.png" alt="">
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="brand-logo">
-                <img src="images/photodune.png" alt="">
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="brand-logo">
-                <img src="images/activeden.png" alt="">
-              </div>
-            </a></li>
-            <li><a href="#">
-              <div class="brand-logo">
-                <img src="images/envato.png" alt="">
-              </div>
-            </a></li>
-          </ul>
-        </li>
+        
       </ul>
     </div>
   </div>
