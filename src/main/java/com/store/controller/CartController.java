@@ -116,7 +116,7 @@ public class CartController {
 
 	@GetMapping(URL_PAYPAL_CANCEL)
 	public String cancelPay() {
-		return "layout/cancel";
+		return "redirect:/cart/checkout";
 	}
 
 	@GetMapping(URL_PAYPAL_SUCCESS)
