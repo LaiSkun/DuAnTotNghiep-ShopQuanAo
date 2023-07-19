@@ -30,6 +30,11 @@ public class AuthoritiesServiceImpl implements AuthoritiesService  {
 	}
 
 	@Override
+	public List<Authorities> findByUserID(String userID) {
+		return dao.findByUserUserID(userID);
+	}
+
+	@Override
 	public void delete(Integer id) {
 		dao.deleteById(id);
 	}

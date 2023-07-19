@@ -32,6 +32,7 @@ public class Users implements Serializable{
 	String email;
 	String address;
 	Boolean isDeleted;
+	String resetToken;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "createdDate")
 	Date createDate = new Date();

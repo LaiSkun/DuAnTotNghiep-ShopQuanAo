@@ -35,6 +35,5 @@ public class Product_Colors {
     public Product_Colors() {
 
     }
-    @OneToMany(mappedBy = "productcolor")
-    private List<Product_Images> images;
+
 }

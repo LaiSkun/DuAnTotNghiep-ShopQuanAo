@@ -1,6 +1,7 @@
 package com.store.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,7 @@ public interface UsersDAO extends JpaRepository<Users, String> {
 	List<Users> findByAuthorities_Role_RoleID(String roleID);
 
 	Users findByUserID(String userID);
+
+	Users findByEmail(String email);
+	Users findByResetPassword(String token);
 }

@@ -7,7 +7,10 @@ import com.store.model.Authorities;
 import com.store.model.Roles;
 import com.store.service.AuthoritiesService;
 import com.store.service.RoleService;
+import com.store.util.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.store.dao.UsersDAO;
@@ -18,12 +21,17 @@ import com.store.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService{
+
+	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 	@Autowired
 	UsersDAO dao;
 	@Autowired
 	AuthoritiesService authoritiesService;
 	@Autowired
 	RoleService roleService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 
 	@Override
 	public List<Users> findAll() {
@@ -75,14 +83,20 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public Users doLogin(String userID, String checkpassword) {
 		Users user = dao.findByUserID(userID);
-
-		if (null != user){
-			String password =user.getPassword();
-			boolean check =  password.equals(checkpassword);
-			return check ? user : null;
-		}else {
-			return null;
+		if (null != user) {
+			String password = user.getPassword();
+			boolean check = passwordEncoder.matches(checkpassword, password);
+			if (check) {
+				List<Authorities> authoritiesList = user.getAuthorities();
+				for (Authorities authorities : authoritiesList) {
+					String userRole = authorities.getRole().getRoleID();
+					if (userRole.equalsIgnoreCase("admin")) {
+						return user; // Trả về người dùng nếu có vai trò admin
+					}
+				}
+			}
 		}
+		return user; // Trả về null nếu không xác thực thành công hoặc không có vai trò admin
 	}
 
 	@Override
@@ -91,6 +105,8 @@ public class UserServiceImpl implements UserService{
 
 		if (null == users){
 			user.setIsDeleted(Boolean.TRUE);
+			String HashPassword = bcrypt.encode(user.getPassword());
+			user.setPassword(HashPassword);
 			Users user1 =dao.saveAndFlush(user);
 			Roles role = roleService.findByID();
 			Authorities authorities = new Authorities();

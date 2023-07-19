@@ -1,12 +1,18 @@
 package com.store.controller;
 
 import com.store.constant.SessionConstant;
+import com.store.model.Authorities;
 import com.store.model.Products;
 import com.store.model.Users;
 import com.store.service.ProductService;
 import com.store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +28,8 @@ public class HomeController {
 	private ProductService productService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AuthenticationManagerBuilder authenticationManagerBuilder;
 
 	private static final int MAX_SIZE =4;
 
@@ -60,15 +68,31 @@ public class HomeController {
 		return "layout/login";
 	}
 
-	@PostMapping("/login")
-	public String doPostLogin(@ModelAttribute("userRequest") Users userRequest, HttpSession session, RedirectAttributes ra) {
-		Users userResponse = userService.doLogin(userRequest.getUserID(), userRequest.getPassword());
-		if (userResponse != null) {
+	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String login(@RequestParam("userID") String username, @RequestParam("password") String password, @ModelAttribute("userRequest") Users userRequest, HttpSession session) throws Exception {
+		// Tạo đối tượng Authentication từ thông tin người dùng
+		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(
+				new UsernamePasswordAuthenticationToken(username, password)
+		);
+
+		// Xác thực thành công, lưu thông tin người dùng vào session
+		if (authentication.isAuthenticated()) {
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			Users userResponse = userService.doLogin(username, password);
 			session.setAttribute(SessionConstant.CURRENT_USER, userResponse);
+
+			// Kiểm tra vai trò của người dùng và chuyển hướng đến trang tương ứng
+			List<Authorities> authoritiesList = userResponse.getAuthorities();
+			for (Authorities authorities : authoritiesList) {
+				String userRole = authorities.getRole().getRoleID();
+				if (userRole.equalsIgnoreCase("admin")||userRole.equalsIgnoreCase("staff")) {
+					return "redirect:/admin";
+				}
+			}
+
 			return "redirect:/home";
 		} else {
-			ra.addFlashAttribute("message", "Đăng nhập thất bại !");
-			return "redirect:/login";
+			throw new Exception("Invalid username or password");
 		}
 	}
 
