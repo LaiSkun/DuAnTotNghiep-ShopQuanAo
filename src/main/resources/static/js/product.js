@@ -364,6 +364,5 @@ document.querySelector("#btnEditProductImg", () => {
     let ProductIDList = document.querySelector("#ProductIDList").children
     for (idx = 0; idx < ProductIDList.length; idx++) {
         idx === 0 ? ProductIDList[0].setAttribute("selected", "selected") : ProductIDList[idx].removeAttribute("selected")
-
     }
 })

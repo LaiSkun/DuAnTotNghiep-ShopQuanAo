@@ -126,6 +126,10 @@ table thead th{
     from {opacity: 0;}
     to {opacity:1 ;}
 }
+.pagination{
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+}
 .exitFormOrderDetail{
     float: right;
     position: absolute;
