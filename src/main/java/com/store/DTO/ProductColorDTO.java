@@ -1,10 +1,21 @@
 package com.store.DTO;
 
-import lombok.Data;
+import com.store.model.Products;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
 public class ProductColorDTO {
-    long imgId;
-    String image;
-    long colorId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long colorID;
+    String colorhex;
+    int available;
+    String color_name;
+    String productID;
 }

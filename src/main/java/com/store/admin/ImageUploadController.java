@@ -15,12 +15,12 @@ import java.nio.file.Paths;
 
 @Controller
 public class ImageUploadController {
-    @RequestMapping(value = "getimage/{img}", method = RequestMethod.GET)
+    @RequestMapping(value = "getimage/{categorid}/{img}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<ByteArrayResource> getImage(@PathVariable("img") String img){
+    public ResponseEntity<ByteArrayResource> getImage(@PathVariable("categorid") String categorid, @PathVariable("img") String img){
         if (!img.equals("")|| img != null){
             try {
-                Path filename = Paths.get("product", img);
+                Path filename = Paths.get( "src/main/resources/static/images/product",categorid, img);
                 byte[] buffer = Files.readAllBytes(filename);
                 ByteArrayResource byteArrayResource = new ByteArrayResource(buffer);
                 return ResponseEntity.ok()

@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface ProductImgService {
     List<Product_Images> findAll();
     Product_Images save(Product_Images productImages) throws SQLException;
-    Optional<Product_Images> findByProductcolor(Product_Colors productColors);
+    List<Product_Images> findByProductcolorId(Product_Colors productColors);
     Optional<Product_Images> findById(long id);
     @Scope(proxyMode = ScopedProxyMode.INTERFACES)
     @Transactional

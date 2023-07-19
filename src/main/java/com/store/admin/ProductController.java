@@ -1,106 +1,141 @@
-package com.store.admin;
+    package com.store.admin;
 
-import com.store.DTO.ProductDTO;
-import com.store.DTO.ProductImgDTO;
-import com.store.configs.CustomConfiguration;
-import com.store.dao.*;
-import com.store.model.*;
-import com.store.service.ProductColorsService;
-import com.store.service.ProductImgService;
-import com.store.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+    import com.store.DTO.ProductColorDTO;
+    import com.store.DTO.ProductDTO;
+    import com.store.DTO.ProductImgDTO;
+    import com.store.configs.CustomConfiguration;
+    import com.store.dao.*;
+    import com.store.model.*;
+    import com.store.service.ProductColorsService;
+    import com.store.service.ProductImgService;
+    import com.store.service.ProductService;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.data.domain.Page;
+    import org.springframework.data.domain.PageRequest;
+    import org.springframework.http.HttpStatus;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.stereotype.Controller;
+    import org.springframework.ui.Model;
+    import org.springframework.ui.ModelMap;
+    import org.springframework.web.bind.annotation.*;
+    import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.transaction.Transactional;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+    import javax.transaction.Transactional;
+    import java.io.File;
+    import java.io.InputStream;
+    import java.nio.file.Files;
+    import java.nio.file.Path;
+    import java.nio.file.Paths;
+    import java.nio.file.StandardCopyOption;
+    import java.sql.SQLException;
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.Objects;
+    import java.util.Optional;
+    import java.util.stream.Collectors;
+    import java.util.stream.IntStream;
 
-@Controller
-@RequestMapping("/admin/product")
-public class ProductController {
-    @Autowired
-    ColorsDAO colorsDAO;
-    @Autowired
-    ProductImgDAO productImgDAO;
-    @Autowired
-    ProductService productService;
-    @Autowired
-    CategoryDAO categoryDAO;
-    @Autowired
-    CustomConfiguration customConfiguration;
-    @Autowired
-    ProductDAO productDAO;
-    @Autowired
-    ProductImgService productImgService;
-    @Autowired
-    ProductColorsService productColorsService;
-    @RequestMapping("")
-    public String adminProduct(Model model, String type, ProductDTO productRequest, @RequestParam("page") Optional<Integer> page,
-                               @RequestParam("size") Optional<Integer> size,@RequestParam("page2") Optional<Integer> page2,
-                               @RequestParam("size2") Optional<Integer> size2){
+    @Controller
+    @RequestMapping("/admin/product")
+
+    public class ProductController {
+        public static List<String> cate2 = new ArrayList<>();
+        @Autowired
+        ColorsDAO colorsDAO;
+        @Autowired
+        ProductImgDAO productImgDAO;
+        @Autowired
+        ProductService productService;
+        @Autowired
+        CategoryDAO categoryDAO;
+        @Autowired
+        CustomConfiguration customConfiguration;
+        @Autowired
+        ProductDAO productDAO;
+        @Autowired
+        ProductImgService productImgService;
+        @Autowired
+        ProductColorsService productColorsService;
+
+        @RequestMapping("")
+        public String adminProduct(Model model, String type, ProductImgDTO prdImg , ProductDTO productRequest, @RequestParam("page") Optional<Integer> page,
+                                   @RequestParam("size") Optional<Integer> size, @RequestParam("page2") Optional<Integer> page2,
+                                   @RequestParam("size2") Optional<Integer> size2) {
             int currentPage = page.orElse(1);
             int pageSize = size.orElse(5);
-            
             int currentPage2 = page2.orElse(1);
             int pageSize2 = size2.orElse(5);
             if (productRequest == null) {
                 productRequest = new ProductDTO();
             }
+            //list products có trạng thái de[reacation = true (ko bán nữa)
             List<Products> products = productService.findDeprecatedTrue();
+            //list products có trạng thái de[reacation = true (đang bán nữa)
             List<Products> productsDepFalse = productService.findDeprecatedFalse();
+            //list categories all
             List<Categories> categories = categoryDAO.findAll();
+            //list product color all
             List<Product_Colors> productColors = productColorsService.findAll();
+            //list productImg all
             List<Product_Images> productImg = productImgService.findAll();
+            //list product All
             List<Products> productAll = productDAO.findAll();
+            //list color All
             List<Colors> colorList = colorsDAO.findAll();
+            //add class disabled (không cho thao tác lên thẻ input của id khi update)
             model.addAttribute("disabled", "disabled");
             model.addAttribute("productColor", productColors);
+            //currentPage của table product
             model.addAttribute("currentPage", currentPage);
+            //currenPage của table productbyColorAndImg
             model.addAttribute("currentPage2", currentPage2);
             model.addAttribute("categories", categories);
             model.addAttribute("productRequest", productRequest);
             model.addAttribute("productImgRequest", new ProductImgDTO());
+            model.addAttribute("productColorRequest", new ProductImgDTO());
             model.addAttribute("type", type);
             model.addAttribute("colorList", colorList);
             model.addAttribute("productAll", productAll);
-        Page<Products> productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), productAll);
-        Page<Product_Images> productImgPage = productImgService.findPaginated(PageRequest.of(currentPage2 - 1, pageSize2),productImg);
-        model.addAttribute("productImg", productImgPage);
-        if (type == null || type.isEmpty()) {
+            Page<Products> productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), productAll);
+            Page<Product_Images> productImgPage = productImgService.findPaginated(PageRequest.of(currentPage2 - 1, pageSize2), productImg);
+            model.addAttribute("productImg", productImgPage);
+            // product id = null thì findall color id còn có thì find theo colorid
+            List<Product_Colors> listColorProduct ;
+            if (prdImg.getProduct() == null){
+                listColorProduct = productColorsService.findByProductID("Ao-Balo");
+            } else {
+                model.addAttribute("productID", prdImg.getProduct().getProductID());
+                listColorProduct = productColorsService.findByProductID(prdImg.getProduct().getProductID());
+            }
+            model.addAttribute("listColorProduct", listColorProduct);
+            if (type == null || type.isEmpty()) {
                 model.addAttribute("url", "/admin/product");
                 productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), productAll);
                 model.addAttribute("productPage", productPage);
-            } else {
+                cate2 = new ArrayList<>();
+            }
+            else {
                 if (type.equals("db")) {
                     productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), products);
                     model.addAttribute("productPage", productPage);
+                    cate2 = new ArrayList<>();
                     model.addAttribute("url", "/admin/product?type=db");
 
                 } else {
                     if (type.equals("nb")) {
-                         productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), productsDepFalse);
+                        productPage = productService.findPaginated(PageRequest.of(currentPage - 1, pageSize), productsDepFalse);
                         model.addAttribute("productPage", productPage);
+                        cate2 = new ArrayList<>();
                         model.addAttribute("url", "/admin/product?type=nb");
 
                     } else {
                         if (type.equals("category")) {
                             List<String> cate = productRequest.listProductByCategory;
-                            List<Categories> categoryIds = cate
+
+                            if (!cate.isEmpty()) {
+                                cate2 = cate;
+                            }
+                            List<Categories> categoryIds = cate2
                                     .parallelStream().map(item -> {
                                         Categories cat = new Categories();
                                         cat.setCategoryID(item);
@@ -123,29 +158,30 @@ public class ProductController {
                     }
                 }
             }
-        int totalPages = productPage.getTotalPages();
-        if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
-        int totalPagesImg = productImgPage.getTotalPages();
-        if (totalPagesImg > 0) {
-            List<Integer> pageNumbers2 = IntStream.rangeClosed(1, totalPagesImg)
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers2", pageNumbers2);
-        }
+            int totalPages = productPage.getTotalPages();
+            if (totalPages > 0) {
+                List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                        .boxed()
+                        .collect(Collectors.toList());
+                model.addAttribute("pageNumbers", pageNumbers);
+            }
+            int totalPagesImg = productImgPage.getTotalPages();
+            if (totalPagesImg > 0) {
+                List<Integer> pageNumbers2 = IntStream.rangeClosed(1, totalPagesImg)
+                        .boxed()
+                        .collect(Collectors.toList());
+                model.addAttribute("pageNumbers2", pageNumbers2);
+            }
             return "/admin/product/index";
         }
 
         @GetMapping("/updateStatusProduct")
-        public String Updatequery (@RequestParam("productID") String productID, RedirectAttributes redirectAttributes){
+        public String Updatequery(@RequestParam("productID") String productID, RedirectAttributes redirectAttributes) {
             Optional<Products> product = productService.findByID(productID);
             if (product.get().isDeprecated()) {
                 try {
-                    productService.deleteProduct(productID);
+                    Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/"+ product.get().getCategory().getCategoryID()+"/"+ product.get().getImg()));
+                     productService.deleteProduct(productID);
                     redirectAttributes.addFlashAttribute("message", "Xóa thành công " + productID);
 
                 } catch (Exception e) {
@@ -166,7 +202,7 @@ public class ProductController {
         }
 
         @GetMapping("/deleteProductImgAndColor")
-        public String Updatequery ( @RequestParam("productImgId") long imgId, RedirectAttributes redirectAttributes){
+        public String Updatequery(@RequestParam("productImgId") long imgId, RedirectAttributes redirectAttributes) {
             Optional<Product_Images> productImg = productImgService.findById(imgId);
             Optional<Product_Colors> productColor = productColorsService.findByID(productImg.get().getProductcolor().getColorID());
 
@@ -186,8 +222,8 @@ public class ProductController {
         }
 
         @GetMapping("/updateStatusTrue")
-        public String UpdateStatusTrue (@RequestParam("productID") String productID, RedirectAttributes
-        redirectAttributes){
+        public String UpdateStatusTrue(@RequestParam("productID") String productID, RedirectAttributes
+                redirectAttributes) {
             try {
                 productService.updateStatusTrue(productID);
                 redirectAttributes.addFlashAttribute("message", "Chuyển thành công sản phẩm " + productID + " sang trạng thái đang bán");
@@ -200,11 +236,11 @@ public class ProductController {
         }
 
         @PostMapping("/create")
-        public String doPostCreateProduct (@ModelAttribute("productRequest") ProductDTO productReq, RedirectAttributes
-        redirectAttributes){
+        public String doPostCreateProduct(@ModelAttribute("productRequest") ProductDTO productReq, RedirectAttributes
+                redirectAttributes) {
             Products products;
             String img;
-            Path path = Paths.get("product/");
+            Path path = Paths.get("src/main/resources/static/images/product/"+ productReq.getCategory().getCategoryID()+"/");
             try {
                 InputStream inputStream = productReq.getImg().getInputStream();
                 img = productReq.getImg().getOriginalFilename();
@@ -212,64 +248,87 @@ public class ProductController {
                     img = "logo.png";
                 }
                 Files.copy(inputStream, path.resolve(img), StandardCopyOption.REPLACE_EXISTING);
-                products = customConfiguration.modelMapper().map(productReq, Products.class);
+                products = customConfiguration.modelMapper().map(productReq, Products.class );
                 products.setImg(img);
                 productService.save(products);
                 redirectAttributes.addFlashAttribute("message", "Thêm mới thành công sản phẩm " + productReq.getName());
             } catch (Exception e) {
                 System.out.println(e);
-                redirectAttributes.addFlashAttribute("error", "Thêm mới thất bại sản phẩm " + productReq.getName());
+                redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại sản phẩm " + productReq.getName());
             }
             redirectAttributes.addFlashAttribute("status", "done_delete");
             return "redirect:/admin/product";
         }
 
         @PostMapping("/createImgProduct")
-        public String doPostCreateImgProduct (@ModelAttribute("productImgRequest") ProductImgDTO
-        productImgDTO, RedirectAttributes redirectAttributes, Model model){
-            Product_Colors productColors;
+        public String doPostCreateImgProduct(@ModelAttribute("productImgRequest") ProductImgDTO
+            productImgDTO, RedirectAttributes redirectAttributes, Model model) {
             Product_Images productImages;
-            String img;
-            Path path = Paths.get("product/");
-            Optional<Product_Colors> productColorsServiceByproductIDAndColorHex = productColorsService.findByproductIDAndColorHex(productImgDTO.getProduct(), productImgDTO.getColorHex());
-            if (productColorsServiceByproductIDAndColorHex.isPresent()) {
 
-                redirectAttributes.addFlashAttribute("message", "Sản phẩm có mã màu này đã tồn tại. ");
-            } else {
+            String categoryId = productService.findByID(productImgDTO.getProduct().getProductID()).get().getCategory().getCategoryID();
+            String img;
+            Path path = Paths.get("src/main/resources/static/images/product/"+categoryId);
                 try {
                     InputStream inputStream = productImgDTO.getImg().getInputStream();
                     img = productImgDTO.getImg().getOriginalFilename();
+                    int countImg = productImgDAO.countImg(img);
                     if (img == null) {
                         img = "logo.png";
                     }
-                    Files.copy(inputStream, path.resolve(img), StandardCopyOption.REPLACE_EXISTING);
-                    Colors color = colorsDAO.findByRGBColor(productImgDTO.getColorHex());
-                    productColors = new Product_Colors();
-                    productColors.setColorhex(color.getRGBColor());
-                    productColors.setColor_name(color.getNameColor());
-                    productColors.setProduct(productImgDTO.getProduct());
-                    productColorsService.save(productColors);
-                    productImages = new Product_Images(img, productColors);
+                    if (countImg == 0 ){Files.copy(inputStream, path.resolve(img), StandardCopyOption.REPLACE_EXISTING);}
+
+                    Optional<Product_Colors> productColors = productColorsService.findByID(productImgDTO.getColorid());
+                    productImages = new Product_Images(img, productColors.get());
                     productImgService.save(productImages);
                     redirectAttributes.addFlashAttribute("message", "Thêm mới thành công sản phẩm ");
                 } catch (Exception e) {
                     System.out.println(e);
                     redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại sản phẩm ");
-                }
+
             }
             model.addAttribute("table2", "table2");
             model.addAttribute("table1", "handletable records table-responsive table1");
             redirectAttributes.addFlashAttribute("status", "done_delete");
             return "redirect:/admin/product";
         }
+        @PostMapping("/createColorProduct")
+        public String doPostCreateColorProduct(@ModelAttribute("productColorRequest") ProductImgDTO
+                                                       productImgDTO, RedirectAttributes redirectAttributes, Model model) throws SQLException {
+            Optional<Product_Colors> productColorsServiceByproductIDAndColorHex = productColorsService.findByproductIDAndColorHex(productImgDTO.getProduct(), productImgDTO.getColorHex());
+            Colors color = colorsDAO.findByRGBColor(productImgDTO.getColorHex());
+            if (productColorsServiceByproductIDAndColorHex.isPresent()) {
+                redirectAttributes.addFlashAttribute("status", "done_delete");
+                redirectAttributes.addFlashAttribute("message", "Sản phẩm đã tồn tại màu " + color.getNameColor()+ " mã màu: " + color.getRGBColor());
+            } else {
+                try {
+                    Product_Colors productColors;
+                    productColors = new Product_Colors();
+                    productColors.setColorhex(color.getRGBColor());
+                    productColors.setColor_name(color.getNameColor());
+                    productColors.setProduct(productImgDTO.getProduct());
+                    productColors.setAvailable(productImgDTO.getAvailable());
+                    productColorsService.save(productColors);
+                    redirectAttributes.addFlashAttribute("message", "Thêm mới thành công sản phẩm ");
+                    model.addAttribute("table2", "table2");
+                    model.addAttribute("table1", "handletable records table-responsive table1");
+                    redirectAttributes.addFlashAttribute("status", "done_delete");
+                    redirectAttributes.addFlashAttribute("message", "Thêm mới thành công sản phẩm ");
+                }catch (Exception e){
+                    System.out.println(e);
+                    redirectAttributes.addFlashAttribute("status", "done_delete");
+                    redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại sản phẩm ");
+                }
+            }
 
+            return "redirect:/admin/product";
+        }
         @PostMapping("/update")
-        public String doPostUpdateProduct (@ModelAttribute("productRequest") ProductDTO productReq, RedirectAttributes
-        redirectAttributes){
+        public String doPostUpdateProduct(@ModelAttribute("productRequest") ProductDTO productReq, RedirectAttributes
+                redirectAttributes) {
             Optional<Products> product = productService.findByID(productReq.getProductID());
             Products products = null;
             String img;
-            Path path = Paths.get("product/");
+            Path path = Paths.get("src/main/resources/static/images/product/"+ productReq.getCategory().getCategoryID()+"/");
             if (productReq.getImg().isEmpty()) {
                 try {
                     img = product.get().getImg();
@@ -277,56 +336,57 @@ public class ProductController {
                     products.setImg(img);
                     productService.save(products);
                     redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getName());
+                    redirectAttributes.addFlashAttribute("status", "done_delete");
                 } catch (Exception e) {
                     e.printStackTrace();
                     redirectAttributes.addFlashAttribute("message", "Cập nhật thất bại " + productReq.getName());
+                    redirectAttributes.addFlashAttribute("status", "done_delete");
+
                 }
             } else {
                 img = productReq.getImg().getOriginalFilename();
+                    String previousImg = product.get().getImg();
+                    String previousCate = product.get().getCategory().getCategoryID();
                 try {
                     if (img == null) {
                         img = "logo.png";
                     }
+
                     InputStream inputStream = productReq.getImg().getInputStream();
                     Files.copy(inputStream, path.resolve(img), StandardCopyOption.REPLACE_EXISTING);
                     products = customConfiguration.modelMapper().map(productReq, Products.class);
                     products.setImg(img);
+                    Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/"+ previousCate +"/"+ previousImg));
                     productService.save(products);
-                    redirectAttributes.addFlashAttribute("Thành công", "Cập nhật thành công " + productReq.getName());
-
+                    redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getName());
+                    redirectAttributes.addFlashAttribute("status", "done_delete");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    redirectAttributes.addFlashAttribute("Lỗi", "Cập nhật thất bại " + productReq.getName());
+                    redirectAttributes.addFlashAttribute("message", "Cập nhật thất bại " + productReq.getName());
+                    redirectAttributes.addFlashAttribute("status", "done_delete");
                 }
 
             }
             redirectAttributes.addFlashAttribute("status", "done_delete");
             return "redirect:/admin/product";
         }
-
-        @PostMapping("/updateProductImgAndColor")
-        public String updateProductImgAndColor (@ModelAttribute("productImgRequest") ProductImgDTO
-        productReq, RedirectAttributes redirectAttributes){
-            Optional<Product_Colors> productColor = productColorsService.findByID(productReq.getId());
+        @PostMapping("/updateProductImg")
+        public String updateProductImgAndColor(@ModelAttribute("productImgRequest") ProductImgDTO
+                                                       productReq, RedirectAttributes redirectAttributes) {
+                Optional<Product_Colors> productColor = productColorsService.findByID(productReq.getColorid());
             Optional<Product_Images> productImages = productImgService.findById(productReq.getImgid());
-            Product_Images productimage = new Product_Images();
-            Product_Colors productColors = new Product_Colors();
-            Colors color = colorsDAO.findByRGBColor(productReq.getColorHex());
+            Product_Images productimage = new Product_Images() ;
             String img;
-            Path path = Paths.get("product/");
+            Path path = Paths.get("src/main/resources/static/images/product/" + productReq.getProduct().getCategory().getCategoryID()+"/");
             if (productReq.getImg().isEmpty()) {
                 try {
                     img = productImages.get().getImage();
-                    productimage.setImgID(productImages.get().getImgID());
-                    productimage.setImage(img);
-                    productimage.setProductcolor(productColor.get());
-                    productColors.setColorID(productImages.get().getProductcolor().getColorID());
-                    productColors.setProduct(productReq.getProduct());
-                    productColors.setColor_name(color.getNameColor());
-                    productColors.setColorhex(productReq.getColorHex());
-                    productImgService.save(productimage);
-                    productColorsService.save(productColors);
-                    redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getProduct().getProductID());
+                        productimage.setImage(img);
+                        productimage.setImgID(productImages.get().getImgID());
+                        productimage.setProductcolor(productColor.get());
+                        productImgService.save(productimage);
+                        redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getProduct().getProductID());
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     redirectAttributes.addFlashAttribute("message", "Cập nhật thất bại " + productReq.getProduct().getProductID());
@@ -337,19 +397,24 @@ public class ProductController {
                     if (img == null) {
                         img = "logo.png";
                     }
-                    InputStream inputStream = productReq.getImg().getInputStream();
-                    Files.copy(inputStream, path.resolve(img), StandardCopyOption.REPLACE_EXISTING);
-                    productimage.setImgID(productImages.get().getImgID());
-                    productimage.setImage(img);
-                    productimage.setProductcolor(productColor.get());
-                    productColors.setColorID(productImages.get().getProductcolor().getColorID());
-                    productColors.setProduct(productReq.getProduct());
-                    productColors.setColor_name(color.getNameColor());
-                    productColors.setColorhex(productReq.getColorHex());
-                    productImgService.save(productimage);
-                    productColorsService.save(productColors);
-                    redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getProduct().getProductID());
+                    int countImg = productImgDAO.countImg(img);
+                    if (countImg == 0) {
+                        InputStream inputStream = productReq.getImg().getInputStream();
+                        Files.copy(inputStream, path.resolve(img), StandardCopyOption.REPLACE_EXISTING);
+                        productimage.setImgID(productImages.get().getImgID());
+                        productimage.setImage(img);
+                        productimage.setProductcolor(productColor.get());
+                        productImgService.save(productimage);
+                        redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getProduct().getProductID());
 
+                    } else {
+                        productimage.setImgID(productImages.get().getImgID());
+                        productimage.setImage(img);
+                        productimage.setProductcolor(productColor.get());
+                        productImgService.save(productimage);
+                        redirectAttributes.addFlashAttribute("message", "Cập nhật thành công, tuy nhiên tên ảnh bạn vừa thêm đã tồn tại trước đó vui lòng kiểm tra lại " + productReq.getProduct().getProductID());
+
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     redirectAttributes.addFlashAttribute("message", "Cập nhật thất bại " + productReq.getProduct().getProductID());
@@ -359,84 +424,24 @@ public class ProductController {
             redirectAttributes.addFlashAttribute("status", "done_delete");
             return "redirect:/admin/product";
         }
+        @PostMapping("/updateProductColor")
+        public String updateProductColor(@ModelAttribute("productImgRequest") ProductImgDTO
+                                                       productReq, RedirectAttributes redirectAttributes) throws SQLException {
 
-        @RequestMapping("/edit/{id}")
-        public String UpdateProduct (@PathVariable("id") String id, ModelMap model){
-            Optional<Products> prd = productService.findByID(id);
-            List<Products> products1 = productDAO.findAll();
-            List<Categories> categories = categoryDAO.findAll();
-            List<Products> productsDepFalse = productService.findDeprecatedFalse();
-            List<Colors> colorList = colorsDAO.findAll();
-            model.addAttribute("productsDepFalse", products1);
-            model.addAttribute("productImgRequest", new ProductImgDTO());
-            model.addAttribute("handleUpdate", "display : block");
-            model.addAttribute("colorList", colorList);
-            ProductDTO dto = null;
-            if (prd.isPresent()) {
-                Products products = prd.get();
-                model.addAttribute("imgName", products.getImg());
-                dto = customConfiguration.modelMapper().map(products, ProductDTO.class);
-            } else {
-                model.addAttribute("productRequest", new ProductDTO());
-            }
+            try {
+                Optional<Product_Colors> productColor = productColorsService.findByID(productReq.getColorid());
+                Product_Colors prd = customConfiguration.modelMapper().map(productReq, Product_Colors.class);
+                prd.setColor_name(productReq.getColor());
+                productColorsService.save(prd);
+                redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getProduct().getProductID());
 
-            //fill dữ liệu lên combobox trong table
-            model.addAttribute("categories", categories);
-            //fill dữ liệu lên table
-            model.addAttribute("product", products1);
-            model.addAttribute("handle", "handle");
-            if (dto.isDeprecated()) {
+            } catch (Exception e) {
+                    e.printStackTrace();
+                    redirectAttributes.addFlashAttribute("message", "Cập nhật thất bại " + productReq.getProduct().getProductID());
+                }
 
-            } else {
-                model.addAttribute("productRequest", dto);
-            }
-            // đang lỗi ở đây
-            return "/admin/product/index";
-        }
 
-        @RequestMapping("/productImgEdit/{id}")
-        public String UpdateProductImgAndColor (@PathVariable("id") Long id, ModelMap model){
-            // productImg {namne img, idcolor, imgid }
-            model.addAttribute("imgName", "ok.jpg");
-            model.addAttribute("productRequest", new ProductDTO());
-            //productColor {colorID, colorhex., color_name, productID}
-            Optional<Product_Colors> productColor = productColorsService.findByID(id);
-            List<Product_Images> productImgAll = productImgService.findAll();
-            Optional<Product_Images> productImg = productImgService.findByProductcolor(productColor.get());
-//            model.addAttribute("productImg", productImgAll);
-            List<Products> products1 = productDAO.findAll();
-            List<Categories> categories = categoryDAO.findAll();
-//        List<Products> productsDepFalse = productService.findDeprecatedFalse();
-            List<Colors> colorList = colorsDAO.findAll();
-            model.addAttribute("productsDepFalse", products1);
-            List<Products> productAll = productDAO.findAll();
-            model.addAttribute("productAll", productAll);
-            model.addAttribute("table2", "table2");
-            model.addAttribute("updateImgProduct", "btn updateImgProduct");
-            model.addAttribute("table1", "handletable records table-responsive table1");
-            model.addAttribute("handle2", "handle2");
-            model.addAttribute("productImgRequest", new ProductImgDTO());
-            model.addAttribute("handleUpdate", "display : block");
-            model.addAttribute("colorList", colorList);
-            ProductImgDTO dto = new ProductImgDTO();
-            if (productImg.isPresent()) {
-                Product_Images products = productImg.get();
-                model.addAttribute("imgName2", products.getImage());
-                dto.setColorHex(productColor.get().getColorhex());
-                dto.setId(productColor.get().getColorID());
-                dto.setColor(productColor.get().getColor_name());
-                dto.setProduct(productColor.get().getProduct());
-                dto.setImgid(products.getImgID());
-            } else {
-                model.addAttribute("productImgRequest", new ProductImgDTO());
-            }
-            //fill dữ liệu lên combobox trong table
-            model.addAttribute("categories", categories);
-            //fill dữ liệu lên table
-            model.addAttribute("product", products1);
-
-            model.addAttribute("productImgRequest", dto);
-
-            return "/admin/product/index";
+            redirectAttributes.addFlashAttribute("status", "done_delete");
+            return "redirect:/admin/product";
         }
     }
