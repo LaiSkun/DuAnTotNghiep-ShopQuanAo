@@ -1,168 +1,257 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Modern Admin Dashboard</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-
-<link rel="stylesheet" th:href="@{/css/admin.css}">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-	integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet"
-	href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1"
+          name="viewport">
+    <title>Modern Admin Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet">
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/order.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link crossorigin="anonymous"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          referrerpolicy="no-referrer" rel="stylesheet"/>
+    <link href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
+          rel="stylesheet">
 </head>
 <body>
-	<input type="checkbox" id="menu-toggle">
-	<div th:replace="admin/sidemenu :: div"></div>
-	<div class="main-content">
+<input id="menu-toggle" type="checkbox">
+<div th:replace="admin/sidemenu :: div"></div>
+<div class="main-content">
 
-		<header>
-			<div class="header-content">
-				<label for="menu-toggle"> <span class="las la-bars"></span>
-				</label>
+    <header>
+        <div class="header-content">
+            <label for="menu-toggle"> <span class="las la-bars"></span>
+            </label>
 
-				<div class="header-menu">
-					<label for=""> <span class="las la-search"></span>
-					</label>
+            <div class="header-menu">
+                <label for=""> <span class="las la-search"></span>
+                </label>
 
-					<div class="notify-icon">
-						<span class="las la-envelope"></span> <span class="notify">4</span>
-					</div>
+                <div class="notify-icon">
+                    <span class="las la-envelope"></span> <span class="notify">4</span>
+                </div>
 
-					<div class="notify-icon">
-						<span class="las la-bell"></span> <span class="notify">3</span>
-					</div>
+                <div class="notify-icon">
+                    <span class="las la-bell"></span> <span class="notify">3</span>
+                </div>
 
-					<div class="user">
-						<div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
+                <div class="user">
+                    <div class="bg-img" style="background-image: url(/images/1.jpeg)"></div>
 
-						<span><a th:href="@{/logout}" class="log">Logout</a></span>
-					</div>
-				</div>
-			</div>
-		</header>
+                    <span class="las la-power-off"></span> <span>Logout</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
 
+        <div class="page-header">
+            <h1>Other</h1>
+            <small>Home / Other</small>
+        </div>
 
-		<main>
+        <div class="page-content">
 
-			<div class="page-header">
-				<h1>Other</h1>
-				<small>Home / Other</small>
-			</div>
+            <div class="analytics">
 
-			<div class="page-content">
+                <div class="card">
+                    <div class="card-head">
+                        <h2>107,200</h2>
+                        <span class="las la-user-friends"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>User activity this month</small>
+                        <div class="card-indicator">
+                            <div class="indicator one" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
 
-				<div class="analytics">
+                <div class="card">
+                    <div class="card-head">
+                        <h2>340,230</h2>
+                        <span class="las la-eye"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Page views</small>
+                        <div class="card-indicator">
+                            <div class="indicator two" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
 
-					<div class="card">
-						<div class="card-head">
-							<h2>107,200</h2>
-							<span class="las la-user-friends"></span>
-						</div>
-						<div class="card-progress">
-							<small>User activity this month</small>
-							<div class="card-indicator">
-								<div class="indicator one" style="width: 60%"></div>
-							</div>
-						</div>
-					</div>
+                <div class="card">
+                    <div class="card-head">
+                        <h2>$653,200</h2>
+                        <span class="las la-shopping-cart"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Monthly revenue growth</small>
+                        <div class="card-indicator">
+                            <div class="indicator three" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
 
-					<div class="card">
-						<div class="card-head">
-							<h2>340,230</h2>
-							<span class="las la-eye"></span>
-						</div>
-						<div class="card-progress">
-							<small>Page views</small>
-							<div class="card-indicator">
-								<div class="indicator two" style="width: 80%"></div>
-							</div>
-						</div>
-					</div>
+                <div class="card">
+                    <div class="card-head">
+                        <h2>47,500</h2>
+                        <span class="las la-envelope"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>New E-mails received</small>
+                        <div class="card-indicator">
+                            <div class="indicator four" style="width: 90%"></div>
+                        </div>
+                    </div>
+                </div>
 
-					<div class="card">
-						<div class="card-head">
-							<h2>$653,200</h2>
-							<span class="las la-shopping-cart"></span>
-						</div>
-						<div class="card-progress">
-							<small>Monthly revenue growth</small>
-							<div class="card-indicator">
-								<div class="indicator three" style="width: 65%"></div>
-							</div>
-						</div>
-					</div>
+            </div>
 
-					<div class="card">
-						<div class="card-head">
-							<h2>47,500</h2>
-							<span class="las la-envelope"></span>
-						</div>
-						<div class="card-progress">
-							<small>New E-mails received</small>
-							<div class="card-indicator">
-								<div class="indicator four" style="width: 90%"></div>
-							</div>
-						</div>
-					</div>
+            <div class="records table-responsive">
 
-				</div>
+                <div class="record-header">
+                    <div class="add">
+                        <span>Entries</span> <select id="" name="">
+                        <option value="">ID</option>
+                    </select>
 
+                    </div>
 
-				<div class="records table-responsive">
+                    <div class="browse">
+                        <input class="record-search" placeholder="Search" type="search">
+                        <select name="">
+                            <option value="">Status</option>
+                        </select>
+                    </div>
+                </div>
 
-					<div class="record-header">
-						<div class="add">
-							<span>Entries</span> <select name="" id="">
-								<option value="">ID</option>
-							</select>
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><span class="las la-sort"></span>Order ID</th>
+                            <th><span class="las la-sort"></span> User ID</th>
+                            <th><span class="las la-sort"></span> Address</th>
+                            <th><span class="las la-sort"></span> Phone</th>
+                            <th><span class="las la-sort"></span> CreatedDate</th>
+                            <th><span class="las la-sort"></span> Email</th>
+                            <th><span class="las la-sort"></span>TotalPrice</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr onclick="check(this)" th:class="${Orders.user.userID}" th:each="Orders,idx : ${Orders}" >
+                            <td>[[${Orders.orderID}]]</td>
+                            <td>[[${Orders.address}]]</td>
+                            <td>[[${Orders.phone}]]</td>
+                            <td>[[${Orders.email}]]</td>
+                            <td>[[${Orders.price}]]</td>
+                            <td>[[${Orders.date}]]</td>
+                            <td>[[${Orders.user.userID}]]</td>
+                            <td class="default" th:id="${Orders.user.userID}" >
+                               <i class="exit fa-solid fa-xmark exitFormOrderDetail" onclick="exitFormOrderDetail()"></i>
+                                <table class="showOrderDetailTable">
+                                    <thead>
+                                    <tr>
+                                        <th><span class="las la-sort"></span> Tên người mua</th>
+                                        <th><span class="las la-sort"></span> Tên sản phẩm</th>
+                                        <th><span class="las la-sort"></span> Màu sản phẩm</th>
+                                        <th><span class="las la-sort"></span> Giá</th>
+                                        <th><span class="las la-sort"></span> Số lượng</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody >
+                                    <tr th:each="listOrder, id : ${listOrderDetails.get(idx.index)}">
+                                         <td th:text="${Orders.user.username}"></td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getProduct().getName()}"></td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getColorId().getColor_name()}"> Màu sản phẩm</td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getPrice()}"></td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getQuantity()}"> </td>
+                                    </tr>
+                                    </tbody>
 
-						</div>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--                    pagination-->
+                    <div id="pagination">
+                        <div
+                                th:if="${currentPage > 1 }">
+                            <a th:class="${Orders == Orders.number } ? active : pagination"
+                               th:href="@{${url}(size=${Orders.size}, page=${currentPage - 1} )}"
+                            >prev</a>
+                        </div>
+                        <div
+                                th:unless="${currentPage > 1}">
+                            <a th:class="${disabled}">prev</a>
+                        </div>
+                        <div>
+                            <a th:class="${currentPage == 1 } ? active : pagination"
+                               th:href="@{${url}(size=${Orders.size}, page=1 )}"
+                               th:text="1"
+                            ></a>
+                        </div>
+                        <div th:if="${ 1 < currentPage and currentPage < Orders.totalPages}">
+                            <a th:class="${currentPage } ? active "
+                               th:href="@{${url}(size=${Orders.size}, page=${currentPage} )}"
+                               th:text="${currentPage}"
+                            ></a>
+                        </div>
 
-						<div class="browse">
-							<input type="search" placeholder="Search" class="record-search">
-							<select name="" id="">
-								<option value="">Status</option>
-							</select>
-						</div>
-					</div>
+                        <div>
+                            <a th:class="${currentPage} ?  pagination"
+                            >...</a>
+                        </div>
+                        <div>
+                            <a th:class="${currentPage == 4 } ? active : pagination"
+                               th:href="@{${url}(size=${Orders.size}, page=${Orders.totalPages} )}"
+                               th:text="${Orders.totalPages}"
+                            ></a>
+                        </div>
+                        <div
+                                th:if="${Orders.totalPages > currentPage}">
+                            <a th:class="${currentPage ==Orders.number} ? active : pagination"
+                               th:href="@{${url}(size=${Orders.size}, page=${currentPage+1})}"
+                            >next</a>
+                        </div>
+                        <div th:unless="${Orders.totalPages > currentPage}">
+                            <a th:class="${disabled}">next</a>
+                        </div>
 
-					<div>
-						<table width="100%">
-							<thead>
-								<tr>
-									<th><span class="las la-sort"></span> Name Product</th>
-									<th><span class="las la-sort"></span> Date</th>
-									<th><span class="las la-sort"></span> Price</th>
-									<th><span class="las la-sort"></span> Address</th>
-									<th><span class="las la-sort"></span>Payment Status</th>
-								</tr>
-							</thead>
-							<tbody>
-								<td>Áo ba lỗ</td>
-								<td>6-5-2023</td>
-								<td>20000</td>
-								<td>HCM</td>
-								<td>Done</td>
-							</tbody>
-						</table>
-					</div>
+                    </div>
+                </div>
+            </div>
 
-				</div>
+        </div>
+    </main>
 
-			</div>
-
-		</main>
-
-	</div>
+</div>
 </body>
+<script>
+        function check(item) {
+        let dv = document.querySelector(".activeTable")
+        let lastChildItem = item.lastChild.previousElementSibling;
+        let id = item.getAttribute("class")
+        let b = document.querySelector(`#${id}`)
+        dv != null && dv.classList.remove("activeTable")
+        lastChildItem.getAttribute("handleExit") == null ? b.classList.add("activeTable") : lastChildItem.removeAttribute("handleExit")
+    }
+    const exitFormOrderDetail = () =>{
+        let dv = document.querySelector(".activeTable")
+        dv.classList.remove("activeTable")
+        dv.setAttribute("handleExit", "true")
+    }
+    window.addEventListener("load", () => {
+        location.href.includes("/order") && document.querySelector(".oderIcon").setAttribute("style", "color:#fff; scale:1.1")
+    })
+</script>
 </html>

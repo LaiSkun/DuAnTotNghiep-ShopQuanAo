@@ -18,10 +18,9 @@ public class ProductDTO {
     String name;
     MultipartFile img;
     Double price;
-    @Column(name = "Createdate")
+    @Column(name = "Date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date createDate = new Date();
-    int available;
     boolean deprecated;
     long colorId;
     String description;
@@ -37,13 +36,13 @@ public class ProductDTO {
     public ProductDTO() {
     }
     public List<String> listProductByCategory = new ArrayList<>();
-    public ProductDTO(String productID, String name, MultipartFile img, Double price, Date createDate, int available, boolean deprecated, String description, Categories category, List<Order_Details> orderDetails) {
+    public static List<String> listCate = new ArrayList<>();
+    public ProductDTO(String productID, String name, MultipartFile img, Double price, Date createDate, boolean deprecated, String description, Categories category, List<Order_Details> orderDetails) {
         this.productID = productID;
         this.name = name;
         this.img = img;
         this.price = price;
         this.createDate = createDate;
-        this.available = available;
         this.deprecated = deprecated;
         this.description = description;
         this.category = category;

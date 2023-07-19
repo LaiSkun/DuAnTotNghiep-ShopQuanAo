@@ -24,6 +24,12 @@ public class ProductColorsImpl implements ProductColorsService {
     public List<Product_Colors> findAll() {
         return  productColorDAO.findAll();
     }
+
+    @Override
+    public List<Product_Colors> findByProductID(String id) {
+        return productColorDAO.findByProduct_ProductID(id);
+    }
+
     @Override
     public Product_Colors save(Product_Colors productColors) throws SQLException {
         return productColorDAO.saveAndFlush(productColors);

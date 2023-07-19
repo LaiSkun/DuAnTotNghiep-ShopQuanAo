@@ -18,9 +18,9 @@ public class Order_Details {
     Double price;
     Integer quantity;
 
-    @JsonIgnore
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(name = "productID")
     Products product;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,4 +31,5 @@ public class Order_Details {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderID")
     Orders order;
+
 }

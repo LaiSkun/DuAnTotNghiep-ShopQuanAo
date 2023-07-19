@@ -65,20 +65,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.authorizeRequests()
-			.antMatchers("/admin").hasAnyAuthority("admin","staff")
-			.antMatchers("/admin/authorizing").hasAuthority("admin")
-			.antMatchers("/admin/authorities").hasAuthority("admin")
-			.anyRequest().permitAll()
-			.and()
-			.exceptionHandling()
-	        .accessDeniedHandler((request, response, accessDeniedException) -> {
-	            if (request.isUserInRole("customer")) {
-	                response.sendRedirect("/home"); // Chuyển hướng người dùng về trang chủ (home)
-	            } else {
-	                response.sendRedirect("/home"); // Chuyển hướng đến trang truy cập bị từ chối (access denied) khác nếu cần
-	            }
-	        });
+//		http.authorizeRequests()
+//			.antMatchers("/admin").hasAnyAuthority("admin","staff")
+//			.antMatchers("/admin/authorizing").hasAuthority("admin")
+//			.antMatchers("/admin/authorities").hasAuthority("admin")
+//			.anyRequest().permitAll()
+//			.and()
+//			.exceptionHandling()
+//	        .accessDeniedHandler((request, response, accessDeniedException) -> {
+//	            if (request.isUserInRole("customer")) {
+//	                response.sendRedirect("/home"); // Chuyển hướng người dùng về trang chủ (home)
+//	            } else {
+//	                response.sendRedirect("/home"); // Chuyển hướng đến trang truy cập bị từ chối (access denied) khác nếu cần
+//	            }
+//	        });
 	}
 	@Bean
 	public PasswordEncoder passwordEncoder() {

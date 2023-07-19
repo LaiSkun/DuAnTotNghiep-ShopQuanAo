@@ -34,8 +34,13 @@ public class ProductImgImpl implements ProductImgService {
          return productImgDAO.saveAndFlush(productImages);
     }
 
+//    @Override
+//    public Optional<Product_Images> findByProductcolor(Product_Colors productColors) {
+//        return productImgDAO.findByProductcolor(productColors);
+//    }
+
     @Override
-    public Optional<Product_Images> findByProductcolor(Product_Colors productColors) {
+    public List<Product_Images> findByProductcolorId(Product_Colors productColors) {
         return productImgDAO.findByProductcolor(productColors);
     }
 
