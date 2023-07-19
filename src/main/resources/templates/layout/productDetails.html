@@ -286,7 +286,7 @@
                       </div>
                       <div class="productname" th:text="${product.name}"></div>
                       <h4 class="price"
-                          th:text="${#numbers.formatCurrency(product.price)}"></h4>
+                          th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4> 
                       <div class="button_group">
                         <button class="button add-cart" type="button">Add
                           To Cart</button>
@@ -322,7 +322,7 @@
               <div class="product-info">
                 <p th:text="${product.name}"></p>
                 <h5 class="price"
-                    th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} "></h5>
+                    th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' VND'} "></h5>
               </div>
             </div>
           </div>
@@ -421,35 +421,7 @@
               </a></li>
             </ul>
           </li>
-          <li>
-            <ul class="brand_item">
-              <li><a href="#">
-                <div class="brand-logo">
-                  <img th:src="@{/images/envato.png}" alt="">
-                </div>
-              </a></li>
-              <li><a href="#">
-                <div class="brand-logo">
-                  <img th:src="@{/images/themeforest.png}" alt="">
-                </div>
-              </a></li>
-              <li><a href="#">
-                <div class="brand-logo">
-                  <img th:src="@{/images/photodune.png}" alt="">
-                </div>
-              </a></li>
-              <li><a href="#">
-                <div class="brand-logo">
-                  <img th:src="@{/images/activeden.png}" alt="">
-                </div>
-              </a></li>
-              <li><a href="#">
-                <div class="brand-logo">
-                  <img th:src="@{/images/envato.png}" alt="">
-                </div>
-              </a></li>
-            </ul>
-          </li>
+          
         </ul>
       </div>
     </div>

@@ -98,14 +98,17 @@ public class CartServiceImpl implements CartService {
             order.setEmail(email);
         }
         order.setEmail(email);
-        order.setPrice(cart.getTotalPrice());
-
-
+        if(cart.getTotalPrice() > 0) {
+        	order.setPrice(cart.getTotalPrice());
+        }else
+        {
+        	
+        }
         try {
             Orders orderRespone = ordersService.insert(order);
             Status status = new Status();
             status.setStatusID(order.getOrderID());
-            status.setDescription("Chưa thanh toán");
+            status.setDescription("Đang xử lý");
             status.setStatusname("New");
             status.setCreateDate(new Date());
             status.setTransportFee(cart.getTotalPrice() * 2 / 10);
