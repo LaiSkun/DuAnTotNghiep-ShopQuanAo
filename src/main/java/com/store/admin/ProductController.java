@@ -262,36 +262,29 @@
 
         @PostMapping("/createImgProduct")
         public String doPostCreateImgProduct(@ModelAttribute("productImgRequest") ProductImgDTO
-                                                     productImgDTO, RedirectAttributes redirectAttributes, Model model) {
-            Product_Colors productColors;
+            productImgDTO, RedirectAttributes redirectAttributes, Model model) {
             Product_Images productImages;
-            String img;
-            Path path = Paths.get("product/");
-            Optional<Product_Colors> productColorsServiceByproductIDAndColorHex = productColorsService.findByproductIDAndColorHex(productImgDTO.getProduct(), productImgDTO.getColorHex());
-            if (productColorsServiceByproductIDAndColorHex.isPresent()) {
 
-                redirectAttributes.addFlashAttribute("message", "Sản phẩm có mã màu này đã tồn tại. ");
-            } else {
+            String categoryId = productService.findByID(productImgDTO.getProduct().getProductID()).get().getCategory().getCategoryID();
+            String img;
+            Path path = Paths.get("src/main/resources/static/images/product/"+categoryId);
                 try {
                     InputStream inputStream = productImgDTO.getImg().getInputStream();
                     img = productImgDTO.getImg().getOriginalFilename();
+                    int countImg = productImgDAO.countImg(img);
                     if (img == null) {
                         img = "logo.png";
                     }
-                    Files.copy(inputStream, path.resolve(img), StandardCopyOption.REPLACE_EXISTING);
-                    Colors color = colorsDAO.findByRGBColor(productImgDTO.getColorHex());
-                    productColors = new Product_Colors();
-                    productColors.setColorhex(color.getRGBColor());
-                    productColors.setColor_name(color.getNameColor());
-                    productColors.setProduct(productImgDTO.getProduct());
-                    productColorsService.save(productColors);
-                    productImages = new Product_Images(img, productColors);
+                    if (countImg == 0 ){Files.copy(inputStream, path.resolve(img), StandardCopyOption.REPLACE_EXISTING);}
+
+                    Optional<Product_Colors> productColors = productColorsService.findByID(productImgDTO.getColorid());
+                    productImages = new Product_Images(img, productColors.get());
                     productImgService.save(productImages);
                     redirectAttributes.addFlashAttribute("message", "Thêm mới thành công sản phẩm ");
                 } catch (Exception e) {
                     System.out.println(e);
                     redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại sản phẩm ");
-                }
+
             }
             model.addAttribute("table2", "table2");
             model.addAttribute("table1", "handletable records table-responsive table1");
@@ -377,30 +370,23 @@
             redirectAttributes.addFlashAttribute("status", "done_delete");
             return "redirect:/admin/product";
         }
-        @ResponseStatus(HttpStatus.OK)
-        @PostMapping("/updateProductImgAndColor")
+        @PostMapping("/updateProductImg")
         public String updateProductImgAndColor(@ModelAttribute("productImgRequest") ProductImgDTO
                                                        productReq, RedirectAttributes redirectAttributes) {
-            Optional<Product_Colors> productColor = productColorsService.findByID(productReq.getId());
+                Optional<Product_Colors> productColor = productColorsService.findByID(productReq.getColorid());
             Optional<Product_Images> productImages = productImgService.findById(productReq.getImgid());
-            Product_Images productimage = new Product_Images();
-            Product_Colors productColors = new Product_Colors();
-            Colors color = colorsDAO.findByRGBColor(productReq.getColorHex());
+            Product_Images productimage = new Product_Images() ;
             String img;
-            Path path = Paths.get("product/");
+            Path path = Paths.get("src/main/resources/static/images/product/" + productReq.getProduct().getCategory().getCategoryID()+"/");
             if (productReq.getImg().isEmpty()) {
                 try {
                     img = productImages.get().getImage();
-                    productimage.setImgID(productImages.get().getImgID());
-                    productimage.setImage(img);
-                    productimage.setProductcolor(productColor.get());
-                    productColors.setColorID(productImages.get().getProductcolor().getColorID());
-                    productColors.setProduct(productReq.getProduct());
-                    productColors.setColor_name(color.getNameColor());
-                    productColors.setColorhex(productReq.getColorHex());
-                    productImgService.save(productimage);
-                    productColorsService.save(productColors);
-                    redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getProduct().getProductID());
+                        productimage.setImage(img);
+                        productimage.setImgID(productImages.get().getImgID());
+                        productimage.setProductcolor(productColor.get());
+                        productImgService.save(productimage);
+                        redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getProduct().getProductID());
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     redirectAttributes.addFlashAttribute("message", "Cập nhật thất bại " + productReq.getProduct().getProductID());
@@ -411,19 +397,24 @@
                     if (img == null) {
                         img = "logo.png";
                     }
-                    InputStream inputStream = productReq.getImg().getInputStream();
-                    Files.copy(inputStream, path.resolve(img), StandardCopyOption.REPLACE_EXISTING);
-                    productimage.setImgID(productImages.get().getImgID());
-                    productimage.setImage(img);
-                    productimage.setProductcolor(productColor.get());
-                    productColors.setColorID(productImages.get().getProductcolor().getColorID());
-                    productColors.setProduct(productReq.getProduct());
-                    productColors.setColor_name(color.getNameColor());
-                    productColors.setColorhex(productReq.getColorHex());
-                    productImgService.save(productimage);
-                    productColorsService.save(productColors);
-                    redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getProduct().getProductID());
+                    int countImg = productImgDAO.countImg(img);
+                    if (countImg == 0) {
+                        InputStream inputStream = productReq.getImg().getInputStream();
+                        Files.copy(inputStream, path.resolve(img), StandardCopyOption.REPLACE_EXISTING);
+                        productimage.setImgID(productImages.get().getImgID());
+                        productimage.setImage(img);
+                        productimage.setProductcolor(productColor.get());
+                        productImgService.save(productimage);
+                        redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getProduct().getProductID());
 
+                    } else {
+                        productimage.setImgID(productImages.get().getImgID());
+                        productimage.setImage(img);
+                        productimage.setProductcolor(productColor.get());
+                        productImgService.save(productimage);
+                        redirectAttributes.addFlashAttribute("message", "Cập nhật thành công, tuy nhiên tên ảnh bạn vừa thêm đã tồn tại trước đó vui lòng kiểm tra lại " + productReq.getProduct().getProductID());
+
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     redirectAttributes.addFlashAttribute("message", "Cập nhật thất bại " + productReq.getProduct().getProductID());
@@ -433,51 +424,24 @@
             redirectAttributes.addFlashAttribute("status", "done_delete");
             return "redirect:/admin/product";
         }
+        @PostMapping("/updateProductColor")
+        public String updateProductColor(@ModelAttribute("productImgRequest") ProductImgDTO
+                                                       productReq, RedirectAttributes redirectAttributes) throws SQLException {
 
-        @RequestMapping("/productImgEdit/{id}")
-        public String UpdateProductImgAndColor(@PathVariable("id") Long id, ModelMap model) {
-//            // productImg {namne img, idcolor, imgid }
-//            model.addAttribute("imgName", "ok.jpg");
-//            model.addAttribute("productRequest", new ProductDTO());
-//            //productColor {colorID, colorhex., color_name, productID}
-//            Optional<Product_Colors> productColor = productColorsService.findByID(id);
-//            List<Product_Images> productImgAll = productImgService.findAll();
-////            Optional<Product_Images> productImg = productImgService.findByProductcolor(productColor.get());
-//    //            model.addAttribute("productImg", productImgAll);
-//            List<Products> products1 = productDAO.findAll();
-//            List<Categories> categories = categoryDAO.findAll();
-//    //        List<Products> productsDepFalse = productService.findDeprecatedFalse();
-//            List<Colors> colorList = colorsDAO.findAll();
-//            model.addAttribute("productsDepFalse", products1);
-//            List<Products> productAll = productDAO.findAll();
-//            model.addAttribute("productAll", productAll);
-//            model.addAttribute("table2", "table2");
-//            model.addAttribute("updateImgProduct", "btn updateImgProduct");
-//            model.addAttribute("table1", "handletable records table-responsive table1");
-//            model.addAttribute("handle2", "handle2");
-//            model.addAttribute("handle4", "handle4");
-//            model.addAttribute("productImgRequest", new ProductImgDTO());
-//            model.addAttribute("handleUpdate", "display : block");
-//            model.addAttribute("colorList", colorList);
-//            ProductImgDTO dto = new ProductImgDTO();
-//            if (productImg.isPresent()) {
-//                Product_Images products = productImg.get();
-//                model.addAttribute("imgName2", products.getImage());
-//                dto.setColorHex(productColor.get().getColorhex());
-//                dto.setId(productColor.get().getColorID());
-//                dto.setColor(productColor.get().getColor_name());
-//                dto.setProduct(productColor.get().getProduct());
-//                dto.setImgid(products.getImgID());
-//            } else {
-//                model.addAttribute("productImgRequest", new ProductImgDTO());
-//            }
-//            //fill dữ liệu lên combobox trong table
-//            model.addAttribute("categories", categories);
-//            //fill dữ liệu lên table
-//            model.addAttribute("product", products1);
-//
-//            model.addAttribute("productImgRequest", dto);
+            try {
+                Optional<Product_Colors> productColor = productColorsService.findByID(productReq.getColorid());
+                Product_Colors prd = customConfiguration.modelMapper().map(productReq, Product_Colors.class);
+                prd.setColor_name(productReq.getColor());
+                productColorsService.save(prd);
+                redirectAttributes.addFlashAttribute("message", "Cập nhật thành công " + productReq.getProduct().getProductID());
 
-            return "/admin/product/index";
+            } catch (Exception e) {
+                    e.printStackTrace();
+                    redirectAttributes.addFlashAttribute("message", "Cập nhật thất bại " + productReq.getProduct().getProductID());
+                }
+
+
+            redirectAttributes.addFlashAttribute("status", "done_delete");
+            return "redirect:/admin/product";
         }
     }

@@ -11,16 +11,15 @@
 				M<span>odern</span>
 			</h3>
 		</div>
-
 		<div class="side-content">
 			<div class="profile">
 				<div class="profile-img bg-img"
 					style="background-image: url(/images/3.jpeg)"></div>
-				<h4 th:text="${session.currentUser.username}"></h4>
-				<small
-					th:if="${#authorization.expression('hasAuthority(''admin'')')}">Admin</small>
-				<small
-					th:if="${#authorization.expression('hasAuthority(''staff'')')}">Staff</small>
+<!--				<h4 th:text="${session.currentUser.username}"></h4>-->
+<!--				<small-->
+<!--					th:if="${#authorization.expression('hasAuthority(''admin'')')}">Admin</small>-->
+<!--				<small-->
+<!--					th:if="${#authorization.expression('hasAuthority(''staff'')')}">Staff</small>-->
 			</div>
 
 			<div class="side-menu">

@@ -51,29 +51,29 @@
                 }
 
             }
-
-            (async function ListProduct() {
-                const response = await fetch("/admin/product/list");
-                const data = await response.json();
-                console.log('hello')
-                console.log(data)
-                localStorage.setItem("listProductColor", JSON.stringify(data))
-            })()
-
-            function handleExit() {
+            async function handleExit() {
+                localStorage.removeItem("listProductColorByProductId")
                 handle.classList.remove("handle")
                 handle2.classList.remove("handle2")
                 handle3.classList.remove("handle3")
                 handle4.classList.remove("handle4")
-                document.querySelector("#ProductID").value = ""
-                document.querySelector("#productName").value = ""
-                document.querySelector("#viewcount").value = ""
-                document.querySelector("#createdDate").value = ""
+                handle5.classList.remove("handle5")
+                document.querySelector("#avt2").setAttribute("src","")
+               let firstChild = document.querySelector("#ProductIDList").children[0]
+                firstChild.setAttribute('selected', "selected")
+                document.querySelector("#ProductIDList").setAttribute("value", firstChild.getAttribute("value"))
+           await  submitlistProduct(firstChild.getAttribute("value"))
                 if (location.href.includes("http://localhost:8080/admin/product/productImgEdit/")) {
                     location.href = "http://localhost:8080/admin/product?size2=5&page2=1"
                 }
                 location.href.includes("http://localhost:8080/admin/product?type=category") && document.querySelector("#showFormFilter").setAttribute("style", "scale : 1; transition : .4s ease");
+                let arrElement = [ "#ProductID", "#productName", "#viewcount", "#createdDate"]
+                arrElement.forEach( item => {
+                    document.querySelector(item).value = ""
+                })
             }
+
+
         </script>
         <body>
         <!--handle message-->
@@ -95,7 +95,7 @@
                 <div class="col-12">
                     <form enctype="multipart/form-data" id="submit" method="POST" th:object='${productRequest}'>
                         <div class="card">
-                            <i class="exit fa-solid fa-xmark" onclick="handleExit()"></i>
+                            <i id="btnEditProductImg" class="exit fa-solid fa-xmark" onclick="handleExit()"></i>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-4">
@@ -213,10 +213,6 @@
                                                         th:value="${color.RGBColor}"></option>
                                             </select>
                                         </div>
-                                        <div class="form-group prdIdInput" style="margin-top: 54px; opacity: 0">
-                                            <label for="idPrd">ProductID</label>
-                                            <input class="form-control" disabled id="idPrd" type="text">
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="card-footer text-muted">
@@ -224,9 +220,6 @@
                                             onclick="createColorProduct()" type="button">Thêm
                                     </button>
 
-                                    <button class="btn" id="updateButtonProductColor" onclick="updateImgProduct()"
-                                            th:class="${updateImgProduct}">Chỉnh Sửa
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -237,15 +230,17 @@
         </div>
         <!--table add, update productImgColor-->
         <div id="handle2" th:class="${handle2}">
+
             <section class="row product-form">
                 <div class="col-12">
                     <form enctype="multipart/form-data" id="submitImgAndColor" method="POST" th:object='${productImgRequest}'>
                         <div class="card">
                             <i class="exit fa-solid fa-xmark" onclick="handleExit()"></i>
-                            <div class="card-body">
+                            <div class="card-body" style="width: 100%">
                                 <div class="row">
                                     <div class="col-4">
                                         <div class="border p-3">
+                                            <input th:field="*{imgid}" style="display: none" id="imgidprd"/>
                                             <input accept="image/gif, image/png,image/jpeg,imagee/jpg" id="avtimg2"
                                                    name="img2"
                                                    onchange="chooseFileavt2(this)"
@@ -259,12 +254,13 @@
                                     </div>
                                     <div class="col-4">
                                         <div class="form-group">
-                                            <form method="get" th:action="@{/admin/product?type=''}">
+                                            <form method="get" th:action="@{/admin/product?type=''}" >
                                                 <label for="ProductIDList">ProductID</label>
                                                 <select class="form-control" id="ProductIDList" name="productID"
                                                         onchange="submitlistProduct(this)"
-                                                        th:field="*{product.productID}">
+                                                        th:field="*{product}">
                                                     <option name="listProductColor"
+                                                            th:id="${'option'+ productAll.ProductID}"
                                                             th:each="productAll, idx : ${productAll}"
                                                             th:placeholder="${productID}"
                                                             th:text="${productAll.name}"
@@ -274,13 +270,13 @@
                                         </div>
                                         <div class="form-group" id="IdProduct">
                                             <label>ProductID</label>
-                                            <input class="form-control" disabled type="text">
+                                            <input class="form-control" style="pointer-events:none;" type="text">
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <div class="form-group">
+                                        <div class=" form-group">
                                             <label> Colors</label>
-                                            <select class="form-control" id="ListColorProduct" name="">
+                                            <select th:field="*{colorid}" class="form-control" id="ListColorProduct" name="">
 
                                             </select>
                                         </div>
@@ -288,13 +284,12 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group">
+                                    <div class="form-group col-12">
                                         <div class="card-footer text-muted">
                                             <button class="btn createImgProduct" id="createButtonProduct"
                                                     onclick="createImgProduct()">Thêm
                                             </button>
-                                            <button class="btn" id="updateButtonProduct" onclick="updateImgProduct()"
-                                                    th:class="${updateImgProduct}">Chỉnh Sửa
+                                            <button class="btn" id="updateButtonProduct" type="button" onclick="updateImgProduct()">Chỉnh Sửa
                                             </button>
                                         </div>
                                     </div>
@@ -314,6 +309,53 @@
 
             </section>
         </div>
+<!--        table update productColor-->
+        <div id="handle5">
+            <section class="row product-form" style="align-items: center; justify-content: center">
+                <div class="col-8">
+                    <form enctype="multipart/form-data" id="submitProductColor" method="POST" th:object='${productColorRequest}'>
+                        <div class="card">
+                            <i class="exit fa-solid fa-xmark" onclick="handleExit()" style="margin-left: 35vw "></i>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Tên sản phẩm</label>
+                                            <input id="ProductColorId" class="form-control" style="pointer-events:none;">
+                                        </div>
+                                        <input id="colorIDPrd" th:field="*{colorid}" style="display: none" >
+                                        <input id="IDprd" class="form-control" style="display:none" th:field="*{product.productID}">
+                                        <div class="form-group">
+                                            <label for="colorname">Màu sản phẩm</label>
+                                            <input style="pointer-events:none;" class="form-control" id="colorname" th:field="*{color}" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label> Mã màu</label>
+                                            <input style="pointer-events:none;" class="form-control" id="colorHex" th:field="*{colorHex}">
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="available"> Số lượng</label>
+                                            <input class="form-control" type="number" id="available" th:field="*{available}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+
+                                    <button class="btn" id="updateButtonProductColor" onclick="updateColorProduct()"
+                                            th:class="${updateImgProduct}">Chỉnh Sửa
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </section>
+        </div>
+
         <!--table select category-->
         <div class="defaultHandle3" id="handle3" th:class="${handle3}">
             <section class="row product-form">
@@ -452,20 +494,21 @@
                                 </tr>
                                 </thead>
                                 <tbody id="sttProduct">
-                                <tr onclick="showFormProductColor(this)" th:each="product : ${productPage}">
-                                    <td th:id="${product.productID}">[[${product.name}]]</td>
-                                    <td>[[${product.price}]]</td>
-                                    <td><img th:src="@{'/getimage/'+${product.category.categoryID}+'/'+ ${product.img}}"
-                                             width="80px"></td>
-                                    <td>[[${#dates.format(product.createDate, "dd-MM-yyyy")}]]</td>
-                                    <td th:alt="${product.category.categoryID}">[[${product.category.name}]]</td>
-                                    <td>[[${product.deprecated == true ? "Ngưng bán" : "Đang bán"}]]</td>
-                                    <td><p id="desc">[[${product.description}]]</p></td>
+                                <tr  onclick="showFormProductColor(this)" th:each="product : ${productPage}">
+                                        <td th:id="${product.productID}">[[${product.name}]]</td>
+                                        <td>[[${product.price}]]</td>
+                                        <td><img th:src="@{'/getimage/'+${product.category.categoryID}+'/'+ ${product.img}}"
+                                                 width="80px"></td>
+                                        <td>[[${#dates.format(product.createDate, "dd-MM-yyyy")}]]</td>
+                                        <td th:alt="${product.category.categoryID}">[[${product.category.name}]]</td>
+                                        <td>[[${product.deprecated == true ? "Ngưng bán" : "Đang bán"}]]</td>
+                                        <td><p id="desc">[[${product.description}]]</p></td>
                                     <td th:if="${product.deprecated == false}">
                                         <button class="btn " onclick="demo(this) " type="button">
                                             <a id="edit"><i class="fa-solid fa-pen-to-square" style="color: #212529"></i></a>
                                         </button>
-                                        <button class="btn btn-outline-light text-dark" data-toggle="modal"
+                                        <button
+                                                class="btn btn-outline-light text-dark" data-toggle="modal"
                                                 th:attr="data-target='#recordDeleteModal'+ ${product.productID}"
                                                 type="button"><i
                                                 class="fa-solid fa-trash"></i></button>
@@ -567,7 +610,6 @@
                                             </div>
                                         </div>
                                         <!-- Modal end -->
-
                                     </td>
                                     <td class="default">
                                         <table class="showOrderDetailTable" th:id="${product.productID} + ${product.price}">
@@ -686,19 +728,16 @@
                                             <td>[[${productImg.productcolor.product.productID}]]</td>
                                             <td>[[${productImg.productcolor.product.category.categoryID}]]</td>
                                             <td>[[${productImg.productcolor.product.name}]]</td>
-                                            <td>[[${productImg.productcolor.color_name}]]</td>
-                                            <td>[[${productImg.productcolor.colorhex}]]</td>
-                                            <td><img
+                                            <td >[[${productImg.productcolor.color_name}]]</td>
+                                            <td th:class="${productImg.getProductcolor().getColorID()}">[[${productImg.productcolor.colorhex}]]</td>
+                                            <td th:id="${productImg.getImgID()}"><img
                                                     th:src="@{'/images/product/' + ${productImg.productcolor.product.category.categoryID}+ '/' + ${productImg.image}}"
                                                     width="80px"></td>
                                             <td>[[${productImg.productcolor.product.deprecated ? "Ngưng bán" : "Đang bán"}]]
                                             </td>
                                             <td>
-                                                <button class="btn ">
-                                                    <a id="edit2" onclick="editProductImg()"
-                                                       th:href="@{'/admin/product/productImgEdit/'+ ${productImg.productcolor.colorID}}"><i
-                                                            class="fa-solid fa-pen-to-square"
-                                                            style="color: #212529"></i></a>
+                                                <button class="btn"  type="button" th:placeholder="${productImg.getImgID()}"  onclick="editProductImg(this)">
+                                                    <i class="fa-solid fa-pen-to-square" style="color: #212529"></i>
                                                 </button>
                                                 <button class="btn">
                                                     <a onclick="handleDeleteProductImg()"
@@ -766,8 +805,13 @@
         </div>
         </body>
         <script>
-
+            //handle delete message after 5s
+            document.querySelector(".done_delete") != null && setTimeout(() => {
+                const status = document.querySelector("#status")
+                status.classList.remove("done_delete")
+            }, 5000)
         </script>
+
 
         <script src="/js/product.js"></script>
         <script crossorigin="anonymous"

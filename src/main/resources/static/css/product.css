@@ -62,7 +62,24 @@
     border: 2px solid #191970;
     border-radius: 15px;
 }
+#handle5 {
+    scale: 0;
+    transition: .8s ease-in-out;
+}
 
+#handle5 > .row form .card {
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    border: 2px solid #191970;
+    border-radius: 15px;
+}
+.handle5{
+    scale: 1 !important;
+    position: absolute;
+    top: 245px;
+
+    width: 100%;
+}
 td {
     padding-left: 15px !important;
 }
@@ -188,7 +205,7 @@ label{
     backdrop-filter: blur(20px);
     border-radius:15px ;
     width: 880px;
-    height: 273px;
+    height: 325px;
 }
 #colorList::-webkit-scrollbar {
     display: none; /* cho Chrome, Safari, and Opera */
