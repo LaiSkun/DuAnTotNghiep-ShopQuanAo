@@ -71,4 +71,9 @@ public class ProductImgImpl implements ProductImgService {
         Page<Product_Images> productImgPage = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), products.size());
         return productImgPage;
     }
+
+    @Override
+    public int countImg(String id) {
+        return   productImgDAO.countImg(id);
+    }
 }

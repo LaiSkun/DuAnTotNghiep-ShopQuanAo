@@ -39,6 +39,8 @@ public class OrderController {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
         model.addAttribute("currentPage", currentPage);
+        model.addAttribute("dislabled", "pagination dislabled");
+        model.addAttribute("active","active pagination");
         List<Orders> list = orderDAO.findAll();
         Page<Orders> ordersPage = orderService.findPaginatedOrder(PageRequest.of(currentPage - 1, pageSize), list);
         model.addAttribute("Orders", ordersPage);

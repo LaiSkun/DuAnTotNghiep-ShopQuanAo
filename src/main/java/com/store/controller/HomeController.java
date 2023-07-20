@@ -52,10 +52,9 @@ public class HomeController {
 	@Autowired
 	private AuthenticationManagerBuilder authenticationManagerBuilder;
 	
-	
 	private static final int MAX_SIZE = 4;
 
-   
+
 
 	@RequestMapping({ "/", "/home" })
 	public String home(@RequestParam(value = "pageM", required = false, defaultValue = "1") int pageM,
