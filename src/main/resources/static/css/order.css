@@ -13,11 +13,7 @@
     align-items: center;
     justify-content: center;
 }
-#pagination2{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 .pagination{
     border: 1px solid #191970;
     margin: 10px;
@@ -36,18 +32,8 @@
     background: #191970;
     scale: 1.1;
     margin: 10px;
-    padding: 9px 16px;
+    padding: 5px 15px;
     border-radius: 5px;
-}
-.disabled{
-    cursor: not-allowed;
-    pointer-events: none;
-    border: 1px solid #191970;
-    opacity: .6;
-    margin: 10px;
-    padding: 9px 15px;
-    color: #191970;
-    border-radius: 4px;
 }
 .default{
     overflow: scroll;
@@ -126,6 +112,10 @@ table thead th{
     from {opacity: 0;}
     to {opacity:1 ;}
 }
+.pagination{
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+}
 .exitFormOrderDetail{
     float: right;
     position: absolute;
@@ -145,4 +135,14 @@ table thead th{
     border: 2px solid #FFFFFF;
     scale: 1.1;
     transition: .3s ease;
+}
+.dislabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    border: 1px solid #191970;
+    opacity: .6;
+    margin: 10px;
+    padding: 5px 15px;
+    color: #191970;
+    border-radius: 4px;
 }
