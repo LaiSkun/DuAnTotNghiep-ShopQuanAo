@@ -175,5 +175,24 @@ public class ProductsServiceImpl implements ProductService {
             throw new Exception ("Page number must be grat than 0");
         }
     }
+	@Override
+	public Page<Products> findbyPriceMax(int pageSize, int pageNumber) throws  Exception {
+		if (pageNumber >= 1) {
 
+
+            return productDAO.findbyPriceMax( PageRequest.of(pageNumber - 1, pageSize));
+        }else{
+            throw new Exception ("Page number must be grat than 0");
+        }
+	}
+	@Override
+	public Page<Products> findbyPriceMin(int pageSize, int pageNumber) throws  Exception {
+		if (pageNumber >= 1) {
+
+
+            return productDAO.findbyPriceMin( PageRequest.of(pageNumber - 1, pageSize));
+        }else{
+            throw new Exception ("Page number must be grat than 0");
+        }
+	}
 }

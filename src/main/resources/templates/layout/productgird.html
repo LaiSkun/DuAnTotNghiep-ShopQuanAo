@@ -78,25 +78,25 @@
 <!--            </div>-->
 <!--            <div class="clearfix">-->
 <!--            </div>-->
-<!--            <div class="price-filter leftbar">-->
-<!--              <h3 class="title">-->
-<!--                Price-->
-<!--              </h3>-->
-<!--              <form class="pricing">-->
-<!--                <label>-->
-<!--                  $-->
-<!--                  <input type="number">-->
-<!--                </label>-->
-<!--                <span class="separate">-->
-<!--                    - -->
-<!--                  </span>-->
-<!--                <label>-->
-<!--                  $-->
-<!--                  <input type="number">-->
-<!--                </label>-->
-<!--                <input type="submit" value="Go">-->
-<!--              </form>-->
-<!--            </div>-->
+            <div class="price-filter leftbar">
+             <h3 class="title">
+               Price
+             </h3>
+             <form class="pricing">
+               <label>
+                 $
+                 <input type="number" id="PriceMin">
+               </label>
+               <span class="separate">
+                   -
+                 </span>
+               <label>
+                 $
+                 <input type="number" id="PriceMax">
+               </label>
+               <input type="submit" value="Go" onclick="getPrice();">
+             </form>
+           </div> -->
 <!--            <div class="clearfix">-->
 <!--            </div>-->
 <!--            <div class="clolr-filter leftbar">-->
@@ -325,20 +325,20 @@
 <!--                      Grid-->
 <!--                    </a>-->
 <!--                  </div>-->
-<!--                  <div class="sort-by">-->
-<!--                    Sort by :-->
-<!--                    <select name="" >-->
-<!--                      <option value="Default" selected>-->
-<!--                        Default-->
-<!--                      </option>-->
-<!--                      <option value="Name">-->
-<!--                        Name-->
-<!--                      </option>-->
-<!--                      <option value="Price">-->
-<!--                        Price-->
-<!--                      </option>-->
-<!--                    </select>-->
-<!--                  </div>-->
+                  <div class="sort-by">
+                      Sort by : 
+                      <select id="listPriceMinMax"  onchange="getSelectValue();">
+                        <option value="Default" selected >
+                          Default
+                        </option>
+                        <option value="productPriceMax">
+                          Giá tăng dần
+                        </option>
+                        <option value="productPriceMin">
+                          Giá giảm dần
+                        </option>
+                      </select>
+                    </div>
 <!--                  <div class="limiter">-->
 <!--                    Show :-->
 <!--                    <select name="" >-->
@@ -381,13 +381,13 @@
                   <div class="products">
                     <div class="thumbnail">
                       <a href="productDetails.html" th:href="@{'/product/' + ${product.productID}}">
-                        <img th:src="@{'/images/product/' + ${product.category.categoryID} + '/' + ${product.img}}" style="width: 170px" alt="Product Name">
+                        <img th:src="@{'/images/product/' + ${product.category.categoryID}+'/'+${product.img}}" style="width: 170px" alt="Product Name">
                       </a>
                     </div>
                     <div class="productname" th:text="${product.name}">
 
                     </div>
-                    <h4 class="price" th:text="${#numbers.formatCurrency(product.price)}">
+                    <h4 class="price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
 
                     </h4>
                     <div class="button_group">
@@ -552,6 +552,20 @@
       window.onload = () => {
       location.href.includes("page") && window.scrollBy(0,448.79998779296875) ;
     }
+  </script>
+  <script> 
+  			function getSelectValue () {
+  			var SelectValue = document.getElementById("listPriceMinMax").value;
+  			window.location.assign("/"  + SelectValue )
+  			}
+  </script>
+  <script> 
+  			function getPrice() {
+  				var priceMin = document.getElementById("PriceMin").value;
+  			    var priceMax = document.getElementById("PriceMax").value;
+  			  window.location.assign("/productPrice"  + priceMin + "-" + priceMax)
+  					    
+  		    };
   </script>
 </body>
 </html>

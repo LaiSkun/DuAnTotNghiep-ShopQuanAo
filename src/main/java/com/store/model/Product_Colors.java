@@ -31,9 +31,13 @@ public class Product_Colors {
         this.color_name = color_name;
         this.product = product;
     }
-
+	public Product_Colors(String colorhex, int available, String color_name, Products product) {
+		this.colorhex = colorhex;
+		this.color_name = color_name;
+		this.product = product;
+		this.available = available;
+	}
     public Product_Colors() {
 
     }
-
-}
+   }

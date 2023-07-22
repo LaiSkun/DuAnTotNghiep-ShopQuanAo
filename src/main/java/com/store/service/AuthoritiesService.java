@@ -18,8 +18,7 @@ public interface AuthoritiesService {
 	Authorities create(Authorities auth);
 
 	List<Authorities> findByUserID(String userID);
-
-
+	
 
 
 }

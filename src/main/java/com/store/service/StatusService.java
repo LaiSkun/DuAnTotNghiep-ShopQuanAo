@@ -1,10 +1,20 @@
 package com.store.service;
 
-import com.store.model.Orders;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.store.model.Status;
 
+@Service
 public interface StatusService {
-    Status insert(Status status);
+	public List<Status> findAll();
 
+	public Status findById(Long id);
+
+	public Status update(Status status);
+
+    Status insert(Status status);
 
 }

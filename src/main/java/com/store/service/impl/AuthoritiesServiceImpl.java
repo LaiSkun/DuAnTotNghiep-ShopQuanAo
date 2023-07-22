@@ -29,10 +29,6 @@ public class AuthoritiesServiceImpl implements AuthoritiesService  {
 		return dao.save(auth);
 	}
 
-	@Override
-	public List<Authorities> findByUserID(String userID) {
-		return dao.findByUserUserID(userID);
-	}
 
 	@Override
 	public void delete(Integer id) {
@@ -44,6 +40,13 @@ public class AuthoritiesServiceImpl implements AuthoritiesService  {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Authorities> findByUserID(String userID) {
+		// TODO Auto-generated method stub
+		return dao.findByUserUserID(userID);
+	}
+
 
 
 }

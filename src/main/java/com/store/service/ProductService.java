@@ -52,5 +52,6 @@ public interface ProductService {
 
     Page<Products> listAll(String keyword,int pageSize, int pageNumber) throws  Exception;
 
-
+    Page<Products> findbyPriceMax(int pageSize, int pageNumber) throws  Exception;
+    Page<Products> findbyPriceMin(int pageSize, int pageNumber) throws  Exception;
 }

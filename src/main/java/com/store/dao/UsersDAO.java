@@ -20,10 +20,15 @@ public interface UsersDAO extends JpaRepository<Users, String> {
 	List<Users> findByUsernameContaining(String keyword);
 	
 	
+	
 	List<Users> findByAuthorities_Role_RoleID(String roleID);
-
+	
 	Users findByUserID(String userID);
+	
 
 	Users findByEmail(String email);
-	Users findByResetPassword(String token);
+     
+    Users findByResetPasswordToken(String token);
+
+
 }

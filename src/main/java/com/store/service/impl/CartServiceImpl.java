@@ -9,7 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+
+import java.util.Date;
+
 import java.util.List;
+
 import java.util.Map;
 
 @Service
@@ -93,15 +98,22 @@ public class CartServiceImpl implements CartService {
             order.setEmail(email);
         }
         order.setEmail(email);
-        order.setPrice(cart.getTotalPrice());
-
-
+        if(cart.getTotalPrice() > 0) {
+        	order.setPrice(cart.getTotalPrice());
+        }else
+        {
+        	
+        }
         try {
             Orders orderRespone = ordersService.insert(order);
             Status status = new Status();
             status.setStatusID(order.getOrderID());
-            status.setDescription("Chưa thanh toán");
-            status.setOrder(order);
+            status.setDescription("Đang xử lý");
+            status.setStatusname("New");
+            status.setCreateDate(new Date());
+            status.setTransportFee(cart.getTotalPrice() * 2 / 10);
+            status.setFeeCollected(0.0);
+            status.setOrders(order);
             Status status1 = statusService.insert(status);
             // Duyet hashmap de insert lan luot vao order_details
             // trong luc duyet hashmap qua tung sp -> di update quantity cho tung san pham

@@ -15,8 +15,6 @@ public interface AuthoritiesDAO extends JpaRepository<Authorities, Integer> {
 	List<Authorities> authoritiesOf(List<Users> accounts);
 
 
+
 	List<Authorities> findByUserUserID(String userID);
-	
-	
-	
 }

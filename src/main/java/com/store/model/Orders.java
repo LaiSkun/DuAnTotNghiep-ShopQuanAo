@@ -17,13 +17,14 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
-
+import lombok.Getter;
+import lombok.Setter;
 
 
 @SuppressWarnings("serial")
-@Data
-@Entity 
+@Getter
+@Setter
+@Entity
 @Table(name = "orders")
 public class Orders {
 	@Id
@@ -37,7 +38,7 @@ public class Orders {
 	@Column(name = "Date")
 	Date date = new Date();
 	@ManyToOne
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "userID")
 	Users user;
 	
 	@JsonIgnore
