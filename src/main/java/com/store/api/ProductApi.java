@@ -35,13 +35,15 @@ public class ProductApi {
 	ProductService productService;
 	@Autowired
 	ProductImgService productImgService;
+
     @Autowired
     private CatelogyService catelogyService;
 	
-	@PostMapping("/api/product-color/{colorId}")
 	
 	
 	
+
+	@RequestMapping("/api/product-color/{colorId}")
 	public ResponseEntity<List<ProductColorUserDTO>> postColor(@PathVariable Optional<Long> colorId) {
 		Optional<Product_Colors> productColors = dao.findById(colorId.get());
 		List<Product_Images> images = productImgService.findByProductcolorId(productColors.get());

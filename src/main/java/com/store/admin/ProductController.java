@@ -22,6 +22,7 @@
 
     import javax.transaction.Transactional;
     import java.io.File;
+    import java.io.IOException;
     import java.io.InputStream;
     import java.nio.file.Files;
     import java.nio.file.Path;
@@ -202,15 +203,18 @@
         }
 
         @GetMapping("/deleteProductImgAndColor")
-        public String Updatequery(@RequestParam("productImgId") long imgId, RedirectAttributes redirectAttributes) {
+        public String Updatequery(@RequestParam("productImgId") long imgId, RedirectAttributes redirectAttributes) throws IOException {
             Optional<Product_Images> productImg = productImgService.findById(imgId);
             Optional<Product_Colors> productColor = productColorsService.findByID(productImg.get().getProductcolor().getColorID());
-
+            int img = productImgService.countImg(productImg.get().getImage());
+            Optional<Products> product = productService.findByID(productColor.get().getProduct().getProductID());
+            String a =  productImg.get().getProductcolor().getProduct().getCategory().getCategoryID();
+            if (img == 1) {
+                Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/" + productImg.get().getProductcolor().getProduct().getCategory().getCategoryID() +"/" + img));
+            }
             try {
                 productImgService.deleteImg(imgId);
-                productColorsService.deleteColor(productColor.get().getColorID());
-                Optional<Products> product = productService.findByID(productColor.get().getProduct().getProductID());
-                redirectAttributes.addFlashAttribute("message", "Xóa thành công ảnh " + productImg.get().getImage() + " màu " + productColor.get().getColor_name() + " sản phẩm" + product.get().getName());
+                redirectAttributes.addFlashAttribute("message", "Xóa thành công ảnh " + productImg.get().getImage() + " màu " + productColor.get().getColor_name() + " sản phẩm " + product.get().getName());
 
             } catch (Exception e) {
                 redirectAttributes.addFlashAttribute("message", "Xóa thất bại ");
@@ -220,7 +224,33 @@
             redirectAttributes.addFlashAttribute("status", "done_delete");
             return "redirect:/admin/product";
         }
-
+        @GetMapping("/DeleteProductColor")
+        public String DeleteProductColor(@RequestParam("ColorID") long colorid, RedirectAttributes redirectAttributes) throws IOException {
+            Optional<Product_Colors> productColor = productColorsService.findByID(colorid);
+            List<Product_Images> productImg = productImgService.findByProductcolorId(productColor.get());
+          try {
+              productColorsService.deleteColor(productColor.get().getColorID());
+              productImg.forEach( item -> {
+                  int img = productImgService.countImg(item.getImage());
+                  if (img == 1){
+                      try {
+                          productImgService.deleteImg(item.getImgID());
+                          Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/" + productColor.get().getProduct().getCategory().getCategoryID() +"/" + item.getImage()));
+                      } catch (IOException e) {
+                          throw new RuntimeException(e);
+                      }
+                  } else{
+                      productImgService.deleteImg(item.getImgID());
+                  }
+              });
+              redirectAttributes.addFlashAttribute("message", "Xóa thành công màu " + productColor.get().getColor_name() + " trong sản phẩm " + productColor.get().getProduct().getName());
+          }catch (Exception e) {
+              redirectAttributes.addFlashAttribute("message", "Xóa thất bại ");
+              e.printStackTrace();
+          }
+            redirectAttributes.addFlashAttribute("status", "done_delete");
+            return "redirect:/admin/product";
+        }
         @GetMapping("/updateStatusTrue")
         public String UpdateStatusTrue(@RequestParam("productID") String productID, RedirectAttributes
                 redirectAttributes) {

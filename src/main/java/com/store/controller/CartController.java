@@ -44,7 +44,7 @@ public class CartController {
 
 	public static final String URL_PAYPAL_SUCCESS = "pay/success";
 	public static final String URL_PAYPAL_CANCEL = "pay/cancel";
-
+	public static String done = null;
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -85,6 +85,10 @@ public class CartController {
 
 	@GetMapping("/checkout")
 	public String doOrder(Model model, HttpSession session, RedirectAttributes ra) {
+		if (done != null){
+			model.addAttribute("done","done");
+			done = null;
+		}
 		Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
 		if (!ObjectUtils.isEmpty(currentUser)) {
 			return "layout/cartcheckout";
@@ -116,7 +120,7 @@ public class CartController {
 
 	@GetMapping(URL_PAYPAL_CANCEL)
 	public String cancelPay() {
-		return "layout/cancel";
+		return "redirect:/cart/checkout";
 	}
 
 	@GetMapping(URL_PAYPAL_SUCCESS)
@@ -125,7 +129,8 @@ public class CartController {
 
 			Payment payment = paypalService.executePayment(paymentId, payerId);
 			if (payment.getState().equals("approved"))
-				return "redirect:/";
+				done = "done";
+				return "redirect:/cart/checkout";
 		} catch (PayPalRESTException e) {
 			log.error(e.getMessage());
 		}

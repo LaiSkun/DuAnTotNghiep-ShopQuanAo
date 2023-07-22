@@ -11,6 +11,7 @@ import com.store.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,9 @@ public class HomeController {
 	private static final int MAX_SIZE = 4;
 	@Autowired
 	private AuthenticationManagerBuilder authenticationManagerBuilder;
+	@Autowired
+
+	private PasswordEncoder passwordEncoder;
 
 	@RequestMapping({ "/", "/home" })
 	public String home(@RequestParam(value = "pageM", required = false, defaultValue = "1") int pageM,
@@ -79,14 +83,14 @@ public class HomeController {
 			@ModelAttribute("userRequest") Users userRequest, HttpSession session, RedirectAttributes ra)
 			throws Exception {
 		Users users = userService.findById(username);
-		if(null == users) {
+		if (null == users) {
 			ra.addFlashAttribute("message", "Tài khoản hoặc mật khẩu không đúng !");
 			return "redirect:/login";
-		}
-		else 
-			if(users.getPassword() != password) {
-			ra.addFlashAttribute("message", "Tài khoản hoặc mật khẩu không đúng !");
-			return "redirect:/login";
+		} else {
+			if (passwordEncoder.matches(users.getPassword(), password )) {
+				ra.addFlashAttribute("message", "Tài khoản hoặc mật khẩu không đúng !");
+				return "redirect:/login";
+			}
 		}
 		// Tạo đối tượng Authentication từ thông tin người dùng
 		Authentication authentication = authenticationManagerBuilder.getObject()

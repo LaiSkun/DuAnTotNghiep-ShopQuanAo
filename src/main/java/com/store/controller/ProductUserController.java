@@ -75,7 +75,6 @@ public class ProductUserController {
         if (product_colors == null) {
             return "redirect:/home";
         } else {
-
             model.addAttribute("product", product);
             model.addAttribute("product_color", product_colors);
             model.addAttribute("productID", productID);
