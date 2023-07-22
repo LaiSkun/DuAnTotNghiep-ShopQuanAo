@@ -11,5 +11,5 @@ public interface RoleService {
 	
 	public Roles findByRoleID(String name);
 
-	Roles findByID();
+
 }

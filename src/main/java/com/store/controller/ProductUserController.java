@@ -160,4 +160,39 @@ public class ProductUserController {
         model.addAttribute("categories", categories);
         return "/layout/productlist";
     }
+    @RequestMapping("/productPriceMax")
+    public String productpriceMax(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
+        List<Products> products = new ArrayList<>();
+        try {
+            Page<Products> pageProduct = productService.findbyPriceMax(MAX_SIZE, page);
+            products = pageProduct.getContent();
+            model.addAttribute("totalPages", pageProduct.getTotalPages());
+            model.addAttribute("currentPage", page);
+        } catch (Exception e) {
+            products = productService.findAll();
+        }
+
+        model.addAttribute("products", products);
+        List<Categories> categories = catelogyService.findAll();
+        model.addAttribute("categories", categories);
+        return "/layout/productgird";
+    }
+    @RequestMapping("/productPriceMin")
+    public String productPriceMin(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
+        List<Products> products = new ArrayList<>();
+        try {
+            Page<Products> pageProduct = productService.findbyPriceMin(MAX_SIZE, page);
+            products = pageProduct.getContent();
+            model.addAttribute("totalPages", pageProduct.getTotalPages());
+            model.addAttribute("currentPage", page);
+        } catch (Exception e) {
+            products = productService.findAll();
+        }
+
+        model.addAttribute("products", products);
+        List<Categories> categories = catelogyService.findAll();
+        model.addAttribute("categories", categories);
+        return "/layout/productgird";
+    }
+    
 }

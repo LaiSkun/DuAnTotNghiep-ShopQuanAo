@@ -47,4 +47,12 @@ public interface ProductDAO extends JpaRepository<Products, String> {
     @Query(value = "SELECT * from products where deprecated = 1  ", nativeQuery = true)
     Page<Products> findByDeprecated(Pageable pageable);
 
+    
+    @Query(value = "select * from products order by price desc", nativeQuery = true)
+    Page<Products> findbyPriceMax(Pageable pageable);
+    
+    @Query(value = "select * from products order by price asc", nativeQuery = true)
+    Page<Products> findbyPriceMin(Pageable pageable);
+    
+   
 }

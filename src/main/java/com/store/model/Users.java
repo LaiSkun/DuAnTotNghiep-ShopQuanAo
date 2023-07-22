@@ -1,31 +1,16 @@
 package com.store.model;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 @SuppressWarnings("serial")
 @Data
@@ -49,6 +34,8 @@ public class Users implements Serializable{
 	@NotBlank(message = "Không để trống Address")
 	String address;
 	Boolean isDeleted;
+	@Column(name = "reset_password_token")
+	private String resetPasswordToken;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "createdDate")
 	Date createDate = new Date();

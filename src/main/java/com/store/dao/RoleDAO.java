@@ -10,7 +10,5 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface RoleDAO extends JpaRepository<Roles, String> {
 	Roles findByRoleID(String name);
-
-	@Query(value = "select * from roles WHERE roleId like 'customer'", nativeQuery = true)
-	Roles findByID();
+	
 }

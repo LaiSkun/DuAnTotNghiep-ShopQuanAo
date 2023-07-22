@@ -10,12 +10,15 @@ import com.store.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.store.dao.UsersDAO;
-import com.store.model.Authorities;
 import com.store.model.Users;
 import com.store.service.UserService;
+import com.store.util.UserNotFoundException;
+
 
 
 
@@ -26,8 +29,10 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 
 	private PasswordEncoder passwordEncoder;
-	
 
+	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+	
+	@Autowired
 	AuthoritiesService authoritiesService;
 	@Autowired
 	RoleService roleService;
@@ -37,7 +42,6 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return dao.findAll();
 	}
-
 
 	@Override
 	public Users findById(String id) {
@@ -84,7 +88,7 @@ public class UserServiceImpl implements UserService{
 	public Users doLogin(String userID, String checkpassword) {
 	    Users user = dao.findByUserID(userID);
 	    if (null != user) {
-	        String password = user.getPassword();        
+	        String password = user.getPassword();
 	        boolean check = passwordEncoder.matches(checkpassword, password);
 	        if (check) {
 	            List<Authorities> authoritiesList = user.getAuthorities();
@@ -105,8 +109,10 @@ public class UserServiceImpl implements UserService{
 
 		if (null == users){
 			user.setIsDeleted(Boolean.TRUE);
+			String HashPassword = bcrypt.encode(user.getPassword());
+			user.setPassword(HashPassword);
 			Users user1 =dao.saveAndFlush(user);
-			Roles role = roleService.findByID();
+			Roles role = roleService.findByRoleID("customer");
 			Authorities authorities = new Authorities();
 			authorities.setRole(role);
 			authorities.setUser(user1);
@@ -116,8 +122,31 @@ public class UserServiceImpl implements UserService{
 		}else {
 			return null;
 		}
-
 	}
 
+     
+    public Users getByResetPasswordToken(String token) {
+        return dao.findByResetPasswordToken(token);
+    }
+     
+    public void updatePassword(Users users, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        users.setPassword(encodedPassword);
+         
+        users.setResetPasswordToken(null);
+        dao.save(users);
+    }
 
+	@Override
+	public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
+		Users users = dao.findByEmail(email);
+        if (users != null) {
+            users.setResetPasswordToken(token);
+            dao.save(users);
+        } else {
+            throw new UserNotFoundException("Không tìm thấy khách hàng nào có email " + email);
+        }
+		
+	}	
 }
