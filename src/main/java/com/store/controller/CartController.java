@@ -44,7 +44,7 @@ public class CartController {
 
 	public static final String URL_PAYPAL_SUCCESS = "pay/success";
 	public static final String URL_PAYPAL_CANCEL = "pay/cancel";
-
+	public static String done = null;
 	private Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
@@ -85,6 +85,10 @@ public class CartController {
 
 	@GetMapping("/checkout")
 	public String doOrder(Model model, HttpSession session, RedirectAttributes ra) {
+		if (done != null){
+			model.addAttribute("done","done");
+			done = null;
+		}
 		Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
 		if (!ObjectUtils.isEmpty(currentUser)) {
 			return "layout/cartcheckout";
@@ -96,17 +100,17 @@ public class CartController {
 	@PostMapping("/pay")
 	public String pay(@RequestParam("price") String price, HttpServletRequest request) {
 		String cancelUrl = PaymentUtils.getBaseURL(request) + "/cart/" + URL_PAYPAL_CANCEL;
-		String successUrl = PaymentUtils.getBaseURL(request) + "/cart/"  + URL_PAYPAL_SUCCESS;
+		String successUrl = PaymentUtils.getBaseURL(request) + "/cart/" + URL_PAYPAL_SUCCESS;
 		double exchangeRate = 23000;
 		try {
-			Payment payment = paypalService.createPayment(Double.valueOf(price)/exchangeRate, "USD", PaypalPaymentMethod.paypal,
-					PaypalPaymentIntent.sale, "payment description", cancelUrl, successUrl);
+			Payment payment = paypalService.createPayment(Double.valueOf(price) / exchangeRate, "USD",
+					PaypalPaymentMethod.paypal, PaypalPaymentIntent.sale, "payment description", cancelUrl, successUrl);
 			System.out.println(successUrl);
 			for (Links links : payment.getLinks())
 				if (links.getRel().equals("approval_url")) {
-					//chuyen den trang paypal
+					// chuyen den trang paypal
 					return "redirect:" + links.getHref();
-					//xu ly success and cancel
+					// xu ly success and cancel
 				}
 		} catch (PayPalRESTException e) {
 			log.error(e.getMessage());
@@ -122,10 +126,11 @@ public class CartController {
 	@GetMapping(URL_PAYPAL_SUCCESS)
 	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
 		try {
-			
+
 			Payment payment = paypalService.executePayment(paymentId, payerId);
 			if (payment.getState().equals("approved"))
-				return "redirect:/";
+				done = "done";
+				return "redirect:/cart/checkout";
 		} catch (PayPalRESTException e) {
 			log.error(e.getMessage());
 		}

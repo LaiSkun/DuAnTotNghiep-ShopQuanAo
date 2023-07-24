@@ -8,9 +8,12 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @SuppressWarnings("serial")
-@Data
+@Getter
+@Setter
 @Entity @Table(name = "product_color")
 public class Product_Colors {
     @Id
@@ -37,4 +40,4 @@ public class Product_Colors {
     public Product_Colors() {
 
     }
-}
+   }

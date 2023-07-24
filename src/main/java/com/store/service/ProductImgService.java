@@ -22,4 +22,5 @@ public interface ProductImgService {
     public void deleteImg(long id);
     Page<Product_Images> findPaginated(Pageable pageable, List sql);
 
+    int countImg(String id);
 }
