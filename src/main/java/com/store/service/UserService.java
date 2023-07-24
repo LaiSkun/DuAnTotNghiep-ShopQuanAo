@@ -22,9 +22,16 @@ public interface UserService {
 
 	public List<Users> findByAuthorities_Role_RoleID(String roleId);
 
-
-
 	public Users doLogin(String userID, String checkpassword);
+
+
+	
+
+	public Users findByEmail(String email);
+
+	public boolean isEmailExists(String email);
+
+	public boolean isUserIDExists(String userID);
 
 
 
@@ -38,4 +45,5 @@ public interface UserService {
 	
 	void updatePassword(Users user, String password);
 	
+
 }

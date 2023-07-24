@@ -1,5 +1,15 @@
 package com.store.model;
 
+
+
+
+
+import javax.validation.constraints.NotNull;
+
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +28,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+
 public class Users implements Serializable{
 	@Id
 	@NotBlank(message = "Không để trống UserID")
@@ -48,6 +59,6 @@ public class Users implements Serializable{
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	List<Authorities> authorities;
 	
-
+	 
 
 }
