@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -33,6 +34,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+
 public class Users implements Serializable{
 	@Id
 	@NotBlank(message = "Không để trống UserID")
@@ -61,6 +63,6 @@ public class Users implements Serializable{
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	List<Authorities> authorities;
 	
-
+	 
 
 }

@@ -13,13 +13,20 @@ import com.store.model.Users;
 public interface UsersDAO extends JpaRepository<Users, String> {
 	@Query("SELECT DISTINCT ar.user FROM Authorities ar WHERE ar.role.id IN ('staff', 'admin','customer')")
 	List<Users> getAdminitrators();
+	
 	@Query("Select user from Users "
 			+ "where userID like 'keyword' or username like 'keyword' or email like 'keyword' ")
 	List<Users> findByKeyword(String keyword);
-	List<Users> findByUsernameContaining(String keyword);
 	
+	List<Users> findByUsernameContaining(String keyword);
 	
 	List<Users> findByAuthorities_Role_RoleID(String roleID);
 
 	Users findByUserID(String userID);
+	
+	Users findByEmail(String email);
+
+	boolean existsByEmail(String email);
+	
+	
 }

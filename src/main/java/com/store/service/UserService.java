@@ -23,15 +23,15 @@ public interface UserService {
 
 	public List<Users> findByAuthorities_Role_RoleID(String roleId);
 
-
-
 	public Users doLogin(String userID, String checkpassword);
 
 	public List<Users> findAll();
 	
-
-	
-
 	Users save(Users user, String userID);
 
+	public Users findByEmail(String email);
+
+	public boolean isEmailExists(String email);
+
+	public boolean isUserIDExists(String userID);
 }

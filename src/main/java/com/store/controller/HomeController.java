@@ -92,9 +92,9 @@ public class HomeController {
 	
 	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String login(@RequestParam("userID") String username, @RequestParam("password") String password, @ModelAttribute("userRequest") Users userRequest, HttpSession session) throws Exception {
-	    // Tạo đối tượng Authentication từ thông tin người dùng
-	    Authentication authentication = authenticationManagerBuilder.getObject().authenticate(
-	        new UsernamePasswordAuthenticationToken(username, password)
+		// Tạo đối tượng Authentication từ thông tin người dùng	
+	    Authentication authentication = authenticationManagerBuilder.getObject().authenticate(   		
+	        new UsernamePasswordAuthenticationToken(username, password)       
 	    );
 	    // Xác thực thành công, lưu thông tin người dùng vào session
 	    if (authentication.isAuthenticated()) {

@@ -104,7 +104,12 @@
 		</dependency>
 
 
-    </dependencies>
+		<dependency>
+			<groupId>com.duan</groupId>
+			<artifactId>JavaSpringBoot-3</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
 
 
 	<build>
