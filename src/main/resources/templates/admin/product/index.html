@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport">
@@ -103,7 +104,7 @@
                                 <div class="form-group">
                                     <label for="ProductID">ID của sản phẩm </label>
                                     <input aria-describedby="ProductIDhelpId" class="form-control" id="ProductID"
-                                           placeholder="Id của sản phẩm" th:field="*{productID}" type="text">
+                                           placeholder="Id của sản phẩm"    th:field="*{productID}" type="text">
                                 </div>
                             </div>
                             <div class="col-4">
@@ -466,22 +467,31 @@
                 <div>
                     <div class="record-header">
                         <div class="add">
-                            <form method="get" th:action="@{/admin/product}">
-                                <span for="select-form">Status</span>
-                                <select id="select-form" name="type" onchange="this.form.submit()">
-                                    <option th:selected="${type == ''}" value="">Tất cả</option>
-                                    <option th:selected="${type == 'db'}" value="db">Đang bán</option>
-                                    <option th:selected="${type == 'nb'}" value="nb">Ngưng bán</option>
-                                    <option th:selected="${type == 'category'}" value="category">category</option>
-                                </select>
-                            </form>
-                            <button id="Addrecord" onclick="Addrecord()"><i class="fa-regular fa-square-plus"></i>
-                                Thêm sản phẩm
-                            </button>
-                            <button id="showFormFilter" onclick="showFormFilter()" th:class="${showFormFilter}"><i
-                                    class="fa-regular fa-square-plus"></i>
-                                Lọc theo danh mục
-                            </button>
+                           <div style="display: flex">
+                               <form id="formType"  method="get" th:action="@{/admin/product}">
+                                   <span for="select-form">Status</span>
+                                   <select id="select-form" name="type" onchange="this.form.submit()">
+                                       <option th:selected="${type == ''}" value="">Tất cả</option>
+                                       <option th:selected="${type == 'db'}" value="db">Đang bán</option>
+                                       <option th:selected="${type == 'nb'}" value="nb">Ngưng bán</option>
+                                       <option th:selected="${type == 'category'}" value="category">category</option>
+                                   </select>
+                               </form>
+                               <button id="Addrecord" class="btn_custom" onclick="Addrecord()"><i class="fa-regular fa-square-plus"></i>
+                                   Thêm sản phẩm
+                               </button>
+                               <button id="showFormFilter" onclick="showFormFilter()" class="btn_custom"><i
+                                       class="fa-regular fa-square-plus"></i>
+                                   Lọc theo danh mục
+                               </button>
+                           </div>
+                            <div  >
+                               <form th:object = "${productRequest}">
+                                   <input id="valtype" th:field="*{type}" style="display: none">
+                                   <input th:field="*{search}" class="record-search input_search" placeholder="Search" type="search"/>
+                                   <button class="btn_custom" onclick="submitSearch(this)">Tìm kiếm</button>
+                               </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -504,7 +514,7 @@
                         <tr id="ProductColorTable" onclick="showFormProductColor(this)" onload="ProductColorTable()"
                             th:each="product : ${productPage}">
                             <td th:id="${product.productID}">[[${product.name}]]</td>
-                            <td>[[${product.price}]]</td>
+                            <td class="priceProducts">[[${product.price}]]</td>
                             <td><img th:src="@{'/getimage/'+${product.category.categoryID}+'/'+ ${product.img}}"
                                      width="80px"></td>
                             <td>[[${#dates.format(product.createDate, "dd-MM-yyyy")}]]</td>
@@ -651,7 +661,6 @@
                         <div
                                 th:if="${currentPage > 1 }">
                             <a th:class="${currentPage == productPage.number } ? active : pagination"
-
                                th:href="@{${url}(size=${productPage.size}, page=${currentPage - 1} )}"
                             >prev</a>
                         </div>
@@ -678,7 +687,7 @@
                             >...</a>
                         </div>
                         <div>
-                            <a th:class="${currentPage == 4 } ? active : pagination"
+                            <a th:class="${currentPage == productPage.size } ? active : pagination"
                                th:href="@{${url}(size=${productPage.size}, page=${productPage.totalPages} )}"
 
                                th:text="${productPage.totalPages}"
@@ -689,7 +698,6 @@
                             <!--                            onclick="handlePagination()"-->
                             <a th:class="${currentPage ==productPage.number} ? active : pagination"
                                th:href="@{${url}(size=${productPage.size}, page=${currentPage+1})}">
-
                                 next</a>
                         </div>
                         <div th:unless="${productPage.totalPages > currentPage}">

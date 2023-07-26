@@ -25,7 +25,10 @@ public interface ProductService {
     List<Products> findDeprecatedTrue();
 
     List<Products> findDeprecatedFalse();
-
+    List<Products> findBySearch(String search);
+    List<Products> findBySearchDb(String search);
+    List<Products> findBySearchNb(String search);
+    List<Products> findByseatchCateId(String search, String cate);
     Optional<Products> findByID(String productID);
 //    List<Products> findByCategory(String cate);
     Products findProducts(String name);
@@ -37,7 +40,7 @@ public interface ProductService {
     // ProductUser
 
     List<Products> findAll();
-
+    String callHelloWorld();
     Page<Products> findMen(int pageSize, int pageNumber) throws  Exception;
 
     Page<Products> findWomen(int pageSize, int pageNumber) throws  Exception;

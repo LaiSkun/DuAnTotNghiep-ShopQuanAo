@@ -30,7 +30,6 @@
     border: none;
     color: #fff;
     background: #191970;
-    scale: 1.1;
     margin: 10px;
     padding: 5px 15px;
     border-radius: 5px;
@@ -140,7 +139,6 @@ table thead th{
     cursor: not-allowed;
     pointer-events: none;
     border: 1px solid #191970;
-    opacity: .6;
     margin: 10px;
     padding: 5px 15px;
     color: #191970;

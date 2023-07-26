@@ -10,6 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -27,7 +32,22 @@ public class ProductsServiceImpl implements ProductService {
     @Autowired
     private ProductDAO productDAO;
 	//chuyển về trạng thái ngưng bán
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     @Override
+    public String callHelloWorld()  {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("Shop_QuanAo") //package name
+                .withFunctionName("search");
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("param", "value") ;
+        //First parameter is function output parameter type.
+        return jdbcCall.executeFunction(String.class, paramMap);
+
+    }
+
+
+        @Override
     @Transactional(rollbackOn = {Exception.class, Throwable.class})
     public void deleteLogical(String productID) {
         productDAO.updateLocal(productID);
@@ -53,7 +73,29 @@ public class ProductsServiceImpl implements ProductService {
     public List<Products> findDeprecatedFalse() {
         return productDAO.findByDeprecated(Boolean.TRUE);
     }
-	// sản phẩm theo id
+
+    @Override
+    public List<Products> findBySearch(String search) {
+        return productDAO.findSearch(search);
+    }
+
+    @Override
+    public List<Products> findBySearchDb(String search) {
+        return productDAO.findSearchAndSatusT(search);
+    }
+
+    @Override
+    public List<Products> findBySearchNb(String search) {
+        return productDAO.findSearchAndSatusF(search);
+    }
+
+    @Override
+    public List<Products> findByseatchCateId(String search, String cate) {
+     return productDAO.findSearchAndCateId1(search, cate);
+    }
+
+
+    // sản phẩm theo id
     @Override
     public Optional<Products> findByID(String productID) {
         return productDAO.findById(productID);
