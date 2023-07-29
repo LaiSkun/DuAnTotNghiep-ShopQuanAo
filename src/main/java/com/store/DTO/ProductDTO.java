@@ -24,6 +24,7 @@ public class ProductDTO {
     boolean deprecated;
     long colorId;
     String description;
+    String type;
     @JsonIgnore
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,7 +33,7 @@ public class ProductDTO {
     @JsonIgnore
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     List<Order_Details> orderDetails;
-
+    String search;
     public ProductDTO() {
     }
     public List<String> listProductByCategory = new ArrayList<>();

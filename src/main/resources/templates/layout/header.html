@@ -1,140 +1,105 @@
 <!DOCTYPE html>
 
 <head>
-   <meta charset="UTF-8">
-   <title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
 </head>
 <body>
 <header class="header">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-2 col-sm-2">
-            <div class="logo"><a th:href="@{/}"><img src="/images/logo.png" alt="FlatShop"></a></div>
-         </div>
-         <div class="col-md-10 col-sm-10">
-            <div class="header_top">
-               <div class="row">
-                  <div class="col-md-3">
-                     <ul class="option_nav">
-                        <li class="dorpdown">
-                           <a href="#">Eng</a>
-                           <ul class="subnav">
-                              <li><a href="#">Eng</a></li>
-                              <li><a href="#">Vns</a></li>
-                              <li><a href="#">Fer</a></li>
-                              <li><a href="#">Gem</a></li>
-                           </ul>
-                        </li>
-                        <li class="dorpdown">
-                           <a href="#">USD</a>
-                           <ul class="subnav">
-                              <li><a href="#">USD</a></li>
-                              <li><a href="#">UKD</a></li>
-                              <li><a href="#">FER</a></li>
-                           </ul>
-                        </li>
-                     </ul>
-                  </div>
-                  <div class="col-md-6">
-                     <ul class="topmenu">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">News</a></li>
-                        <li><a href="#">Service</a></li>
-                        <li><a href="#">Recruiment</a></li>
-                        <li><a href="#">Media</a></li>
-                        <li><a href="#">Support</a></li>
-                     </ul>
-                  </div>
-                  <div class="col-md-3">
-                     <ul class="usermenu">
-                        <li th:if="${session.currentUser == null}"><a th:href="@{/login}" class="log">Login</a></li>
-                        <li th:if="${session.currentUser != null}"><a th:href="@{/logout}" class="log">Logout</a></li>
-                        <li th:if="${session.currentUser == null}"><a th:href="@{/register}" class="log">Register</a></li>
-                        <li th:if="${session.currentUser != null}"><a th:href="@{/login}" class="log"><span th:text="${session.currentUser.username}"></span></a></li>
-                     </ul>
-                  </div>
-               </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-2">
+                <div class="logo"><a th:href="@{/}"><img alt="FlatShop" src="/images/logo.png"></a></div>
             </div>
-            <div class="clearfix"></div>
-            <div class="header_bottom">
-               <ul class="option">
-                  <li id="search" class="search">
-                     <form th:action="@{/productSearch}"><input class="search-submit" type="submit" value=""><input class="search-input" placeholder="Enter your search term..." type="text"Fku name="keyword" required></form>
-                  </li>
-                  <li class="option-cart">
-                     <a th:href="@{/cart}" class="cart-icon">cart <span class="cart_no" id="headerToTalQuantity" th:text="${session.currentCart.totalQuantity}"></span></a>
-<!--                     <ul class="option-cart-item" >-->
-<!--                        <li>-->
-<!--                           <div class="cart-item" th:each="detail,index : ${session.currentCart.details}">-->
-<!--                              <div class="image"><img src="images/products/thum/products-01.png" alt=""></div>-->
-<!--                              <div class="item-description">-->
-<!--                                 <div class="productname" th:text="${detail.value.name}">-->
-<!--                                 </div>-->
-<!--                                 <p>Size: <span class="light-red">One size</span><br>Quantity: <span class="light-red">01</span></p>-->
-<!--                              </div>-->
-<!--                              <div class="right">-->
-<!--                                 <h5 th:text="${#numbers.formatCurrency(detail.value.price)}">-->
+            <div class="col-md-10 col-sm-10">
+                <div class="header_top">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <ul class="option_nav">
+                                <li class="dorpdown">
+                                    <a href="#">Eng</a>
+                                    <ul class="subnav">
+                                        <li><a href="#">Eng</a></li>
+                                        <li><a href="#">Vns</a></li>
+                                        <li><a href="#">Fer</a></li>
+                                        <li><a href="#">Gem</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dorpdown">
+                                    <a href="#">USD</a>
+                                    <ul class="subnav">
+                                        <li><a href="#">USD</a></li>
+                                        <li><a href="#">UKD</a></li>
+                                        <li><a href="#">FER</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="topmenu">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">News</a></li>
+                                <li><a href="#">Service</a></li>
+                                <li><a href="#">Recruiment</a></li>
+                                <li><a href="#">Media</a></li>
+                                <li><a href="#">Support</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="usermenu">
+                                <li th:if="${session.currentUser == null}"><a class="log" th:href="@{/login}">Login</a>
+                                </li>
+                                <li th:if="${session.currentUser != null}"><a class="log"
+                                                                              th:href="@{/logout}">Logout</a></li>
+                                <li th:if="${session.currentUser == null}"><a class="log" th:href="@{/register}">Register</a>
+                                </li>
+                                <li th:if="${session.currentUser != null}"><a class="log" th:href="@{/login}"><span
+                                        th:text="${session.currentUser.username}"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="header_bottom">
+                    <ul class="option">
+                        <li class="search" id="search" onclick="searchProducts()">
+                            <form th:action="@{/productSearch}">
+                                <input class="search-submit" type="button" value="">
+                                <input id="searchProducts"  class="search-input" name="keyword" placeholder="Enter your search term..." required type="text"/>
+                            </form>
+                            <ul id="ulSearch" class="searchForm1">
 
-<!--                                 </h5>-->
-<!--                                 <a href="#" class="remove"><img src="images/remove.png" alt="remove"></a>-->
-<!--                              </div>-->
-<!--                           </div>-->
-<!--                        </li>-->
-<!--                        <li><span class="total" id="headerToTalPrice" th:text="${#numbers.formatCurrency(session.currentCart.totalPrice)}">Total <strong></strong></span><button class="checkout" onClick="location.href='checkout.html'">CheckOut</button></li>&ndash;&gt;-->
-<!--                     </ul>-->
-                  </li>
-               </ul>
-               <div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
-               <div class="navbar-collapse collapse">
-                  <ul class="nav navbar-nav">
-                     <li class="active dropdown">
-                        <a th:href="@{/home}" >Home</a>
-                        <!--                              <div class="dropdown-menu">-->
-                        <!--                                 <ul class="mega-menu-links" >-->
-                        <!--                                 </ul>-->
-                        <!--                              </div>-->
-                     </li>
-                     <li><a th:href="@{/productgird}">Product</a> </li>
-                     <li><a th:href="@{/productlist}">ProductList</a></li>
-<!--                     <li class="dropdown">-->
-<!--                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Fashion</a>-->
-<!--                        <div class="dropdown-menu mega-menu">-->
-<!--                           <div class="row">-->
-<!--                              <div class="col-md-6 col-sm-6">-->
-<!--                                 <ul class="mega-menu-links">-->
-<!--                                    <li><a href="productgird.html">New Collection</a></li>-->
-<!--                                    <li><a href="productgird.html">Shirts & tops</a></li>-->
-<!--                                    <li><a href="productgird.html">Laptop & Brie</a></li>-->
-<!--                                    <li><a href="productgird.html">Dresses</a></li>-->
-<!--                                    <li><a href="productgird.html">Blazers & Jackets</a></li>-->
-<!--                                    <li><a href="productgird.html">Shoulder Bags</a></li>-->
-<!--                                 </ul>-->
-<!--                              </div>-->
-<!--                              <div class="col-md-6 col-sm-6">-->
-<!--                                 <ul class="mega-menu-links">-->
-<!--                                    <li><a href="productgird.html">New Collection</a></li>-->
-<!--                                    <li><a href="productgird.html">Shirts & tops</a></li>-->
-<!--                                    <li><a href="productgird.html">Laptop & Brie</a></li>-->
-<!--                                    <li><a href="productgird.html">Dresses</a></li>-->
-<!--                                    <li><a href="productgird.html">Blazers & Jackets</a></li>-->
-<!--                                    <li><a href="productgird.html">Shoulder Bags</a></li>-->
-<!--                                 </ul>-->
-<!--                              </div>-->
-<!--                           </div>-->
-<!--                        </div>-->
-<!--                     </li>-->
-<!--                     <li><a href="productgird.html">gift</a></li>-->
-<!--                     <li><a href="productgird.html">kids</a></li>-->
-<!--                     <li><a href="productgird.html">blog</a></li>-->
-<!--                     <li><a href="productgird.html">jewelry</a></li>-->
-                     <li><a th:href="@{/contact}">contact us</a></li>
-                     <li th:if="${session.currentUser != null}"><a th:id="${session.currentUser.userID}"  th:href="@{'/cart/check/' + ${session.currentUser.userID}}">CHECK ORDER</a></li>
-                  </ul>
-               </div>
+                            </ul>
+                        </li>
+                        <li class="option-cart">
+                            <a class="cart-icon" th:href="@{/cart}">cart <span class="cart_no" id="headerToTalQuantity"
+                                                                               th:text="${session.currentCart.totalQuantity}"></span></a>
+                        </li>
+                    </ul>
+                    <div class="navbar-header">
+                        <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse"
+                                type="button"><span class="sr-only">Toggle navigation</span><span
+                                class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active dropdown">
+                                <a th:href="@{/home}">Home</a>
+                            </li>
+                            <li><a th:href="@{/productgird}">Product</a></li>
+                            <li><a th:href="@{/productlist}">ProductList</a></li>
+
+                            <li><a th:href="@{/contact}">contact us</a></li>
+                            <li th:if="${session.currentUser != null}">
+                                <a th:href="@{'/cart/check/' + ${session.currentUser.userID}}"
+                                   th:id="${session.currentUser.userID}">CHECK ORDER</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
 </header>
 </body>
 </html>
