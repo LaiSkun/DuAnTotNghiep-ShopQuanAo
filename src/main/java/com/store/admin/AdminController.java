@@ -31,10 +31,6 @@ public class AdminController {
 	public String author() {
 		return "/admin/authorities/authorities";
 	}
-//	@RequestMapping("/admin/product")
-//	public String adminProduct() {
-//		return "/admin/product/product";
-//	}
 
 	@RequestMapping("/admin/status")
 	public String adminStatus() {
