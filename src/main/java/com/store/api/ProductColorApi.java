@@ -38,5 +38,10 @@
             List<Products> prdColor = prd.findAll();
             return prdColor ;
         }
+        @RequestMapping("/product/search/posts")
+        public List<String> prd(@RequestBody String id) {
+            List<String> prd = productService.findSearchClient(id);
+            return prd ;
+        }
 //        /admin/product/listProductColorByProductId
     }

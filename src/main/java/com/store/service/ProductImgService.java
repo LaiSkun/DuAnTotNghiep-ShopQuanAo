@@ -2,6 +2,7 @@ package com.store.service;
 
 import com.store.model.Product_Colors;
 import com.store.model.Product_Images;
+import com.store.model.Products;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,6 @@ public interface ProductImgService {
     @Transactional
     public void deleteImg(long id);
     Page<Product_Images> findPaginated(Pageable pageable, List sql);
-
+    List<String> top3NameImg(long colorID);
     int countImg(String id);
 }

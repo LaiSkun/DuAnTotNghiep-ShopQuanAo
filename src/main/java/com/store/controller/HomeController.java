@@ -1,13 +1,18 @@
 package com.store.controller;
 
+import com.store.configs.CustomConfiguration;
 import com.store.constant.SessionConstant;
+import com.store.dao.ProductDAO;
 import com.store.model.Authorities;
+import com.store.model.Product_Colors;
 import com.store.model.Products;
 import com.store.model.Users;
 
+import com.store.service.ProductColorsService;
+import com.store.service.ProductImgService;
 import com.store.service.ProductService;
 import com.store.service.UserService;
-
+import com.store.DTO.sellingProductsDTO;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +34,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -37,13 +43,19 @@ public class HomeController {
 	private ProductService productService;
 	@Autowired
 	private UserService userService;
-
+	@Autowired
+	private ProductColorsService productColorsService;
+	@Autowired
+	CustomConfiguration customConfiguration;
+	@Autowired
+	ProductImgService productImgService;
 	private static final int MAX_SIZE = 4;
 	@Autowired
 	private AuthenticationManagerBuilder authenticationManagerBuilder;
 	@Autowired
-
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private ProductDAO productDAO;
 
 	@RequestMapping({ "/", "/home" })
 	public String home(@RequestParam(value = "pageM", required = false, defaultValue = "1") int pageM,
@@ -67,7 +79,45 @@ public class HomeController {
 		} catch (Exception e) {
 			productW = productService.findAll();
 		}
+	   int pageSizeSellPrd = Math.round(productDAO.sellingproducts().size() / 4 * 10) / 10;
+		List<List<sellingProductsDTO>> list =  new ArrayList<>();
+		for (int i = 1; i <= pageSizeSellPrd; i++){
+			List<String> ls = productDAO.selling(i);
+			List<sellingProductsDTO> lsSell = new ArrayList<>();
+			ls.forEach(item ->{
+			Products prd = productService.findByProductID(item.split(",")[0]);
+			List<Product_Colors> color = productColorsService.findByProductID(item.split(",")[0]);
+			sellingProductsDTO prdSell = customConfiguration.modelMapper().map(prd, sellingProductsDTO.class);
+			List<String> nameImg = productImgService.top3NameImg(color.get(0).getColorID());
+			prdSell.setNameImg(nameImg);
+			prdSell.setColor(color);
+			prdSell.setQuantitysold(item.split(",")[1]);
+			lsSell.add(prdSell);
+			if (lsSell.size() == 4){
+				list.add(lsSell);
+			}
+			});
+		}
 
+		List<List<sellingProductsDTO>> listProductsNew =  new ArrayList<>();
+		List<sellingProductsDTO> listsell = new ArrayList<>();
+		List<Products> prdnew = productService.productsNew();
+		for (int i = 1; i<prdnew.toArray().length; i++) {
+			List<Product_Colors> color = productColorsService.findByProductID(prdnew.get(i).getProductID());
+			sellingProductsDTO prdSell = customConfiguration.modelMapper().map(prdnew.get(i), sellingProductsDTO.class);
+			List<String> nameImg = productImgService.top3NameImg(color.get(0).getColorID());
+			prdSell.setColor(color);
+			prdSell.setNameImg(nameImg);
+			listsell.add(prdSell);
+			if (listsell.size() == 4) {
+				listProductsNew.add(listsell);
+				listsell = new ArrayList<>();
+			}
+		}
+
+
+		model.addAttribute("sell",list);
+		model.addAttribute("productNew",listProductsNew);
 		model.addAttribute("productW", productW);
 		return "/layout/home";
 	}
