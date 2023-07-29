@@ -30,6 +30,9 @@
 				<div th:text="${message}"></div>
 				<form th:action="@{/admin/user/new}" method="post"
 					th:object="${user}">
+					<input type="hidden" name="action" value="create"
+						th:if="${action == null}" /> <input type="hidden" name="action"
+						value="${action}" th:if="${action != null}" /> 
 					<div class="card">
 						<i id="exit" class="fa-solid fa-x" style="margin-left: 37vw;"></i>
 
@@ -83,8 +86,9 @@
 							</div>
 						</div>
 						<div class="card-footer">
-							<button class="btn">create</button>
-							<button class="btn">update</button>
+							<button class="btn"
+								th:if="${action == null || action == 'create'}">create</button>
+							<button class="btn" th:if="${action == 'edit'}">update</button>
 							<button class="btn">
 								<a th:href="@{/admin/user}">Reset</a>
 							</button>
@@ -180,7 +184,7 @@
 							</tbody>
 						</table>
 
-						<!-- Hiển thị số trang -->
+					<!-- 	Hiển thị số trang -->
 
 
 						<ul class="pagination">

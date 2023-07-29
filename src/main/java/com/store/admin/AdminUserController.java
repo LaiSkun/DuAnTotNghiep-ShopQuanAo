@@ -88,66 +88,87 @@ public class AdminUserController {
 		return "/admin/user/user";
 	}
 
-	@RequestMapping("/admin/edit/{id}")
-	public String edit(@PathVariable("id") String id, @RequestParam(defaultValue = "0") int page,
-			@Validated @ModelAttribute("user") Users user, Errors errors, @RequestParam(defaultValue = "5") int size,
-			Model model) {
-		Users users = userService.findById(id);
-		// Kiểm tra nếu userID không tồn tại trong hệ thống
-		if (users == null) {
-			model.addAttribute("message", "Người dùng không tồn tại trong hệ thống.");
-			return "admin/user/user";
-		}
-
-		// Kiểm tra nếu email đã tồn tại và không phải của userID hiện tại thì báo lỗi
-		if (userService.isEmailExists(users.getEmail()) && !users.getEmail().equals(users.getEmail())) {
-			model.addAttribute("message", "Vui lòng sửa các lỗi sau:");
-			errors.rejectValue("email", "email.exists", "Email đã tồn tại trong hệ thống.");
-			return "admin/user/user";
-		}
-		model.addAttribute("user", users);
-		return showUserListPage(model, page, size);
-	}
-
 	@PostMapping("/admin/user/new")
 	public String createUser(Model model, @Validated @ModelAttribute("user") Users user, Errors errors,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
+			@RequestParam("action") String action) {
 		model.addAttribute("message", "Vui lòng sửa các lỗi sau: ");
-		System.out.println(user.getUserID());
-
-		// Kiểm tra nếu userID đã tồn tại thì báo lỗi
-		Users existingUser = userService.findById(user.getUserID());
-		if (existingUser != null) {
-			if (!existingUser.getUserID().equals(user.getUserID())) {
+		// Kiểm tra hành động là "create" hay "edit"
+		if (action.equals("create")) {
+			// Kiểm tra nếu userID đã tồn tại thì báo lỗi
+			Users existingUser = userService.findById(user.getUserID());
+			if (existingUser != null) {
 				errors.rejectValue("userID", "userid.exists", "UserID đã tồn tại trong hệ thống.");
 			}
-		}
 
-		// Kiểm tra nếu email đã tồn tại và không phải của userID hiện tại thì báo lỗi
-		if (userService.isEmailExists(user.getEmail())) {
-			if (existingUser == null || (existingUser != null && !existingUser.getEmail().equals(user.getEmail()))) {
+			// Kiểm tra nếu email đã tồn tại thì báo lỗi
+			if (userService.isEmailExists(user.getEmail())) {
 				errors.rejectValue("email", "email.exists", "Email đã tồn tại trong hệ thống.");
 			}
+
+			// Nếu có lỗi, hiển thị trang danh sách người dùng với thông báo lỗi
+			if (errors.hasErrors()) {
+				return showUserListPage(model, page, size);
+			}
+
+			// Tiến hành tạo mới người dùng
+			Roles customerRole = roleService.findByRoleID("customer");
+			Authorities authorities = new Authorities();
+			authorities.setUser(user);
+			authorities.setRole(customerRole);
+
+			String rawPassword = user.getPassword();
+			String encodedPassword = passwordEncoder.encode(rawPassword);
+			user.setPassword(encodedPassword);
+
+			userService.create(user);
+			authoritiesService.create(authorities);
+			
+		}
+		
+		// Cập nhật thông tin người dùng nếu action là "edit"
+		else {
+			Users existingUser = userService.findById(user.getUserID());
+			if (existingUser == null) {
+				model.addAttribute("message", "Người dùng không tồn tại trong hệ thống.");
+				return "admin/user/user";
+			}
+
+			// Kiểm tra nếu email đã tồn tại và không phải của userID hiện tại thì báo lỗi
+			if (userService.isEmailExists(user.getEmail()) && !existingUser.getEmail().equals(user.getEmail())) {
+				model.addAttribute("message", "Vui lòng sửa các lỗi sau:");
+				errors.rejectValue("email", "email.exists", "Email đã tồn tại trong hệ thống.");
+				return "admin/user/user";
+			}
+
+			if (errors.hasErrors()) {
+				model.addAttribute("action", "edit");
+				return "admin/user/user";
+			}
+
+			// Cập nhật thông tin người dùng vào cơ sở dữ liệu
+			userService.update(user);
 		}
 
-		// Nếu có lỗi, hiển thị trang danh sách người dùng với thông báo lỗi
-		if (errors.hasErrors()) {
-			return showUserListPage(model, page, size);
-		}
-		// Tiến hành tạo mới người dùng
-		Roles customerRole = roleService.findByRoleID("customer");
-		Authorities authorities = new Authorities();
-		authorities.setUser(user);
-		authorities.setRole(customerRole);
+		return "redirect:/admin/user"; // Chuyển hướng đến trang đã cập nhật hoặc tạo mới user
+	}
 
-		String rawPassword = user.getPassword();
-		String encodedPassword = passwordEncoder.encode(rawPassword);
-		user.setPassword(encodedPassword);
-
-		userService.create(user);
-		authoritiesService.create(authorities);
-		return "redirect:/admin/user"; // Chuyển hướng đến trang đã cập nhật user mới
-
+	@RequestMapping("/admin/edit/{id}")
+	public String edit(@PathVariable("id") String id, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size, Model model) {
+	    // Lấy thông tin người dùng cần chỉnh sửa
+	    Users existingUser = userService.findById(id);
+	    // Kiểm tra nếu userID không tồn tại trong hệ thống
+	    if (existingUser == null) {
+	        model.addAttribute("message", "Người dùng không tồn tại trong hệ thống.");
+	        return "admin/user/user";
+	    }
+	    
+	    // Hiển thị thông tin người dùng cần chỉnh sửa
+	    model.addAttribute("user", existingUser);
+	    model.addAttribute("action", "edit"); // Xác định hành động là chỉnh sửa
+	    showUserListPage(model, page, size);
+	    return "admin/user/user";
 	}
 
 	@GetMapping("/admin/delete/{id}")
