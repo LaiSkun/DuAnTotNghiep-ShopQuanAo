@@ -29,6 +29,7 @@ public class AuthoritiesServiceImpl implements AuthoritiesService  {
 		return dao.save(auth);
 	}
 
+
 	@Override
 	public void delete(Integer id) {
 		dao.deleteById(id);

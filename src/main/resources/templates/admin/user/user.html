@@ -230,5 +230,13 @@
         })
         window.addEventListener(`load`,() => location.href.includes('/admin/edit')&& document.querySelector('#handle').classList.add('handle'))
     </script>
-
+	<script type="text/javascript">
+	function checkPasswordMatch(fieldConfirmPassword) {
+		
+		if ($("#confirmpass").val() != $("#password").val()) {
+			fieldConfirmPassword.setCustomValidity("Mật khẩu không khớp!");
+		} else {
+			fieldConfirmPassword.setCustomValidity("");
+		}
+	}</script>
 </html>

@@ -2,6 +2,7 @@ package com.store.service.impl;
 
 import com.store.dao.ProductDAO;
 import com.store.model.Products;
+import com.store.DTO.sellingProductsDTO;
 import com.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -10,10 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -27,7 +30,22 @@ public class ProductsServiceImpl implements ProductService {
     @Autowired
     private ProductDAO productDAO;
 	//chuyển về trạng thái ngưng bán
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     @Override
+    public String callHelloWorld()  {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+                .withCatalogName("Shop_QuanAo") //package name
+                .withFunctionName("search");
+        SqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("param", "value") ;
+        //First parameter is function output parameter type.
+        return jdbcCall.executeFunction(String.class, paramMap);
+
+    }
+
+
+        @Override
     @Transactional(rollbackOn = {Exception.class, Throwable.class})
     public void deleteLogical(String productID) {
         productDAO.updateLocal(productID);
@@ -48,12 +66,40 @@ public class ProductsServiceImpl implements ProductService {
     public List<Products> findDeprecatedTrue() {
         return productDAO.findByDeprecated(Boolean.FALSE);
     }
-	//sản phẩm ngưng bán
+
+    @Override
+    public List<String> findSearchClient(String name) {
+        return productDAO.findSearchClient(name);
+    }
+
+    //sản phẩm ngưng bán
     @Override
     public List<Products> findDeprecatedFalse() {
         return productDAO.findByDeprecated(Boolean.TRUE);
     }
-	// sản phẩm theo id
+
+    @Override
+    public List<Products> findBySearch(String search) {
+        return productDAO.findSearch(search);
+    }
+
+    @Override
+    public List<Products> findBySearchDb(String search) {
+        return productDAO.findSearchAndSatusF(search);
+    }
+
+    @Override
+    public List<Products> findBySearchNb(String search) {
+        return productDAO.findSearchAndSatusT(search);
+    }
+
+    @Override
+    public List<Products> findByseatchCateId(String search, String cate) {
+     return productDAO.findSearchAndCateId1(search, cate);
+    }
+
+
+    // sản phẩm theo id
     @Override
     public Optional<Products> findByID(String productID) {
         return productDAO.findById(productID);
@@ -91,6 +137,17 @@ public class ProductsServiceImpl implements ProductService {
         return pageProducts;
 
     }
+
+    @Override
+    public List<String> findsellingProducts() {
+        return productDAO.sellingproducts();
+    }
+
+    @Override
+    public List<Products> productsNew() {
+        return productDAO.ProductsNew();
+    }
+
     @Override
     public void updateStatusTrue(String productID) {
          productDAO.updateStatusTrue(productID);
@@ -175,5 +232,24 @@ public class ProductsServiceImpl implements ProductService {
             throw new Exception ("Page number must be grat than 0");
         }
     }
+	@Override
+	public Page<Products> findbyPriceMax(int pageSize, int pageNumber) throws  Exception {
+		if (pageNumber >= 1) {
 
+
+            return productDAO.findbyPriceMax( PageRequest.of(pageNumber - 1, pageSize));
+        }else{
+            throw new Exception ("Page number must be grat than 0");
+        }
+	}
+	@Override
+	public Page<Products> findbyPriceMin(int pageSize, int pageNumber) throws  Exception {
+		if (pageNumber >= 1) {
+
+
+            return productDAO.findbyPriceMin( PageRequest.of(pageNumber - 1, pageSize));
+        }else{
+            throw new Exception ("Page number must be grat than 0");
+        }
+	}
 }

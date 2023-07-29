@@ -233,6 +233,8 @@ const editProductImg = async (thisVal) => {
 }
 
 window.addEventListener("load", () => {
+    location.href.includes("type=category") ? document.querySelector("#showFormFilter").setAttribute("style", "display:block") :
+        document.querySelector("#showFormFilter").removeAttribute("style")
     location.href.includes("size2=") && productImgDetail()
     location.href.includes("/product") && document.querySelector("#productIcon").setAttribute("style", "color:#fff; scale:1.1")
     location.href === "http://localhost:8080/admin" && document.querySelector("#admin").setAttribute("style", "color:#fff; scale:1.1")
@@ -291,7 +293,7 @@ function demo(currentval) {
     document.querySelector("#ProductID").setAttribute("style", "pointer-events:none;")
     document.querySelector("#productName").value = valueProduct.children[0].innerHTML
     document.querySelector("#createdDate").value = valueProduct.children[3].innerHTML.split("-").reverse().join("-")
-    document.querySelector("#viewcount").value = valueProduct.children[1].innerHTML
+    document.querySelector("#viewcount").value = valueProduct.children[1].innerHTML.replace(".0","")
     document.querySelector("#categoryid").value = valueProduct.children[4].getAttribute("alt")
     document.querySelector("#description").value = valueProduct.children[6].children[0].innerHTML
     document.querySelector("#avt").setAttribute("src", valueProduct.children[2].children[0].getAttribute("src"))
@@ -301,8 +303,7 @@ function demo(currentval) {
 }
 
 async function showFormProductColor(val) {
-
-    setTimeout(async () => {
+    document.querySelector(".handle5") == null && setTimeout(async () => {
         let body = document.querySelector("body").getAttribute("class")
         if (document.querySelector(".handle") == null && (body == null || body === "")) {
             let currentVal = "#body" + val.children[0].getAttribute("id")
@@ -313,17 +314,24 @@ async function showFormProductColor(val) {
             if (tbodyProductColorbyProductID.children.length == 0) {
                 await listProductColorbyProductID.forEach(item => {
                     tbodyProductColorbyProductID.innerHTML += `<tr>
-                                            <td class=${item["product"].productID}  >${item["product"].name}</td>
-                                            <td>${item["color_name"]}</td>
-                                            <td class=${item["colorhex"]} style="position: relative"> <span style=" position: absolute; height: 40px; width: 40px; bottom: 3px;border-radius: 50% ; left:65px; background-color: ${item["colorhex"]}"> </span></td>
-                                            <td>${item["available"]}</td>
-                                            <td> ${item["product"].deprecated == true ? 'Ngưng bán' : 'Đang bán'}</td>
-                                            <td class=${item["colorID"]} id="${item["colorID"]}color" onclick="handleEditProductColor(this)" ><i class="fa-solid fa-pen-to-square" style="color: #212529"></i></td>
-                                        </tr>`
+                                                <td class=${item["product"].productID}  >${item["product"].name}</td>
+                                                <td>${item["color_name"]}</td>
+                                                <td class=${item["colorhex"]} style="position: relative"> <span style=" position: absolute; height: 40px; width: 40px; bottom: 3px;border-radius: 50% ; left:65px; background-color: ${item["colorhex"]}"> </span></td>
+                                                <td>${item["available"]}</td>
+                                                <td> ${item["product"].deprecated == true ? 'Ngưng bán' : 'Đang bán'}</td>
+                                                <td class=${item["colorID"]} id="${item["colorID"]}color" onclick="handleEditProductColor(this)" ><i class="fa-solid fa-pen-to-square" style="color: #212529"></i></td>
+                                                <td>
+                                                <!-- Button trigger modal -->
+                                                    <button class="btn" data-target="#exampleModalDelete" onclick="sendId(${item["colorID"]}, '${item["color_name"]}', '${item["product"].productID}')" data-toggle="modal" type="button">
+                                                    <i class="fa-solid fa-trash" style="color: #212529"></i>
+                                                    </button>                                                                         
+                                                </td>
+                                            </tr>`
                 })
+
             }
             let lastChild = val.children[val.children.length - 1]
-            document.querySelector(".activeTable") != null && lastChild.classList.remove("activeTable")
+            document.querySelector(".activeTable") != null && document.querySelector(".activeTable").classList.remove("activeTable")
             lastChild.getAttribute("handleexit") == null ? lastChild.classList.add("activeTable") : lastChild.removeAttribute("handleExit")
         }
 
@@ -332,8 +340,17 @@ async function showFormProductColor(val) {
 
 }
 
+function sendId(idColor, colorName, productName) {
+
+    document.querySelector("#modal-body-delete").innerHTML = ` Lưu ý: khi xóa màu những ảnh có màu ${colorName} của sản phẩm ${productName}  cũng sẽ bị xóa. Bạn có chắc chắn muốn xóa`
+    console.log("alo")
+    document.querySelector("#handleDeleteProductColor").setAttribute("href", `/admin/product/DeleteProductColor?ColorID=${idColor}`)
+
+}
+
 function handleEditProductColor(val) {
     document.querySelector("#handle5").classList.add("handle5")
+    document.querySelector(".activeTable").setAttribute("style", "display:none")
     document.querySelector("#updateButtonProductColor").setAttribute("style", "display:block")
     document.querySelector("#updateButtonProductColor").setAttribute("class", "btn")
     document.querySelector("#colorIDPrd").setAttribute("value", val.getAttribute("class"))
@@ -344,6 +361,9 @@ function handleEditProductColor(val) {
     document.querySelector("#available").setAttribute("value", val.parentElement.children[3].innerHTML)
 }
 
+document.querySelector("#exitHandle5").addEventListener("click", () => document.querySelector(".activeTable").removeAttribute("style")
+)
+
 function exitFormOrderDetail() {
     let dv = document.querySelector(".activeTable")
     dv.classList.remove("activeTable")
@@ -352,6 +372,24 @@ function exitFormOrderDetail() {
 
 window.addEventListener("load", () => {
     location.href.includes("/order") && document.querySelector(".oderIcon").setAttribute("style", "color:#fff; scale:1.1")
+    location.href.includes("?type=category") && document.querySelector("#showFormFilter").setAttribute("style", "display:block")
+
+})
+
+function ProductColorTable() {
+    let tr = document.querySelector("#sttProduct").children
+    console.log("a")
+    for (index = 0; index < tr.length; index++) {
+        document.querySelector("#sttProduct").children[index].children[document.querySelector("#sttProduct").children[index].children.length - 1].setAttribute('style', 'top:420px')
+    }
+}
+
+window.addEventListener("load", () => {
+    let tr = document.querySelector("#sttProduct").children
+    console.log("a")
+    for (index = 0; index < tr.length; index++) {
+        document.querySelector("#sttProduct").children[index].children[document.querySelector("#sttProduct").children[index].children.length - 1].classList.add("tableproductcolor")
+    }
 })
 
 async function ListProduct(id) {
@@ -364,6 +402,9 @@ document.querySelector("#btnEditProductImg", () => {
     let ProductIDList = document.querySelector("#ProductIDList").children
     for (idx = 0; idx < ProductIDList.length; idx++) {
         idx === 0 ? ProductIDList[0].setAttribute("selected", "selected") : ProductIDList[idx].removeAttribute("selected")
-
     }
 })
+function submitSearch(id){
+    document.querySelector("#valtype").setAttribute("value", document.querySelector("#select-form").value)
+    id.form.submit();
+}

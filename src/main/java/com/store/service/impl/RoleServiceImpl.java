@@ -25,10 +25,9 @@ public class RoleServiceImpl implements RoleService {
 		return dao.findByRoleID(name);
 	}
 
-	@Override
-	public Roles findByID() {
-		return dao.findByID();
-	}
+
+
+
 
 
 }

@@ -186,22 +186,22 @@
                     <div id="pagination">
                         <div
                                 th:if="${currentPage > 1 }">
-                            <a th:class="${Orders == Orders.number } ? active : pagination"
+                            <a th:class="${Orders == Orders.number } ? ${active} : pagination "
                                th:href="@{${url}(size=${Orders.size}, page=${currentPage - 1} )}"
                             >prev</a>
                         </div>
                         <div
                                 th:unless="${currentPage > 1}">
-                            <a th:class="${disabled}">prev</a>
+                            <a th:class="${dislabled}">prev</a>
                         </div>
                         <div>
-                            <a th:class="${currentPage == 1 } ? active : pagination"
+                            <a th:class="${currentPage == 1 } ? ${active} : pagination"
                                th:href="@{${url}(size=${Orders.size}, page=1 )}"
                                th:text="1"
                             ></a>
                         </div>
                         <div th:if="${ 1 < currentPage and currentPage < Orders.totalPages}">
-                            <a th:class="${currentPage } ? active "
+                            <a th:class="${currentPage } ? ${active} "
                                th:href="@{${url}(size=${Orders.size}, page=${currentPage} )}"
                                th:text="${currentPage}"
                             ></a>
@@ -212,19 +212,19 @@
                             >...</a>
                         </div>
                         <div>
-                            <a th:class="${currentPage == 4 } ? active : pagination"
+                            <a th:class="${currentPage == 4 } ? ${active} : pagination"
                                th:href="@{${url}(size=${Orders.size}, page=${Orders.totalPages} )}"
                                th:text="${Orders.totalPages}"
                             ></a>
                         </div>
                         <div
                                 th:if="${Orders.totalPages > currentPage}">
-                            <a th:class="${currentPage ==Orders.number} ? active : pagination"
+                            <a th:class="${currentPage ==Orders.number} ? ${active} : pagination"
                                th:href="@{${url}(size=${Orders.size}, page=${currentPage+1})}"
                             >next</a>
                         </div>
                         <div th:unless="${Orders.totalPages > currentPage}">
-                            <a th:class="${disabled}">next</a>
+                            <a th:class="${dislabled}">next</a>
                         </div>
 
                     </div>

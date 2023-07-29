@@ -32,7 +32,7 @@
 <link th:href="@{/checkout/css/style.css}" rel="stylesheet">
 </head>
 
-<body>
+<body th:id="${done}">
 	<div class="container-fluid">
 		<div class="row px-xl-5">
 			<div class="col-12">
@@ -177,30 +177,39 @@
 	if(document.querySelector('input[name="payment"]:checked') == undefined){
 		alert('Vui lòng chọn phương thức thanh toán')
 	}
-	else{
+	else {
 		var id = document.querySelector('input[name="payment"]:checked').getAttribute('id');
-	   	var address = $('#address').val();
-	    var phone = $('#phone_number').val();
-	    var email = $('#email').val();
-	    var endpoint = '/api/cart/checkout?address=' + address + '&phone=' + phone + '&email=' + email ;
-	    $.ajax({
-	      url: endpoint,
-	      type: 'GET',
-	      statusCode: {
-	        200: handle200,
-	        400: handle400
-	      }
-	    });
-	    $('#formpay').prop('action', `/cart/${id}`)
-	    $("#formpay").submit()
-	  }
+		var address = $('#address').val();
+		var phone = $('#phone_number').val();
+		var email = $('#email').val();
+		localStorage.setItem("val", JSON.stringify([address, phone ,email]))
+		$('#formpay').prop('action', `/cart/${id}`)
+		$("#formpay").submit()
+	}
+  }
+  window.addEventListener("load", () => {
+	  if (document.querySelector("#done") != null){
+		  var val = JSON.parse(localStorage.getItem("val"))
+		  var endpoint = '/api/cart/checkout?address=' + val[0] + '&phone=' + val[1] + '&email=' + val[2] ;
+		   localStorage.removeItem("val")
+		  $.ajax({
+			  url: endpoint,
+			  type: 'GET',
+			  statusCode: {
+				  200: handle200,
+				  400: handle400
+			  }
+		  });
 	  function handle200() {
-	    alert('thanh cong');
+		  alert('thanh cong');
 	  }
 	  function handle400() {
-	    alert('that bai , thu lai');
-		} 
-       } 
+
+		  alert('that bai , thu lai');
+	  }
+  }
+  })
+
 </script>
 </body>
 

@@ -3,6 +3,7 @@ package com.store.service.impl;
 import com.store.dao.ProductImgDAO;
 import com.store.model.Product_Colors;
 import com.store.model.Product_Images;
+import com.store.model.Products;
 import com.store.service.ProductImgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -70,5 +71,17 @@ public class ProductImgImpl implements ProductImgService {
         }
         Page<Product_Images> productImgPage = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), products.size());
         return productImgPage;
+    }
+
+    @Override
+    public List<String> top3NameImg(long colorID) {
+        return productImgDAO.findimg(colorID);
+    }
+
+
+
+    @Override
+    public int countImg(String id) {
+        return   productImgDAO.countImg(id);
     }
 }
