@@ -1,5 +1,6 @@
 package com.store.controller;
 
+import com.store.DTO.ProductDTO;
 import com.store.configs.CustomConfiguration;
 import com.store.constant.SessionConstant;
 import com.store.dao.ProductDAO;
@@ -61,24 +62,44 @@ public class HomeController {
 	public String home(@RequestParam(value = "pageM", required = false, defaultValue = "1") int pageM,
 			@RequestParam(value = "pageW", required = false, defaultValue = "1") int pageW, Model model) {
 		List<Products> productM = new ArrayList<>();
+		List<sellingProductsDTO> prdM = new ArrayList<>();
 		try {
 			Page<Products> pageProductM = productService.findMen(MAX_SIZE, pageM);
 			productM = pageProductM.getContent();
+			productM.forEach(item -> {
+				sellingProductsDTO prd = customConfiguration.modelMapper().map(item, sellingProductsDTO.class);
+				prd.setColor(productColorsService.findbyProductID(item.getProductID()));
+				List<Product_Colors> color = productColorsService.findbyProductID(item.getProductID());
+				prd.setNameImg(productImgService.top3NameImg(color.get(0).getColorID()));
+				prdM.add(prd);
+			});
 			model.addAttribute("totalPagesM", pageProductM.getTotalPages());
 			model.addAttribute("currentPageM", pageM);
 		} catch (Exception e) {
 			productM = productService.findAll();
 		}
-		model.addAttribute("productM", productM);
+		model.addAttribute("productM", prdM);
+		List<sellingProductsDTO> prdW = new ArrayList<>();
+		//list women
 		List<Products> productW = new ArrayList<>();
 		try {
 			Page<Products> pageProduct = productService.findWomen(MAX_SIZE, pageW);
 			productW = pageProduct.getContent();
+
+			productW.forEach(item -> {
+				sellingProductsDTO prd = customConfiguration.modelMapper().map(item, sellingProductsDTO.class);
+				prd.setColor(productColorsService.findbyProductID(item.getProductID()));
+				List<Product_Colors> color = productColorsService.findbyProductID(item.getProductID());
+				prd.setNameImg(productImgService.top3NameImg(color.get(0).getColorID()));
+				prdW.add(prd);
+			});
 			model.addAttribute("totalPagesW", pageProduct.getTotalPages());
 			model.addAttribute("currentPageW", pageW);
 		} catch (Exception e) {
 			productW = productService.findAll();
 		}
+
+		//list sản phẩm bán chạy
 	   int pageSizeSellPrd = Math.round(productDAO.sellingproducts().size() / 4 * 10) / 10;
 		List<List<sellingProductsDTO>> list =  new ArrayList<>();
 		for (int i = 1; i <= pageSizeSellPrd; i++){
@@ -98,7 +119,7 @@ public class HomeController {
 			}
 			});
 		}
-
+		//list sp mới
 		List<List<sellingProductsDTO>> listProductsNew =  new ArrayList<>();
 		List<sellingProductsDTO> listsell = new ArrayList<>();
 		List<Products> prdnew = productService.productsNew();
@@ -118,7 +139,7 @@ public class HomeController {
 
 		model.addAttribute("sell",list);
 		model.addAttribute("productNew",listProductsNew);
-		model.addAttribute("productW", productW);
+		model.addAttribute("productW",prdW );
 		return "/layout/home";
 	}
 

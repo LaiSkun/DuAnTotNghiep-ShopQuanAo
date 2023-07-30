@@ -31,6 +31,7 @@ public class ImageUploadController {
                 System.out.println(e);
             }
         }
+
         return ResponseEntity.badRequest().build();
     }
 }
