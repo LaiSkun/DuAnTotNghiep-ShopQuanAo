@@ -42,7 +42,7 @@
 					</a></li>
 					<li><a th:href="@{/admin/status}"> <span
 							class="las la-tasks"></span> <small>Status</small></a></li>
-					<li><a th:href="@{/admin/statistic}"> <span id="tasksIcon" class="las la-tasks"></span>
+					<li th:if="${#authorization.expression('hasAuthority(''admin'')')}"><a th:href="@{/admin/statistic}"> <span id="tasksIcon" class="las la-tasks"></span>
 							<small>Sales Graph</small>
 					</a></li>
 
