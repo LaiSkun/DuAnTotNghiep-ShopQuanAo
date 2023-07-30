@@ -51,6 +51,7 @@ public class CartApi {
 			try {
 				cartService.insert(currentCart, currentUser, address, phone, email);
 				session.setAttribute(SessionConstant.CURRENT_CART, new CartDto());
+	            
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (Exception ex) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

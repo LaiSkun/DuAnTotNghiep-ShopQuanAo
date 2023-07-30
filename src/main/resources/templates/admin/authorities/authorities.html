@@ -66,20 +66,15 @@
 
 			<div class="page-content">
 
-
-
-
 				<div class="records table-responsive">
 
 					<div class="record-header">
 						<div class="add" ng-init="selectedRole">
-							<span>Roles</span> <select ng-change="filterUsersByRole()" ng-model="selectedRole"  style="width: 150px" >
+							<span>Roles</span> <select ng-change="filterUsersByRole()"
+								ng-model="selectedRole" style="width: 150px">
 								<option ng-repeat="role in roles" ng-value="role">{{role.rolename}}</option>
 							</select>
-
 						</div>
-
-						
 					</div>
 
 					<div>
@@ -91,8 +86,8 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="acc in admins">
-									<td>{{acc.username}}</td>
+								<tr ng-repeat="acc in getPaginatedAdmins()">
+									<td>{{acc.userID}}</td>
 									<th ng-repeat="role in roles" class="text-center"><input
 										ng-checked="authority_of(acc, role)"
 										ng-click="authority_changed(acc, role)" type="checkbox">
@@ -101,7 +96,13 @@
 							</tbody>
 						</table>
 					</div>
-
+					<div class="pagination">
+						<button ng-disabled="currentPage === 0" ng-click="prevPage()">Trang
+							trước</button>
+						<span>Trang {{currentPage + 1}} trên {{numberOfPages()}}</span>
+						<button ng-disabled="currentPage >= numberOfPages() - 1"
+							ng-click="nextPage()">Trang tiếp</button>
+					</div>
 				</div>
 
 			</div>

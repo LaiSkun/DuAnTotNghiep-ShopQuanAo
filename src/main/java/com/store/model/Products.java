@@ -39,7 +39,6 @@ public class Products {
         this.img = img;
         this.price = price;
         this.createDate = createDate;
-
         this.deprecated = deprecated;
         this.description = description;
         this.category = category;

@@ -1,8 +1,10 @@
 package com.store.api;
 
 import com.store.DTO.ProductColorUserDTO;
-import com.store.DTO.ProductImgDTO;
+import com.store.DTO.sellingProductsDTO;
+import com.store.configs.CustomConfiguration;
 import com.store.dao.ProductColorDAO;
+import com.store.dao.ProductDAO;
 import com.store.model.Categories;
 import com.store.model.Product_Colors;
 import com.store.model.Product_Images;
@@ -38,7 +40,8 @@ public class ProductApi {
 
     @Autowired
     private CatelogyService catelogyService;
-	
+	@Autowired
+	CustomConfiguration customConfiguration;
 	
 	
 	
@@ -59,4 +62,5 @@ public class ProductApi {
 //		images.get(0)
 		return new ResponseEntity<List<ProductColorUserDTO>>(ProductGetImg, HttpStatus.OK);
 	}
+
 }

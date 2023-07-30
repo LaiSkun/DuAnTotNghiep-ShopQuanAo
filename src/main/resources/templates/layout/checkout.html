@@ -57,7 +57,7 @@
           </tr>
           </thead>
           <tbody id="cartItems">
-          <tr th:each="order : ${orders}">
+          <tr style="cursor:pointer" th:each="order : ${orders}" th:id="${order.orderID}" onclick="showOrder(this)" type="submit">
 
             <td>
               <divc style="">
@@ -248,6 +248,10 @@
 
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script>
+  function showOrder(item){
+    window.location.href = `http://localhost:8080/cart/check/orderID/${item.getAttribute("id")}`
+  }
+</script>
 </body>
 </html>

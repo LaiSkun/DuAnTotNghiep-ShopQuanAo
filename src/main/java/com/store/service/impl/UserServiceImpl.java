@@ -26,14 +26,17 @@ import com.store.util.UserNotFoundException;
 public class UserServiceImpl implements UserService{
 	@Autowired
 	UsersDAO dao;
+	
 	@Autowired
-
 	private PasswordEncoder passwordEncoder;
 
+
 	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+
 	
 	@Autowired
 	AuthoritiesService authoritiesService;
+	
 	@Autowired
 	RoleService roleService;
 
@@ -86,7 +89,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public Users findByEmail(String email) {
+	public Users findByEmailCheck(String email) {
 		Users users = dao.findByEmail(email);
 		if (users != null)
 		{
@@ -109,7 +112,9 @@ public class UserServiceImpl implements UserService{
 	public Users doLogin(String userID, String checkpassword) {
 	    Users user = dao.findByUserID(userID);
 	    if (null != user) {
+
 	        String password = user.getPassword();
+
 	        boolean check = passwordEncoder.matches(checkpassword, password);
 	        if (check) {
 	            List<Authorities> authoritiesList = user.getAuthorities();
@@ -137,6 +142,8 @@ public class UserServiceImpl implements UserService{
 			Authorities authorities = new Authorities();
 			authorities.setRole(role);
 			authorities.setUser(user1);
+			System.out.println(authorities.getRole());
+			System.out.println(authorities.getUser());
 			Authorities authorities1 = authoritiesService.create(authorities);
 
 			return user;
@@ -144,6 +151,28 @@ public class UserServiceImpl implements UserService{
 			return null;
 		}
 	}
+
+
+	@Override
+	public Users findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return dao.findByEmail(email);
+	}
+
+
+	@Override
+	public boolean isEmailExists(String email) {
+		// TODO Auto-generated method stub
+		return dao.existsByEmail(email);
+	}
+
+
+	@Override
+	public boolean isUserIDExists(String userID) {
+		// TODO Auto-generated method stub
+		return dao.existsById(userID);
+	}
+
 
      
     public Users getByResetPasswordToken(String token) {
@@ -158,6 +187,7 @@ public class UserServiceImpl implements UserService{
         users.setResetPasswordToken(null);
         dao.save(users);
     }
+
 
 	@Override
 	public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
