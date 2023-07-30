@@ -5,6 +5,8 @@ import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import com.store.DTO.CartDto;
 import com.store.constant.SessionConstant;
+import com.store.model.Categories;
+import com.store.model.Order_Details;
 import com.store.model.Orders;
 import com.store.model.Users;
 import com.store.payment.PaypalPaymentIntent;
@@ -28,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,7 +44,8 @@ public class CartController {
 	private OrdersService ordersService;
 	@Autowired
 	private OrderDetailsService orderDetailsService;
-
+	@Autowired
+	private ProductService productService;
 	public static final String URL_PAYPAL_SUCCESS = "pay/success";
 	public static final String URL_PAYPAL_CANCEL = "pay/cancel";
 	public static String done = null;
@@ -81,6 +85,25 @@ public class CartController {
 			model.addAttribute("orders", orders);
 		}
 		return "layout/checkout";
+	}
+
+	@RequestMapping("/check/orderID/{orderID}")
+	public String doGetCheckOrderID(@PathVariable("orderID") Long orderID, Model model) {
+		Orders orders = ordersService.findById(orderID);
+		if (orders == null) {
+			return "redirect:/check/{userId}";
+		} else {
+			List<Order_Details> orderDetails = orderDetailsService.findByOrderID(orderID);
+			List<String> catesID = new ArrayList<>();
+			orderDetails.forEach(item -> {
+			String cateid =	productService.findById(item.getProduct().getProductID()).getCategory().getCategoryID();
+			catesID.add(cateid);
+			});
+			model.addAttribute("catesID",catesID);
+			model.addAttribute("orderDetails", orderDetails);
+			model.addAttribute("orders", orders);
+		}
+		return "layout/checkout_orderdetail";
 	}
 
 	@GetMapping("/checkout")

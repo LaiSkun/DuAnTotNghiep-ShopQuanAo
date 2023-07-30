@@ -22,6 +22,14 @@ public interface UserService {
 
 	public List<Users> findByAuthorities_Role_RoleID(String roleId);
 
+
+	Users findByEmailCheck(String email);
+
+	Users findByPhone(String phone);
+
+
+
+
 	public Users doLogin(String userID, String checkpassword);
 
 
@@ -44,6 +52,6 @@ public interface UserService {
 	Users getByResetPasswordToken(String token);
 	
 	void updatePassword(Users user, String password);
-	
+
 
 }

@@ -9,4 +9,5 @@ import java.util.List;
 public interface OrderDetailsService {
     void insert(CartDetailDto cartDetailDto);
 
+    List<Order_Details> findByOrderID(Long orderID);
 }

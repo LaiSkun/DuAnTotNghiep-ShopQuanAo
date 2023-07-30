@@ -57,11 +57,12 @@
           </tr>
           </thead>
           <tbody id="cartItems">
-          <tr th:each="order : ${orders}">
-            <td>
-              <div th:text="${order.orderID}">
+          <tr style="cursor:pointer" th:each="order : ${orders}" th:id="${order.orderID}" onclick="showOrder(this)" type="submit">
 
-              </div>
+            <td>
+              <divc style="">
+                  <h5><a th:text="${order.orderID}" th:href="@{'/cart/check/orderID/' + ${order.orderID}}"></a></h5>
+              </divc>
             </td>
             <td>
               <div class="shop-details">
@@ -71,7 +72,7 @@
               </div>
             </td>
             <td>
-              <h5 th:text="${#numbers.formatCurrency(order.price)}">
+              <h5 th:text="${#numbers.formatDecimal(order.price, 0, 'COMMA', 0, 'POINT')} + ' VND'">
 
               </h5>
             </td>
@@ -247,6 +248,10 @@
 
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script>
+  function showOrder(item){
+    window.location.href = `http://localhost:8080/cart/check/orderID/${item.getAttribute("id")}`
+  }
+</script>
 </body>
 </html>

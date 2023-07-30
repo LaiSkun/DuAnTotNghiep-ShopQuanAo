@@ -19,4 +19,6 @@ public interface OrderDetailDAO extends JpaRepository<Order_Details, Long> {
             nativeQuery = true)
     void insert(@Param("dto") CartDetailDto cartDetailDto);
 
+    @Query(value = "SELECT * from order_details where orderID = :orderID  ",nativeQuery = true)
+    List<Order_Details> findByOrderID(Long orderID);
 }

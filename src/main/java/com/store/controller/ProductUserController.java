@@ -27,6 +27,7 @@ public class ProductUserController {
     @Autowired
     private ProductColorsService productColorsService;
 
+
     private static final int MAX_SIZE = 6;
     private static final int MAX_SIZEFull = 100;
 

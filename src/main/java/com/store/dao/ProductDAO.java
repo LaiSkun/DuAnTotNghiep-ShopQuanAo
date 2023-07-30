@@ -70,6 +70,9 @@ public interface ProductDAO extends JpaRepository<Products, String> {
     
     @Query(value = "select * from products order by price asc", nativeQuery = true)
     Page<Products> findbyPriceMin(Pageable pageable);
-    
-   
+
+    @Query(value = "select * from Fn_TongSP(:month,:year)", nativeQuery = true )
+    List<String> getProductTotal(@Param("month")String month, @Param("year") String year);
+
+
 }

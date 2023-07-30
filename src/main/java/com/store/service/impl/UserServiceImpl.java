@@ -87,6 +87,27 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return dao.findByAuthorities_Role_RoleID(roleId);
 	}
+
+	@Override
+	public Users findByEmailCheck(String email) {
+		Users users = dao.findByEmail(email);
+		if (users != null)
+		{
+			return users;
+		}else
+			return null;
+	}
+
+	@Override
+	public Users findByPhone(String phone) {
+		Users users = dao.findByPhone(phone);
+		if (users != null)
+		{
+			return users;
+		}else
+			return null;
+	}
+
 	@Override
 	public Users doLogin(String userID, String checkpassword) {
 	    Users user = dao.findByUserID(userID);
