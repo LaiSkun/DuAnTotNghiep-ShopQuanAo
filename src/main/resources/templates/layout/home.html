@@ -203,14 +203,27 @@
                             <div class="row">
                                 <div class="col-md-3 col-sm-6" th:each="productM : ${productM}">
                                     <div class="products">
-                                        <div class="thumbnail"><a th:href="@{'/product/' + ${productM.productID}}"><img
-                                                alt="Product Name"
-                                                style="width: 170px"
-                                                th:src="@{'/images/product/' + ${productM.category.categoryID} + '/' + ${productM.img}}"></a>
+                                        <div class="thumbnail">
+                                            <div class="imgthumnail">
+                                                <a style="width: 176px" th:href="@{'/product/' + ${productM.productID}}">
+                                                    <img alt="Product Name"
+                                                         th:src="@{'/getimage/' + ${productM.categoryID} + '/' + ${productM.img}}"></a>
+                                                <div class="colorProduct">
+                                                        <span th:each="color : ${productM.color}"
+                                                              th:style="'--data-color:'+${color.colorhex}"
+                                                              class="color-style"
+                                                        ></span>
+                                                </div>
+                                            </div>
+                                            <div class="imgShow">
+                                                <img th:each="imgprd : ${productM.nameImg}" style="margin-bottom: 5px" alt="prd" onclick="showProduct(this)" th:src="@{'/getimage/' + ${productM.categoryID} + '/' + ${imgprd}}" >
+                                            </div>
                                         </div>
-                                        <div class="productname" th:text="${productM.name}"></div>
-                                        <h4 class="price"
-                                            th:text="${#numbers.formatDecimal(productM.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
+                                        <div class="priceAndName">
+                                            <div class="productname" th:text="${productM.name}"></div>
+                                            <h4 class="price"
+                                                th:text="${#numbers.formatDecimal(productM.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
+                                        </div>
                                         <div class="button_group"><a th:href="@{'/product/' + ${productM.productID}}">
                                             <button class="button add-cart" type="button">Add To Cart</button>
                                         </a>
@@ -256,15 +269,26 @@
                                 <div class="col-md-3 col-sm-6" th:each="productW : ${productW}">
                                     <div class="products">
                                         <div class="thumbnail">
-                                            <a th:href="@{'/product/' + ${productW.productID}}"><img
-                                                    alt="Product Name"
-                                                    style="width: 170px"
-                                                    th:src="@{'/images/product/' + ${productW.category.categoryID} + '/' + ${productW.img}}"></a>
+                                            <div class="imgthumnail">
+                                                <a style="width: 176px" th:href="@{'/product/' + ${productW.productID}}">
+                                                    <img alt="Product Name"
+                                                         th:src="@{'/getimage/' + ${productW.categoryID} + '/' + ${productW.img}}"></a>
+                                                <div class="colorProduct">
+                                                        <span th:each="color : ${productW.color}"
+                                                              th:style="'--data-color:'+${color.colorhex}"
+                                                              class="color-style"
+                                                        ></span>
+                                                </div>
+                                            </div>
+                                            <div class="imgShow">
+                                                <img th:each="imgprd : ${productW.nameImg}" style="margin-bottom: 5px" alt="prd" onclick="showProduct(this)" th:src="@{'/getimage/' + ${productW.categoryID} + '/' + ${imgprd}}" >
+                                            </div>
                                         </div>
-                                        <div class="productname" th:text="${productW.name}"></div>
-
-                                        <h4 class="price"
-                                            th:text="${#numbers.formatDecimal(productW.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
+                                        <div class="priceAndName">
+                                            <div class="productname" th:text="${productW.name}"></div>
+                                            <h4 class="price"
+                                                th:text="${#numbers.formatDecimal(productW.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
+                                        </div>
 
 
                                         <div class="button_group"><a th:href="@{'/product/' + ${productW.productID}}">
