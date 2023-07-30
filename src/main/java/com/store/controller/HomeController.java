@@ -11,6 +11,7 @@ import com.store.service.UserService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,6 +45,8 @@ public class HomeController {
 	@Autowired
 
 	private PasswordEncoder passwordEncoder;
+
+	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
 	@RequestMapping({ "/", "/home" })
 	public String home(@RequestParam(value = "pageM", required = false, defaultValue = "1") int pageM,
@@ -84,11 +87,11 @@ public class HomeController {
 			throws Exception {
 		Users users = userService.findById(username);
 		if (null == users) {
-			ra.addFlashAttribute("message", "Tài khoản hoặc mật khẩu không đúng !");
+			ra.addFlashAttribute("message", "Tài khoản không đúng !");
 			return "redirect:/login";
 		} else {
-			if (passwordEncoder.matches(users.getPassword(), password )) {
-				ra.addFlashAttribute("message", "Tài khoản hoặc mật khẩu không đúng !");
+			if (!passwordEncoder.matches(password ,users.getPassword())) {
+				ra.addFlashAttribute("message", "Mật khẩu không đúng !");
 				return "redirect:/login";
 			}
 		}
@@ -124,11 +127,6 @@ public class HomeController {
 		return "redirect:/home";
 	}
 
-	@RequestMapping("/contact")
-	public String doGetContact() {
-		return "layout/contact";
-	}
-
 	@GetMapping("/register")
 	public String doGetRegister(Model model) {
 		model.addAttribute("userRequest", new Users());
@@ -138,6 +136,16 @@ public class HomeController {
 	@PostMapping("/register")
 	public String goPostRegister(@ModelAttribute("userRequest") Users userRequest, HttpSession session,
 			RedirectAttributes ra) {
+		Users userEmail = userService.findByEmail(userRequest.getEmail());
+		if (userEmail != null){
+			ra.addFlashAttribute("message", "Email đã tồn tại !");
+			return "redirect:/register";
+		};
+		Users userPhone = userService.findByPhone(userRequest.getPhone());
+		if (userPhone != null){
+			ra.addFlashAttribute("message", "Số điện thoại đã tồn tại !");
+			return "redirect:/register";
+		};
 		Users userResponse = userService.save(userRequest, userRequest.getUserID());
 
 		if (userResponse != null) {

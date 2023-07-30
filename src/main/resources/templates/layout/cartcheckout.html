@@ -61,15 +61,15 @@
 						</div>
 						<div class="col-md-9 form-group">
 							<label>Address</label> <input class="form-control" type="text"
-								placeholder="Address" id="address">
+								placeholder="Address" id="address" th:value="${session.currentUser.address}">
 						</div>
 						<div class="col-md-9 form-group">
 							<label>E-mail</label> <input class="form-control" type="text"
-								placeholder="example@email.com" id="email">
+								placeholder="example@email.com" id="email" th:value="${session.currentUser.email}">
 						</div>
 						<div class="col-md-9 form-group">
 							<label>Mobile No</label> <input class="form-control" type="text"
-								placeholder="+123 456 789" id="phone_number">
+								placeholder="+123 456 789" id="phone_number" th:value="${session.currentUser.phone}">
 						</div>
 					</div>
 				</div>
@@ -172,7 +172,7 @@
         a[index].children[1].innerHTML = val.replace( val.slice(val.indexOf("(")), "")
       }
   })
-  function checkout() { 	   
+  function checkout() {
 	if(document.querySelector('input[name="payment"]:checked') == undefined){
 		alert('Vui lòng chọn phương thức thanh toán')
 	}

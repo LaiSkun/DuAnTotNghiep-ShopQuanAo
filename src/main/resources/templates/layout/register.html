@@ -34,7 +34,7 @@
     <div class="wrap-login100">
       <form class="login100-form validate-form" method="POST" th:action="@{/register}" th:object="${userRequest}">
 					<span class="login100-form-title p-b-43">
-						Signin
+						Register
 					</span>
 
         <div class="wrap-input100 validate-input" data-validate = "Enter username">
@@ -71,8 +71,15 @@
         <br>
         <div class="container-login100-form-btn">
           <button class="login100-form-btn">
-            Singin
+            Register
           </button>
+        </div>
+        <div class="text-center p-t-50">
+          <a class="txt1" th:href="@{/login}"> <h7>Login</h7> </a>
+        </div>
+        <hr>
+        <div class="text-center p-t-50">
+          <a class="txt1" th:href="@{/home}"> <h6>Home</h6> </a>
         </div>
       </form>
     </div>

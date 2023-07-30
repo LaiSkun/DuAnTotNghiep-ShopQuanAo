@@ -20,4 +20,9 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         dao.insert(cartDetailDto);
     }
 
+    @Override
+    public List<Order_Details> findByOrderID(Long orderID) {
+        return dao.findByOrderID(orderID);
+    }
+
 }

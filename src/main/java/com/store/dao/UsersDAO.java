@@ -29,6 +29,7 @@ public interface UsersDAO extends JpaRepository<Users, String> {
 	Users findByEmail(String email);
      
     Users findByResetPasswordToken(String token);
+	Users findByPhone(String phone);
 
 
 }
