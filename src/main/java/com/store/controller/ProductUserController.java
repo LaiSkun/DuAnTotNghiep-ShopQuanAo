@@ -1,10 +1,13 @@
 package com.store.controller;
 
+import com.store.DTO.sellingProductsDTO;
+import com.store.configs.CustomConfiguration;
 import com.store.model.Categories;
 import com.store.model.Product_Colors;
 import com.store.model.Products;
 import com.store.service.CatelogyService;
 import com.store.service.ProductColorsService;
+import com.store.service.ProductImgService;
 import com.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,24 +29,34 @@ public class ProductUserController {
     private CatelogyService catelogyService;
     @Autowired
     private ProductColorsService productColorsService;
-
-
+    @Autowired
+    CustomConfiguration customConfiguration;
+    @Autowired
+    ProductImgService productImgService;
     private static final int MAX_SIZE = 6;
     private static final int MAX_SIZEFull = 100;
 
     @RequestMapping({"/productgird"})
     public String productGird(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
         List<Products> products = new ArrayList<>();
+        List<sellingProductsDTO> prdM = new ArrayList<>();
         try {
             Page<Products> pageProduct = productService.findByAll(MAX_SIZE, page);
             products = pageProduct.getContent();
+            products.forEach(item -> {
+                sellingProductsDTO prd = customConfiguration.modelMapper().map(item, sellingProductsDTO.class);
+                prd.setColor(productColorsService.findbyProductID(item.getProductID()));
+                List<Product_Colors> color = productColorsService.findbyProductID(item.getProductID());
+                prd.setNameImg(productImgService.top3NameImg(color.get(0).getColorID()));
+                prdM.add(prd);
+            });
             model.addAttribute("totalPages", pageProduct.getTotalPages());
             model.addAttribute("currentPage", page);
         } catch (Exception e) {
             products = productService.findAll();
         }
 
-        model.addAttribute("products", products);
+        model.addAttribute("products", prdM);
         List<Categories> categories = catelogyService.findAll();
         model.addAttribute("categories", categories);
         return "/layout/productgird";
@@ -102,15 +115,23 @@ public class ProductUserController {
             return "redirect:/home";
         } else {
             List<Products> products = new ArrayList<>();
+            List<sellingProductsDTO> prdM = new ArrayList<>();
             try {
                 Page<Products> pageProduct = productService.findAllByCategoryId(categoryID,MAX_SIZE, page);
                 products = pageProduct.getContent();
+                products.forEach(item -> {
+                    sellingProductsDTO prd = customConfiguration.modelMapper().map(item, sellingProductsDTO.class);
+                    prd.setColor(productColorsService.findbyProductID(item.getProductID()));
+                    List<Product_Colors> color = productColorsService.findbyProductID(item.getProductID());
+                    prd.setNameImg(productImgService.top3NameImg(color.get(0).getColorID()));
+                    prdM.add(prd);
+                });
                 model.addAttribute("totalPages", pageProduct.getTotalPages());
                 model.addAttribute("currentPage", page);
             } catch (Exception e) {
                 products = productService.findAll();
             }
-            model.addAttribute("products", products);
+            model.addAttribute("products", prdM);
         }
 
 
@@ -164,16 +185,24 @@ public class ProductUserController {
     @RequestMapping("/productPriceMax")
     public String productpriceMax(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
         List<Products> products = new ArrayList<>();
+        List<sellingProductsDTO> prdM = new ArrayList<>();
         try {
             Page<Products> pageProduct = productService.findbyPriceMax(MAX_SIZE, page);
             products = pageProduct.getContent();
+            products.forEach(item -> {
+                sellingProductsDTO prd = customConfiguration.modelMapper().map(item, sellingProductsDTO.class);
+                prd.setColor(productColorsService.findbyProductID(item.getProductID()));
+                List<Product_Colors> color = productColorsService.findbyProductID(item.getProductID());
+                prd.setNameImg(productImgService.top3NameImg(color.get(0).getColorID()));
+                prdM.add(prd);
+            });
             model.addAttribute("totalPages", pageProduct.getTotalPages());
             model.addAttribute("currentPage", page);
         } catch (Exception e) {
             products = productService.findAll();
         }
 
-        model.addAttribute("products", products);
+        model.addAttribute("products", prdM);
         List<Categories> categories = catelogyService.findAll();
         model.addAttribute("categories", categories);
         return "/layout/productgird";
@@ -181,16 +210,24 @@ public class ProductUserController {
     @RequestMapping("/productPriceMin")
     public String productPriceMin(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
         List<Products> products = new ArrayList<>();
+        List<sellingProductsDTO> prdM = new ArrayList<>();
         try {
             Page<Products> pageProduct = productService.findbyPriceMin(MAX_SIZE, page);
             products = pageProduct.getContent();
+            products.forEach(item -> {
+                sellingProductsDTO prd = customConfiguration.modelMapper().map(item, sellingProductsDTO.class);
+                prd.setColor(productColorsService.findbyProductID(item.getProductID()));
+                List<Product_Colors> color = productColorsService.findbyProductID(item.getProductID());
+                prd.setNameImg(productImgService.top3NameImg(color.get(0).getColorID()));
+                prdM.add(prd);
+            });
             model.addAttribute("totalPages", pageProduct.getTotalPages());
             model.addAttribute("currentPage", page);
         } catch (Exception e) {
             products = productService.findAll();
         }
 
-        model.addAttribute("products", products);
+        model.addAttribute("products", prdM);
         List<Categories> categories = catelogyService.findAll();
         model.addAttribute("categories", categories);
         return "/layout/productgird";

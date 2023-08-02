@@ -61,9 +61,9 @@ public class HomeController {
 
 	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
-	@RequestMapping({ "/", "/home" })
+	@RequestMapping({"/", "/home"})
 	public String home(@RequestParam(value = "pageM", required = false, defaultValue = "1") int pageM,
-			@RequestParam(value = "pageW", required = false, defaultValue = "1") int pageW, Model model) {
+					   @RequestParam(value = "pageW", required = false, defaultValue = "1") int pageW, Model model) {
 		List<Products> productM = new ArrayList<>();
 		List<sellingProductsDTO> prdM = new ArrayList<>();
 		try {
@@ -103,30 +103,30 @@ public class HomeController {
 		}
 
 		//list sản phẩm bán chạy
-	   int pageSizeSellPrd = Math.round(productDAO.sellingproducts().size() / 4 * 10) / 10;
-		List<List<sellingProductsDTO>> list =  new ArrayList<>();
-		for (int i = 1; i <= pageSizeSellPrd; i++){
+		int pageSizeSellPrd = Math.round(productDAO.sellingproducts().size() / 4 * 10) / 10;
+		List<List<sellingProductsDTO>> list = new ArrayList<>();
+		for (int i = 1; i <= pageSizeSellPrd; i++) {
 			List<String> ls = productDAO.selling(i);
 			List<sellingProductsDTO> lsSell = new ArrayList<>();
-			ls.forEach(item ->{
-			Products prd = productService.findByProductID(item.split(",")[0]);
-			List<Product_Colors> color = productColorsService.findByProductID(item.split(",")[0]);
-			sellingProductsDTO prdSell = customConfiguration.modelMapper().map(prd, sellingProductsDTO.class);
-			List<String> nameImg = productImgService.top3NameImg(color.get(0).getColorID());
-			prdSell.setNameImg(nameImg);
-			prdSell.setColor(color);
-			prdSell.setQuantitysold(item.split(",")[1]);
-			lsSell.add(prdSell);
-			if (lsSell.size() == 4){
-				list.add(lsSell);
-			}
+			ls.forEach(item -> {
+				Products prd = productService.findByProductID(item.split(",")[0]);
+				List<Product_Colors> color = productColorsService.findByProductID(item.split(",")[0]);
+				sellingProductsDTO prdSell = customConfiguration.modelMapper().map(prd, sellingProductsDTO.class);
+				List<String> nameImg = productImgService.top3NameImg(color.get(0).getColorID());
+				prdSell.setNameImg(nameImg);
+				prdSell.setColor(color);
+				prdSell.setQuantitysold(item.split(",")[1]);
+				lsSell.add(prdSell);
+				if (lsSell.size() == 4) {
+					list.add(lsSell);
+				}
 			});
 		}
 		//list sp mới
-		List<List<sellingProductsDTO>> listProductsNew =  new ArrayList<>();
+		List<List<sellingProductsDTO>> listProductsNew = new ArrayList<>();
 		List<sellingProductsDTO> listsell = new ArrayList<>();
 		List<Products> prdnew = productService.productsNew();
-		for (int i = 1; i<prdnew.toArray().length; i++) {
+		for (int i = 1; i < prdnew.toArray().length; i++) {
 			List<Product_Colors> color = productColorsService.findByProductID(prdnew.get(i).getProductID());
 			sellingProductsDTO prdSell = customConfiguration.modelMapper().map(prdnew.get(i), sellingProductsDTO.class);
 			List<String> nameImg = productImgService.top3NameImg(color.get(0).getColorID());
@@ -140,9 +140,9 @@ public class HomeController {
 		}
 
 
-		model.addAttribute("sell",list);
-		model.addAttribute("productNew",listProductsNew);
-		model.addAttribute("productW",prdW );
+		model.addAttribute("sell", list);
+		model.addAttribute("productNew", listProductsNew);
+		model.addAttribute("productW", prdW);
 		return "/layout/home";
 	}
 
@@ -154,14 +154,14 @@ public class HomeController {
 
 	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String login(@RequestParam("userID") String username, @RequestParam("password") String password,
-			@ModelAttribute("userRequest") Users userRequest, HttpSession session, RedirectAttributes ra)
+						@ModelAttribute("userRequest") Users userRequest, HttpSession session, RedirectAttributes ra)
 			throws Exception {
 		Users users = userService.findById(username);
 		if (null == users) {
 			ra.addFlashAttribute("message", "Tài khoản không đúng !");
 			return "redirect:/login";
 		} else {
-			if (!passwordEncoder.matches(password ,users.getPassword())) {
+			if (!passwordEncoder.matches(password, users.getPassword())) {
 				ra.addFlashAttribute("message", "Mật khẩu không đúng !");
 				return "redirect:/login";
 			}
@@ -206,17 +206,19 @@ public class HomeController {
 
 	@PostMapping("/register")
 	public String goPostRegister(@ModelAttribute("userRequest") Users userRequest, HttpSession session,
-			RedirectAttributes ra) {
+								 RedirectAttributes ra) {
 		Users userEmail = userService.findByEmailCheck(userRequest.getEmail());
-		if (userEmail != null){
+		if (userEmail != null) {
 			ra.addFlashAttribute("message", "Email đã tồn tại !");
 			return "redirect:/register";
-		};
+		}
+		;
 		Users userPhone = userService.findByPhone(userRequest.getPhone());
-		if (userPhone != null){
+		if (userPhone != null) {
 			ra.addFlashAttribute("message", "Số điện thoại đã tồn tại !");
 			return "redirect:/register";
-		};
+		}
+		;
 		Users userResponse = userService.save(userRequest, userRequest.getUserID());
 
 		if (userResponse != null) {
