@@ -33,7 +33,7 @@ public class ContactController {
 
         helper.setFrom("contact@shop.com", "Phản hồi khách hàng");
         helper.setTo("phatndps15970@fpt.edu.vn");
-
+        //abc@gmail.com
         String subject = "Đây là phản hồi của khách hàng đén bạn";
 
         String content = "<p>Tên khách hàng : \" + name + \"</p>"

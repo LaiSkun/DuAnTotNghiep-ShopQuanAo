@@ -161,15 +161,15 @@
 						<table width="100%">
 							<thead>
 								<tr>
-									<th><span class="las la-sort"></span> OrderID</th>
-									<th><span class="las la-sort"></span> Status</th>
-									<th><span class="las la-sort"></span> Description</th>
-									<th><span class="las la-sort"></span> Reason</th>
-									<th><span class="las la-sort"></span> Notes</th>
-									<th><span class="las la-sort"></span> Date Complete</th>
-									<th><span class="las la-sort"></span> Transport Fee</th>
-									<th><span class="las la-sort"></span> Fee Collected From
-										Customer</th>
+									<th><span class="las la-sort"></span> Mã hóa đơn</th>
+									<th><span class="las la-sort"></span>Mã khách hàng</th>
+									<th><span class="las la-sort"></span>Địa chỉ giao hàng</th>
+									<th><span class="las la-sort"></span> Email</th>
+									<th><span class="las la-sort"></span>Số điện thoại </th>
+									<th><span class="las la-sort"></span> Ngày tạo</th>
+									<th><span class="las la-sort"></span> Phí vận chuển</th>
+									<th><span class="las la-sort"></span>Tổng tiền</th>
+									<th><span class="las la-sort"></span> Mã Nhân viên phụ trách</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -177,19 +177,15 @@
 
 							<tbody>
 								<tr th:each="p: ${statuss}">
-									<td>[[${p.statusID}]]</td>
-									<td>[[${p.statusname}]]</td>
-									<td>[[${p.description}]]</td>
-									<td>[[${p.reason}]]</td>
-									<td>[[${p.notes}]]</td>
+									<td th:text="${p.orders.orderID}">[[${p.statusID.}]]</td>
+									<td th:text="${p.orders.user.userID}">[[${p.notes}]]</td>
+									<td th:text="${p.orders.address}"></td>
+									<td th:text="${p.orders.email}"></td>
+									<td th:text="${p.orders.phone}"></td>
 									<td th:text="${#dates.format(p.createDate, 'dd/MM/yyyy')}"></td>
-									<td
-										th:text="${#numbers.formatDecimal(p.transportFee, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
-
-									<td
-										th:text="${#numbers.formatDecimal(p.feeCollected, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
-									<td><a
-										th:href="@{/admin/status/edit/{statusID}(statusID=${p.statusID})}">Edit</a></td>
+									<td th:text="${p.transportFee}">[[${p.description}]]</td>
+									<td th:text="${p.feeCollected}">[[${p.reason}]]</td>
+									<td th:text="${p.staffID.staffID.username}"></td>
 								</tr>
 							</tbody>
 						</table>

@@ -13,6 +13,7 @@ import com.store.dao.StatusDAO;
 import com.store.model.Status;
 import com.store.service.StatusService;
 
+import com.store.model.staff;
 @Service
 public class StatusServiceImpl implements StatusService {
 	@Autowired
@@ -41,5 +42,10 @@ public class StatusServiceImpl implements StatusService {
 		return dao.saveAndFlush(status);
 	}
 
-	
+	@Override
+	public List<Status> findByCurrentStaff(staff st) {
+		return dao.findByStaffID(st);
+	}
+
+
 }

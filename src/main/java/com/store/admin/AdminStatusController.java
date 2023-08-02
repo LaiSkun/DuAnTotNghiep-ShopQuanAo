@@ -4,7 +4,8 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+import com.store.model.staff;
+import com.store.constant.SessionConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,26 +23,29 @@ import com.store.model.Status;
 import com.store.model.Users;
 import com.store.service.StatusService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import com.store.dao.staffDAO;
 @CrossOrigin("*")
 @Controller
 public class AdminStatusController {
 	@Autowired
 	StatusService statusService;
-
+	@Autowired
+	staffDAO staffDAO;
 	@GetMapping("/admin/status")
-	public String adminStatus(Model model, @RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "5") int size) {
-		
-		
-		List<Status> status = statusService.findAll();
-
+	public String adminStatus(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page,
+							  @RequestParam(defaultValue = "5") int size) {
+		HttpSession session = request.getSession();
+		Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
+		staff st = staffDAO.findByStaffID(currentUser.getUserID());
+		List<Status> status = statusService.findByCurrentStaff(st);
 		int totalItems = status.size();
 		int totalPages = (int) Math.ceil(totalItems / (double) size);
 		int startItem = page * size + 1;
 		int endItem = Math.min((page + 1) * size, totalItems);
 
 		List<Status> statusList = status.subList(page * size, endItem);
-
 		model.addAttribute("statuss", statusList);
 		model.addAttribute("status", new Status());
 		model.addAttribute("currentPage", page + 1);

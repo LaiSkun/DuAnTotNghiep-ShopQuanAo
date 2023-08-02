@@ -29,14 +29,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity 
 @Table(name = "status")
 public class Status {
-
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long statusID;
-	String statusname;
 	String reason;
-	String description;
 	String notes;
 	@Column(name = "dateComplete")
 	@DateTimeFormat(pattern = "dd-mm-yyyy")
@@ -46,4 +42,13 @@ public class Status {
 	@ManyToOne
 	@JoinColumn(name = "orderID")
 	private Orders orders;
+	@ManyToOne
+	@JoinColumn(name = "description")
+	private descriptionStatus description;
+	@ManyToOne
+	@JoinColumn(name = "statusname")
+	private StatusName statusname;
+	@ManyToOne
+	@JoinColumn(name = "staffID")
+	private staff staffID;
 }
