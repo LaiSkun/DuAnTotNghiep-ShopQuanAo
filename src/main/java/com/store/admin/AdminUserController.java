@@ -147,6 +147,9 @@ public class AdminUserController {
 			}
 
 			// Cập nhật thông tin người dùng vào cơ sở dữ liệu
+			String rawPassword = user.getPassword();
+			String encodedPassword = passwordEncoder.encode(rawPassword);
+			user.setPassword(encodedPassword);
 			userService.update(user);
 		}
 

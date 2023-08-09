@@ -343,7 +343,6 @@ async function showFormProductColor(val) {
 function sendId(idColor, colorName, productName) {
 
     document.querySelector("#modal-body-delete").innerHTML = ` Lưu ý: khi xóa màu những ảnh có màu ${colorName} của sản phẩm ${productName}  cũng sẽ bị xóa. Bạn có chắc chắn muốn xóa`
-    console.log("alo")
     document.querySelector("#handleDeleteProductColor").setAttribute("href", `/admin/product/DeleteProductColor?ColorID=${idColor}`)
 
 }
@@ -394,6 +393,7 @@ window.addEventListener("load", () => {
 
 async function ListProduct(id) {
     const response = await fetch(`/admin/product/listProductColorByProductId/${id}`);
+
     const data = await response.json();
     localStorage.setItem("listProductColorByProductId", JSON.stringify(data))
 }

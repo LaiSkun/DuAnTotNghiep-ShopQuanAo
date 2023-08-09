@@ -8,8 +8,14 @@
         background: linear-gradient(0deg, rgba(30,111,137,1) 0%, rgba(121,121,121,.8) 0%, rgba(247,243,243,1) 45%) !important;
         box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
         height: 405px;
-
     }
+   .priceAndName{
+       height: 350px;
+   }
+   .button_group{
+
+       position: absolute;
+   }
     .products:hover .imgShow {
         transform: translateX(-90px);
         transition: .3s ease-in-out;
@@ -40,15 +46,17 @@
 
     .products:hover .productname {
         width: 45%;
+        padding-top: 20px;
         font-size: 17px;
-        margin-top: 3px;
         margin-left: 4px;
         transition: .2s ease-in-out;
+        font-weight: 500;
     }
 
     .products:hover .price {
         width: 45%;
         font-size: 17px;
+        padding-top: 17px;
         float: right;
         margin-right: 4px;
         transition: .2s ease-in-out;

@@ -41,13 +41,12 @@ public class OrderController {
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("dislabled", "pagination dislabled");
         model.addAttribute("active","active pagination");
-        List<Orders> list = orderDAO.findAll();
+        List<Orders> list = orderDAO.findAllDESC();
         Page<Orders> ordersPage = orderService.findPaginatedOrder(PageRequest.of(currentPage - 1, pageSize), list);
         model.addAttribute("Orders", ordersPage);
         List<List> listOrderDetails = new ArrayList<>();
         ordersPage.forEach( item -> {
-            System.out.println(item.getOrderID());
-           List<Order_Details> ord = orderDetailDAO.findByOrder_OrderID(item.getOrderID());
+           List<Order_Details> ord = orderDetailDAO.findByOrderID(item.getOrderID());
             listOrderDetails.add(ord);
         });
         model.addAttribute("listOrderDetails", listOrderDetails);

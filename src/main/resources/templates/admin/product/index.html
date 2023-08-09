@@ -406,9 +406,9 @@
                     <span class="las la-search"></span>
                 </label>
 
-                <div class="notify-icon">
-                    <span class="las la-envelope"></span>
-                    <span class="notify">4</span>
+                <div class="notify-icon" >
+                    <span style="cursor: pointer" class="las la-envelope" onclick="(()=>{location.href = '/admin/status'})()"></span>
+                    <span class="notify" th:text="${mss}" ></span>
                 </div>
 
                 <div class="notify-icon">

@@ -2,6 +2,8 @@ package com.store.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,7 +13,8 @@ import java.util.List;
 
 
 @SuppressWarnings("serial")
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "products")
 public class Products {

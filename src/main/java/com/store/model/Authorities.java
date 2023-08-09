@@ -10,7 +10,12 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 
-import lombok.*;
+
+import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+
 
 
 @SuppressWarnings("serial")

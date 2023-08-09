@@ -147,7 +147,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr onclick="check(this)" th:class="${Orders.user.userID}" th:each="Orders,idx : ${Orders}" >
+                        <tr onclick="check(this)" th:class="'a'+ ${Orders.orderID}" th:each="Orders,idx : ${Orders}" >
                             <td>[[${Orders.orderID}]]</td>
                             <td>[[${Orders.address}]]</td>
                             <td>[[${Orders.phone}]]</td>
@@ -155,7 +155,7 @@
                             <td>[[${Orders.price}]]</td>
                             <td>[[${Orders.date}]]</td>
                             <td>[[${Orders.user.userID}]]</td>
-                            <td class="default" th:id="${Orders.user.userID}" >
+                            <td class="default" th:id="'a'+${Orders.orderID}" >
                                <i class="exit fa-solid fa-xmark exitFormOrderDetail" onclick="exitFormOrderDetail()"></i>
                                 <table class="showOrderDetailTable">
                                     <thead>

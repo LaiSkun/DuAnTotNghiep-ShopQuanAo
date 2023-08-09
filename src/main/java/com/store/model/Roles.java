@@ -13,7 +13,6 @@ import lombok.*;
 
 
 @SuppressWarnings("serial")
-@Data
 @Getter
 @Setter
 @AllArgsConstructor

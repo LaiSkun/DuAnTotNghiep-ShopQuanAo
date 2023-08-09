@@ -2,10 +2,13 @@ package com.store.DTO;
 
 import com.store.model.Product_Colors;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class sellingProductsDTO {
     String productID;
     String name;
