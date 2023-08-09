@@ -3,10 +3,8 @@
         import com.store.DTO.ProductDTO;
         import com.store.DTO.ProductImgDTO;
         import com.store.configs.CustomConfiguration;
-        import com.store.dao.CategoryDAO;
-        import com.store.dao.ColorsDAO;
-        import com.store.dao.ProductDAO;
-        import com.store.dao.ProductImgDAO;
+        import com.store.constant.SessionConstant;
+        import com.store.dao.*;
         import com.store.model.*;
         import com.store.service.ProductColorsService;
         import com.store.service.ProductImgService;
@@ -18,6 +16,9 @@
         import org.springframework.ui.Model;
         import org.springframework.web.bind.annotation.*;
         import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+        import javax.servlet.http.HttpServletRequest;
+        import javax.servlet.http.HttpSession;
         import java.io.IOException;
         import java.io.InputStream;
         import java.nio.file.Files;
@@ -30,7 +31,7 @@
         import java.util.Optional;
         import java.util.stream.Collectors;
         import java.util.stream.IntStream;
-
+    import com.store.dao.StatusDAO;
         @Controller
         @RequestMapping("/admin/product")
 
@@ -53,11 +54,19 @@
             ProductImgService productImgService;
             @Autowired
             ProductColorsService productColorsService;
-
+            @Autowired
+            staffDAO staffDAO;
+            @Autowired
+            StatusDAO statusDAO;
             @RequestMapping("")
-            public String adminProduct(Model model, String type, String search, ProductImgDTO prdImg , ProductDTO productRequest, @RequestParam("page") Optional<Integer> page,
+            public String adminProduct(Model model, String type, HttpServletRequest request, String search, ProductImgDTO prdImg , ProductDTO productRequest, @RequestParam("page") Optional<Integer> page,
                                        @RequestParam("size") Optional<Integer> size, @RequestParam("page2") Optional<Integer> page2,
                                        @RequestParam("size2") Optional<Integer> size2) {
+                HttpSession session = request.getSession();
+                Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
+                staff st = staffDAO.findByStaffID(currentUser);
+                int orderProcessing = statusDAO.selectCountStatusName(st);
+                model.addAttribute("mss",orderProcessing);
                 int currentPage = page.orElse(1);
                 int pageSize = size.orElse(5);
                 int currentPage2 = page2.orElse(1);

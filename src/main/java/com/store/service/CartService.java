@@ -11,5 +11,5 @@ public interface CartService {
 
     Double getTotalPrice(CartDto cart);
 
-    void insert(CartDto cart, Users user, String address, String phone, String email, String payment, RedirectAttributes redirectAttributes);
+    void insert(CartDto cart, Users user,String customer, String address, String phone, String email, String payment, RedirectAttributes redirectAttributes);
 }

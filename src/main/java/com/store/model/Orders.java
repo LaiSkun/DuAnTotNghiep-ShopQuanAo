@@ -40,8 +40,7 @@ public class Orders {
 	@ManyToOne
 	@JoinColumn(name = "userID")
 	Users user;
-	
-	@JsonIgnore
 	@OneToMany(mappedBy = "order")
 	List<Order_Details> orderDetails;
+	String customer;
 }

@@ -9,8 +9,12 @@
 	import javax.persistence.Table;
 
 	import lombok.Data;
+	import lombok.Getter;
+	import lombok.Setter;
+
 	@SuppressWarnings("serial")
-	@Data
+	@Getter
+	@Setter
 	@Entity @Table(name = "product_image")
 	public class Product_Images {
 		@Id

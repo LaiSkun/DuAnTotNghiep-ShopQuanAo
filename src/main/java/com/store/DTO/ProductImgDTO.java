@@ -2,12 +2,15 @@ package com.store.DTO;
 
 import com.store.model.Products;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Data
+@Getter
+@Setter
 public class ProductImgDTO {
     @ManyToOne
     @JoinColumn(name = "productID")

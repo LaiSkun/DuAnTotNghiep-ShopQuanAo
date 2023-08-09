@@ -7,13 +7,11 @@ package com.store.model;
 import javax.validation.constraints.NotNull;
 
 
+import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -23,7 +21,8 @@ import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("serial")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

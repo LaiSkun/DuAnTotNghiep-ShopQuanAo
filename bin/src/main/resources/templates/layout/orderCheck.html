@@ -408,6 +408,7 @@
         var address = $('#address').val();
         var phone = $('#phone_number').val();
         var email = $('#email').val();
+		var payment = $('#')
         var endpoint = '/api/cart/checkout?address=' + address + '&phone=' + phone + '&email=' + email ;
         $.ajax({
             url: endpoint,

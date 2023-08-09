@@ -113,11 +113,11 @@ public class CartController {
 			done = null;
 		}
 		Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
-		if (!ObjectUtils.isEmpty(currentUser)) {
-			return "layout/cartcheckout";
+		if (ObjectUtils.isEmpty(currentUser)) {
+			currentUser = userService.findById("default");
 		}
-		ra.addFlashAttribute("message", "Vui lòng đăng nhập trước khi thanh toán!");
-		return "redirect:/cart";
+			return "layout/cartcheckout";
+
 	}
 
 	@PostMapping("/pay")

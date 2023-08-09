@@ -45,7 +45,8 @@ public class CartServiceImpl implements CartService {
     private staffDAO staffDAO;
     @Autowired
     private CartApi cartApi;
-
+    @Autowired
+    private  UserService userService;
 
     @Override
     public CartDto updateCart(CartDto cart, String productID, Long colorID, Integer quantity, String categoryID, boolean isReplace) {
@@ -101,9 +102,14 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public void insert(CartDto cart, Users user, String address, String phone, String email, String payment, RedirectAttributes redirectAttributes) {
+    public void insert(CartDto cart, Users user, String address, String customer,String phone, String email, String payment, RedirectAttributes redirectAttributes) {
         // insert vao order
         Orders order = new Orders();
+        if (user.getUserID().trim().equals("default")){
+            order.setCustomer(customer);
+        } else {
+            order.setCustomer(user.getUsername());
+        }
         order.setUser(user);
         if (address.isEmpty() == false) {
             order.setAddress(address);
@@ -153,7 +159,7 @@ public class CartServiceImpl implements CartService {
             //số lượng đơn hàng nhân viên này đang quản lý tăng 1
             staff.setOrderProcessing(staff.getOrderProcessing() + 1);
             status.setStaffID(staff);
-            Status status1 = statusService.insert(status);
+            statusService.insert(status);
             // Duyet hashmap de insert lan luot vao order_details
             // trong luc duyet hashmap qua tung sp -> di update quantity cho tung san pham
             for (CartDetailDto cartDetail : cart.getDetails().values()) {

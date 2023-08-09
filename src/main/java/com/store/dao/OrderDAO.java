@@ -12,6 +12,7 @@ public interface OrderDAO extends JpaRepository<Orders, Long> {
 
     @Query(value = "SELECT * from orders where userID = :userID ",nativeQuery = true)
     List<Orders> findByUserID(String userID);
-
+    @Query(value = "select * from orders Order by orderID desc", nativeQuery = true)
+    List<Orders> findAllDESC();
     Orders findByOrderID(Long OrderID);
 }

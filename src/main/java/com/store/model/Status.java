@@ -22,10 +22,13 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @SuppressWarnings("serial")
-@Data
+@Getter
+@Setter
 @Entity 
 @Table(name = "status")
 public class Status {

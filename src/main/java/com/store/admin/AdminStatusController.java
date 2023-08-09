@@ -1,11 +1,15 @@
 package com.store.admin;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import com.store.dao.*;
 import com.store.model.staff;
 import com.store.constant.SessionConstant;
+import com.store.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import com.store.model.staff;
 import com.store.model.Authorities;
 import com.store.model.Roles;
 import com.store.model.Status;
@@ -25,78 +29,123 @@ import com.store.service.StatusService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import com.store.dao.staffDAO;
+
+import com.store.model.descriptionStatus;
+
 @CrossOrigin("*")
 @Controller
 public class AdminStatusController {
-	@Autowired
-	StatusService statusService;
-	@Autowired
-	staffDAO staffDAO;
-	@GetMapping("/admin/status")
-	public String adminStatus(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page,
-							  @RequestParam(defaultValue = "5") int size) {
-		HttpSession session = request.getSession();
-		Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
-		staff st = staffDAO.findByStaffID(currentUser.getUserID());
-		List<Status> status = statusService.findByCurrentStaff(st);
-		int totalItems = status.size();
-		int totalPages = (int) Math.ceil(totalItems / (double) size);
-		int startItem = page * size + 1;
-		int endItem = Math.min((page + 1) * size, totalItems);
+    @Autowired
+    StatusService statusService;
+    @Autowired
+    staffDAO staffDAO;
+    @Autowired
+    descriptionStatusDAO descriptionStatusDAO;
+    @Autowired
+    StatusNameDAO statusNameDAO;
+    @Autowired
+    OrderDAO orderDAO;
+    @Autowired
+    StatusDAO statusDAO;
+    @GetMapping("/admin/status")
+    public String adminStatus(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page, String type,
+                              @RequestParam(defaultValue = "5") int size) {
+        HttpSession session = request.getSession();
+        Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
+        staff st = staffDAO.findByStaffID(currentUser);
+        if (type == null) {
+            type = "";
+        }
+        List<Status> status = new ArrayList<>();
 
-		List<Status> statusList = status.subList(page * size, endItem);
-		model.addAttribute("statuss", statusList);
-		model.addAttribute("status", new Status());
-		model.addAttribute("currentPage", page + 1);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("startItem", startItem);
-		model.addAttribute("endItem", endItem);
-		
-		
-		return "/admin/status/status";
-		
-		
-		
-	}
-	@GetMapping("/admin/status/new")
-	public String getForm(Model model) {
-		model.addAttribute("status", new Status());
-		return "/admin/status/status";
-	}
+        switch (type.trim()) {
+            case "T1":
+                //chowf xac nhan
+                status = statusService.findByStatusAndDesc(st,1);
 
-	@PostMapping("/admin/status/new")
-	public String updateStatus(@ModelAttribute("status") Status status) {	
-		
-		statusService.update(status);
-		
-		return "redirect:/admin/status"; 
-	}
-	
-	@RequestMapping("/admin/status/edit/{id}")
-	public String edit(@PathVariable("id") long id, @RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "5") int size, Model model) {
-		Status status = statusService.findById(id);
-		model.addAttribute("status", status);
-		
-		List<Status> list = statusService.findAll();
-		model.addAttribute("statuss", list);
-		
-		
-	    
-	    int totalItems = list.size();
-	    int totalPages = (int) Math.ceil(totalItems / (double) size);
-	    int startItem = page * size + 1;
-	    int endItem = Math.min((page + 1) * size, totalItems);
-	    
-	    List<Status> statusList = list.subList(page * size, endItem);
-	    
-	    model.addAttribute("statuss", statusList);
-	    model.addAttribute("currentPage", page + 1);
-	    model.addAttribute("totalPages", totalPages);
-	    model.addAttribute("startItem", startItem);
-	    model.addAttribute("endItem", endItem);
-	    
-		return "/admin/status/status";
-	}
+                break;
+            case "T4":
+                // bi huy
+                status = statusService.findByStatusAndDesc(st, 4);
+
+                break;
+            case "T5":
+                //da xong
+                status = statusService.findByStatusAndDesc(st, 5);
+
+                break;
+            case "T23":
+                //dang xu ly
+                status = statusService.findByStatusAndDesc1(st,2,3);
+
+                break;
+
+            default:
+                status = statusService.findByCurrentStaff(st);
+                break;
+
+        }
+        int totalItems = status.size();
+        int totalPages = (int) Math.ceil(totalItems / (double) size);
+        int startItem = page * size + 1;
+        int endItem = Math.min((page + 1) * size, totalItems);
+        int orderProcessing = statusDAO.selectCountStatusName(st);
+
+
+        if (orderProcessing > 0) {
+            model.addAttribute("orderProcessing", "Có " + orderProcessing + " đơn hàng đang chờ bạn xử lý");
+            model.addAttribute("messStatus", "done_delete");
+        }
+        model.addAttribute("desc", descriptionStatusDAO.findAll());
+        model.addAttribute("statusName", statusNameDAO.findAll());
+        List<Status> statusList = status.subList(page * size, endItem);
+        model.addAttribute("statuss", statusList);
+        model.addAttribute("status", new Status());
+        model.addAttribute("currentPage", page + 1);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("type", type.trim());
+        model.addAttribute("startItem", startItem);
+        model.addAttribute("endItem", endItem);
+        int AllStatusByStaff = statusDAO.findAllStatusByStaff(st);
+        int StatusDone = statusDAO.findStatusByStaffDone(st);
+        model.addAttribute("AllStatusByStaff", AllStatusByStaff);
+        model.addAttribute("OrderFalse", statusDAO.findStatusByStaffFalse(st) + " Đơn hàng");
+        model.addAttribute("StatusDone", StatusDone + " Đơn hàng");
+        model.addAttribute("statusOrderProcessing", AllStatusByStaff - StatusDone - orderProcessing - statusDAO.findStatusByStaffFalse(st) + " Đơn hàng");
+        model.addAttribute("ordPro", orderProcessing + " Đơn hàng");
+        model.addAttribute("mss",orderProcessing);
+
+        // tổng đơn hàng--- đơn đang xử lý --- đang xử lý xong--- ca trực
+
+        return "/admin/status/status";
+
+    }
+
+    @PostMapping("/admin/status/update")
+    public String updateStatus(@ModelAttribute("status") Status status) {
+        java.util.Date date = new java.util.Date();
+        Status currentStatus = new Status();
+
+        Status PrevStatus = statusService.findByOrderID(orderDAO.findByOrderID(status.getStatusID()));
+        if (!status.getNotes().isEmpty()) {
+            PrevStatus.setNotes(status.getNotes());
+        }
+        if (!status.getReason().isEmpty()) {
+            PrevStatus.setReason(status.getReason());
+        }
+        PrevStatus.setDescription(status.getDescription());
+        statusService.updateStatus(PrevStatus);
+        if (status.getDescription().getDescriptionID() == 5 || status.getDescription().getDescriptionID() == 4) {
+            staff staff = staffDAO.findByStaffID(PrevStatus.getStaffID().getStaffID());
+            staff.setOrderProcessing(statusDAO.findAllStatusByStaff(staff) - statusDAO.findStatusByStaffDone(staff) + statusDAO.findStatusByStaffFalse(staff));
+            // trangj thái hoàn thành gồm 2 th là đơn đã xong hoặc đơn đã bị hủy
+            staff.setDoneProcessing(statusDAO.findStatusByStaffDone(staff) + statusDAO.findStatusByStaffFalse(staff));
+            staffDAO.save(staff);
+        }
+
+        //
+        //createDate lấy ngày hiện tại. update description.
+        //transportfee fecollected
+        return "redirect:/admin/status";
+    }
 }
