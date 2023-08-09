@@ -8,7 +8,7 @@
 	<div class="sidebar">
 		<div class="side-header">
 			<h3>
-				<a th:href="@{/home}" style="color: white;">Home</a>
+				<a th:href="@{/home}" style="color: white;">Quản lý</a>
 			</h3>
 		</div>
 		<div class="side-content">
@@ -25,25 +25,28 @@
 			<div class="side-menu">
 				<ul>
 					<li><a th:href="@{/admin}" class="active"> <span
-							id="admin" class="las la-home"></span> <small>Dashboard</small>
+							id="admin" class="las la-home"></span> <small>Bảng điều khiển</small>
 					</a></li>
 					<li><a th:href="@{/admin/user}"> <span id="userIcon"
-							class="las la-user-alt"></span> <small>Users</small>
+							class="las la-user-alt"></span> <small>Người dùng</small>
 					</a></li>
 					<li th:if="${#authorization.expression('hasAuthority(''admin'')')}"><a
 						th:href="@{/admin/authorizing}"> <span
-							class="fa-sharp fa-solid fa-users"></span> <small>Authorities</small>
+							class="fa-sharp fa-solid fa-users"></span> <small>Phân quyền</small>
 					</a></li>
 					<li><a th:href="@{/admin/product}"> <span id="productIcon"
-							class="fa-solid fa-shirt" style="color: #899dc1;"></span> <small>Product</small>
+							class="fa-solid fa-shirt" style="color: #899dc1;"></span> <small>Sản phẩm</small>
 					</a></li>
 					<li><a th:href="@{/admin/order}"> <span
-							class="las la-shopping-cart oderIcon"></span> <small class="oderIcon">Orders</small>
+							class="las la-shopping-cart oderIcon"></span> <small class="oderIcon">Đơn hàng</small>
 					</a></li>
 					<li><a th:href="@{/admin/status}"> <span
-							class="las la-tasks"></span> <small>Status</small></a></li>
-					<li th:if="${#authorization.expression('hasAuthority(''admin'')')}"><a th:href="@{/admin/statistic}"> <span id="tasksIcon" class="las la-tasks"></span>
-							<small>Sales Graph</small>
+							class="las la-tasks"></span> <small>Trạng thái đơn hàng</small></a></li>
+					<li th:if="${#authorization.expression('hasAuthority(''admin'')')}"><a th:href="@{/admin/TotalStatisticsByDay/0/0}"> <span id="tasksIcon" class="las la-tasks"></span>
+							<small>Thống kê doanh thu</small>
+					</a></li>
+					<li th:if="${#authorization.expression('hasAuthority(''admin'')')}"><a th:href="@{/admin/ProductStatisticsByDay/0/0/0}"> <span id="tasksIcon" class="las la-tasks"></span>
+						<small>Thông kê sản phẩm</small>
 					</a></li>
 
 				</ul>

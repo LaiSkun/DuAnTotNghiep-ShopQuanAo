@@ -10,12 +10,14 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 
-
-import lombok.Data;
+import lombok.*;
 
 
 @SuppressWarnings("serial")
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "authorities", uniqueConstraints = {
 		@UniqueConstraint(columnNames = {"userID", "roleID"})

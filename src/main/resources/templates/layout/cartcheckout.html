@@ -50,26 +50,26 @@
 		<div class="row px-xl-5">
 			<div class="col-lg-6">
 				<h5 class="section-title position-relative text-uppercase mb-3">
-					<span class="bg-secondary pr-3">Billing Address</span>
+					<span class="bg-secondary pr-3">Thông tin</span>
 				</h5>
 				<div class="bg-light p-30 mb-5">
 					<div class="row">
 						<div class="col-md-9 form-group">
-							<label>UserName</label> <input class="form-control" type="text"
+							<label>Họ và tên</label> <input class="form-control" type="text"
 								placeholder="" th:value="${session.currentUser.username}"
 								style="color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb;"
 								readonly>
 						</div>
 						<div class="col-md-9 form-group">
-							<label>Address</label> <input class="form-control" type="text"
+							<label>Địa chỉ</label> <input class="form-control" type="text"
 								placeholder="Address" id="address" th:value="${session.currentUser.address}">
 						</div>
 						<div class="col-md-9 form-group">
-							<label>E-mail</label> <input class="form-control" type="text"
+							<label>Email</label> <input class="form-control" type="text"
 								placeholder="example@email.com" id="email" th:value="${session.currentUser.email}">
 						</div>
 						<div class="col-md-9 form-group">
-							<label>Mobile No</label> <input class="form-control" type="text"
+							<label>Số điẹn thoại</label> <input class="form-control" type="text"
 								placeholder="+123 456 789" id="phone_number" th:value="${session.currentUser.phone}">
 						</div>
 					</div>
@@ -77,18 +77,18 @@
 			</div>
 			<div class="col-lg-6">
 				<h5 class="section-title position-relative text-uppercase mb-3">
-					<span class="bg-secondary pr-3">Order Total</span>
+					<span class="bg-secondary pr-3">Tổng đơn hàng</span>
 				</h5>
 				<div class="bg-light p-30 mb-5">
 					<div class="border-bottom">
-						<h6 class="mb-3">Products</h6>
+						<h6 class="mb-3">Sản phẩm</h6>
 						<div class="d-flex justify-content-between nameProductOrder"
 							th:data-product-id="${detail.value.productID}"
 							th:each="detail,index : ${session.currentCart.details}">
 							<p class="col-lg-5" id="nameProduct"
 								th:text="${detail.value.nameProduct}" style='display: none'></p>
 							<p class="col-lg-5" id="valNameProduct"></p>
-							<p class="col">Color:</p>
+							<p class="col">Màu :</p>
 							<label class="color-span"
 								th:style="'background-color: ' + ${detail.value.colorhex}"></label>
 							<p class="col-lg-2">
@@ -110,7 +110,7 @@
 					<!--        </div>-->
 					<div class="pt-2">
 						<div class="d-flex justify-content-between mt-2">
-							<h5>Total</h5>
+							<h5>Tổng tiền</h5>
 							<h5
 								th:text="${#numbers.formatDecimal(session.currentCart.totalPrice, 0, 'COMMA', 0, 'POINT') + 'VND'} "></h5>
 						</div>
@@ -118,7 +118,7 @@
 				</div>
 				<div class="mb-5">
 					<h5 class="section-title position-relative text-uppercase mb-3">
-						<span class="bg-secondary pr-3">Payment</span>
+						<span class="bg-secondary pr-3">Thanh toán</span>
 					</h5>
 					<form method="post" id="formpay" class="bg-light p-30">
 						<input name="price" th:value="${session.currentCart.totalPrice}"
@@ -143,7 +143,7 @@
 							</div>
 						</div>
 						<button class="btn btn-block btn-primary font-weight-bold py-3"
-							type="button" th:attr="onclick='checkout()'">Place Order</button>
+							type="button" th:attr="onclick='checkout()'">Đặt hàng</button>
 					</form>
 				</div>
 			</div>

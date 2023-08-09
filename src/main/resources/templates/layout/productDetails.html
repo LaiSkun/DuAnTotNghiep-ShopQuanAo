@@ -57,18 +57,18 @@
 								</div>
 							</div>
 							<div class="products-description">
-								<h5 class="name" th:text="${product.name}"></h5>
-								<p>
+								<h3 class="name" th:text="${product.name}"></h3>
+								<!-- <p>
 									<img alt="" th:src="@{/images/star.png}">
-									<!--                    <a class="review_num" href="#">-->
-									<!--                      02 Review(s)-->
-									<!--                    </a>-->
-								</p>
+									                   <a class="review_num" href="#">
+									                     02 Review(s)
+									                   </a>
+								</p> -->
 								<h3  th:name=${product.category.categoryID} >Mô tả</h3>
 								<input id='categoryID' th:value=${product.category.categoryID} style="display: none;"/>
 								<br>
 								<p th:text="${product.description}"></p>
-								<h3>Color</h3>
+								<h3>Màu sắc</h3>
 								<div class="pd-color-choose">
 									<div th:each="colorItem: ${product_color}"  class="cc-item">
 										<input name ='12'  th:value="${colorItem.colorID}" />
@@ -84,7 +84,7 @@
 								</div>
 								<hr class="border">
 								<div class="price">
-									Price : <span class="new_price"
+									Giá : <span class="new_price"
 										th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'">
 									</span>
 									<!--                    <span class="old_price">-->
@@ -107,8 +107,7 @@
 									<!--									</div>-->
 									<div class="button_group">
 										<button class="button" id="addcard"
-											th:attr="onclick='addToCart(\'' +${product.productID}+ '\')'">Add
-											To Cart</button>
+											th:attr="onclick='addToCart(\'' +${product.productID}+ '\')'">Thêm vào giỏ hàng</button>
 										<button class="button compare">
 											<i class="fa fa-exchange"> </i>
 										</button>
@@ -130,8 +129,8 @@
 							<div id="tabnav">
 								<ul>
 									<li><a href="#Descraption"> DESCRIPTION </a></li>
-									<li><a href="#Reviews"> REVIEW </a></li>
-									<li><a href="#tags"> PRODUCT TAGS </a></li>
+									<!-- <li><a href="#Reviews"> REVIEW </a></li>
+									<li><a href="#tags"> PRODUCT TAGS </a></li> -->
 								</ul>
 							</div>
 							<div class="tab-content-wrap">
@@ -266,7 +265,7 @@
 						<div class="clearfix"></div>
 						<div id="productsDetails" class="hot-products">
 							<h3 class="title">
-								<strong> Hot </strong> Products
+								Sản phẩm
 							</h3>
 							<div class="control">
 								<a class="prev"
@@ -289,8 +288,7 @@
 												<h4 class="price"
 													th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
 												<div class="button_group">
-													<button class="button add-cart" type="button">Add
-														To Cart</button>
+													<button class="button add-cart" type="button">Thêm vào giỏ hàng</button>
 													<button class="button compare" type="button">
 														<i class="fa fa-exchange"> </i>
 													</button>
@@ -310,7 +308,7 @@
 					<div class="col-md-3">
 						<div class="special-deal leftbar">
 							<h4 class="title">
-								Special <strong> Deals </strong>
+								Sản phẩm 
 							</h4>
 							<div class="offer">- %20</div>
 							<div class="special-item" th:each="product : ${products}">
