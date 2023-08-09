@@ -34,36 +34,36 @@
     <div class="wrap-login100">
       <form class="login100-form validate-form" method="POST" th:action="@{/register}" th:object="${userRequest}">
 					<span class="login100-form-title p-b-43">
-						Register
+						Đăng ký
 					</span>
 
-        <div class="wrap-input100 validate-input" data-validate = "Enter username">
-          <input class="input100" type="text" name="username" placeholder="Username" th:field = "*{userID}">
+        <div class="wrap-input100 validate-input" data-validate = "Nhập tên đăng nhập">
+          <input class="input100" type="text" name="username" placeholder="Tên đăng nhập" th:field = "*{userID}">
           <span class="focus-input100" ></span>
         </div>
 
-        <div class="wrap-input100 validate-input" data-validate = "Enter Full name">
-          <input class="input100" type="text" name="fullname" placeholder="Fullname" th:field = "*{username}">
+        <div class="wrap-input100 validate-input" data-validate = "Nhập họ và tên">
+          <input class="input100" type="text" name="fullname" placeholder="Họ và tên" th:field = "*{username}">
           <span class="focus-input100" ></span>
         </div>
 
-        <div class="wrap-input100 validate-input" data-validate = "Password is required">
-          <input class="input100" type="password" name="password" placeholder="Password" th:field = "*{password}">
+        <div class="wrap-input100 validate-input" data-validate = "Nhập mật khẩu">
+          <input class="input100" type="password" name="password" placeholder="Mật khẩu" th:field = "*{password}">
           <span class="focus-input100" ></span>
         </div>
 
-        <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+        <div class="wrap-input100 validate-input" data-validate = "Email phải có dạng : ex@abc.xyz">
           <input class="input100" type="text" name="email" placeholder="Email" th:field = "*{email}">
           <span class="focus-input100" ></span>
         </div>
 
-        <div class="wrap-input100 validate-input" data-validate = "Enter phone ">
-          <input class="input100" type="text" name="phone" placeholder="Phone" th:field = "*{phone}">
+        <div class="wrap-input100 validate-input" data-validate = "Nhập số điện thoại">
+          <input class="input100" type="number"  name="phone" placeholder="Số điện thoại" th:field = "*{phone}" maxlength="11">
           <span class="focus-input100" ></span>
         </div>
 
-        <div class="wrap-input100 validate-input" data-validate = "Enter Address ">
-          <input class="input100" type="text" name="address" placeholder="Address" th:field = "*{address}">
+        <div class="wrap-input100 validate-input" data-validate = "Nhập địa chỉ">
+          <input class="input100" type="text" name="address" placeholder="Địa chỉ" th:field = "*{address}">
           <span class="focus-input100" ></span>
         </div>
         <br>
@@ -71,15 +71,15 @@
         <br>
         <div class="container-login100-form-btn">
           <button class="login100-form-btn">
-            Register
+            Đăng ký
           </button>
         </div>
         <div class="text-center p-t-50">
-          <a class="txt1" th:href="@{/login}"> <h7>Login</h7> </a>
+          <a class="txt1" th:href="@{/login}"> <h7>Đăng nhập</h7> </a>
         </div>
         <hr>
         <div class="text-center p-t-50">
-          <a class="txt1" th:href="@{/home}"> <h6>Home</h6> </a>
+          <a class="txt1" th:href="@{/home}"> <h6>Trang chủ</h6> </a>
         </div>
       </form>
     </div>

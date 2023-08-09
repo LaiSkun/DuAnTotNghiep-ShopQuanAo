@@ -30,7 +30,7 @@
                     <div class="col-md-3">
                         <div class="category leftbar">
                             <h3 class="title">
-                                Categories
+                                Danh mục sản phẩm
                             </h3>
                             <ul>
                                 <li th:each="categories : ${categories}">
@@ -82,7 +82,7 @@
                         <!--            </div>-->
                         <!--            <div class="clearfix">-->
                         <!--            </div>-->
-                        <div class="price-filter leftbar">
+                        <!-- <div class="price-filter leftbar">
                             <h3 class="title">
                                 Price
                             </h3>
@@ -100,8 +100,7 @@
                                 </label>
                                 <input type="submit" value="Go" onclick="getPrice();">
                             </form>
-                        </div>
-                        -->
+                        </div> -->
                         <!--            <div class="clearfix">-->
                         <!--            </div>-->
                         <!--            <div class="clolr-filter leftbar">-->
@@ -331,10 +330,10 @@
                                     <!--                    </a>-->
                                     <!--                  </div>-->
                                     <div class="sort-by">
-                                        Sort by :
+                                        Xắp xếp theo
                                         <select id="listPriceMinMax" onchange="getSelectValue();">
                                             <option value="Default" selected>
-                                                Default
+                                                Giá
                                             </option>
                                             <option value="productPriceMax">
                                                 Giá giảm dần
@@ -413,13 +412,13 @@
                                         <div class="button_group">
                                             <a th:href="@{'/product/' + ${product.productID}}">
                                                 <button class="button add-cart" type="button">
-                                                    Add To Cart
+                                                    Thêm vào giỏ hàng
                                                 </button>
                                             </a>
-                                            <button class="button wishlist" type="button">
+                                             <button class="button wishlist" type="button">
                                                 <i class="fa fa-heart-o">
                                                 </i>
-                                            </button>
+                                            </button> 
                                         </div>
                                     </div>
                                 </div>
@@ -427,7 +426,7 @@
                             <div class="clearfix">
                             </div>
                             <div class="toolbar">
-                                <div class="sorter bottom">
+                                <!-- <div class="sorter bottom">
                                     <div class="view-mode">
                                         <a href="productlitst.html" class="list">
                                             List
@@ -436,39 +435,39 @@
                                             Grid
                                         </a>
                                     </div>
-                                    <!--                  <div class="sort-by">-->
-                                    <!--                    Sort by :-->
-                                    <!--                    <select name="">-->
-                                    <!--                      <option value="Default" selected>-->
-                                    <!--                        Default-->
-                                    <!--                      </option>-->
-                                    <!--                      <option value="Name">-->
-                                    <!--                        Name-->
-                                    <!--                      </option>-->
-                                    <!--                      <option value="-->
-                                    <!--<strong>-->
-                                    <!--#-->
-                                    <!--</strong>-->
-                                    <!--">-->
-                                    <!--                        Price-->
-                                    <!--                      </option>-->
-                                    <!--                    </select>-->
-                                    <!--                  </div>-->
-                                    <!--                  <div class="limiter">-->
-                                    <!--                    Show :-->
-                                    <!--                    <select name="" >-->
-                                    <!--                      <option value="3" selected>-->
-                                    <!--                        3-->
-                                    <!--                      </option>-->
-                                    <!--                      <option value="6">-->
-                                    <!--                        6-->
-                                    <!--                      </option>-->
-                                    <!--                      <option value="9">-->
-                                    <!--                        9-->
-                                    <!--                      </option>-->
-                                    <!--                    </select>-->
-                                    <!--                  </div>-->
-                                </div>
+                                                     <div class="sort-by">
+                                                       Sort by :
+                                                       <select name="">
+                                                         <option value="Default" selected>
+                                                           Default
+                                                         </option>
+                                                         <option value="Name">
+                                                           Name
+                                                         </option>
+                                                         <option value="
+                                    <strong>
+                                    #
+                                    </strong>
+                                    ">
+                                                           Price
+                                                         </option>
+                                                       </select>
+                                                     </div>
+                                                     <div class="limiter">
+                                                       Show :
+                                                       <select name="" >
+                                                         <option value="3" selected>
+                                                           3
+                                                         </option>
+                                                         <option value="6">
+                                                           6
+                                                         </option>
+                                                         <option value="9">
+                                                           9
+                                                         </option>
+                                                       </select>
+                                                     </div>
+                                </div> -->
                                 <div class="pager" th:if="${totalPages > 1 }">
                                     <li th:class="${currentPage == 1 ? 'disabled' : ''}">
                                         <a href="#" class="prev-page"
@@ -501,19 +500,16 @@
                 </div>
                 <div class="our-brand">
                     <h3 class="title">
-                        <strong>
-                            Our
-                        </strong>
-                        Brands
+                    Thương hiệu
                     </h3>
-                    <div class="control">
+                     <div class="control">
                         <a id="prev_brand" class="prev" href="#">
                             &lt;
                         </a>
                         <a id="next_brand" class="next" href="#">
                             &gt;
                         </a>
-                    </div>
+                    </div> 
                     <ul id="braldLogo">
                         <li>
                             <ul class="brand_item">

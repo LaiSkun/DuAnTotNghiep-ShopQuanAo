@@ -37,44 +37,43 @@
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
-										<label for="email">OrderID</label> <input type="text"
+										<label for="email">Mã đơn hàng</label> <input type="text"
 											class="form-control" name="orderID" id=""
 											aria-describedby="orderID" placeholder="OrderID"
 											th:field="*{statusID}">
 
 									</div>
 									<div class="form-group">
-										<label for="email">Status</label> <select
+										<label for="email">Trạng thái</label> <select
 											th:field="*{statusname}"
 											style="height: 35px; border: 1px solid #b0b0b0; border-radius: 3px; display: inline-block; width: 250px; padding: 0rem .5rem; margin-right: .8rem; color: #666;">
-											<option th:value="New" th:text="New"></option>
-											<option th:value="WaitForConfirmation">Wait for
-												confirmation</option>
-											<option th:value="Shipping">Shipping</option>
-											<option th:value="OutofStock">Out of Stock</option>
-											<option th:value="CustomerCancels">Customer Cancels</option>
-											<option th:value="Complete">Complete</option>
-											<option th:value="InComplete">InComplete</option>
+											<option th:value="New" th:text="Mới"></option>
+											<option th:value="WaitForConfirmation">Chờ xác nhận</option>
+											<option th:value="Shipping">Đang giao hàng</option>
+											<option th:value="OutofStock">Hết hàng</option>
+											<option th:value="CustomerCancels">Khách hàng huỷ bot</option>
+											<option th:value="Complete">Hoàn thành đơn hàng</option>
+											<option th:value="InComplete">Chưa hoàn thành</option>
 										</select>
 
 									</div>
 									<div class="form-group">
-										<label for="Phone">Reason</label> <input type="text"
+										<label for="Phone">Lý do</label> <input type="text"
 											class="form-control" name="reason" id="reason"
-											placeholder="Reason" th:field="*{reason}">
+											placeholder="Lý do" th:field="*{reason}">
 									</div>
 
 								</div>
 								<div class="col">
 									<div class="form-group">
-										<label for="">Notes</label> <input type="text"
+										<label for="">Ghi chú</label> <input type="text"
 											class="form-control" name="notes" id="notes"
-											aria-describedby="noteshelpId" placeholder="notes"
+											aria-describedby="noteshelpId" placeholder="Ghi chú"
 											th:field="*{notes}">
 									</div>
 
 									<div class="form-group">
-										<label for="transportFee">Transport Fee</label> <input
+										<label for="transportFee">Phí vận chuyển</label> <input
 											type="text" class="form-control" name="transportFee"
 											id="transportFee" th:field="*{transportFee}"
 											/>
@@ -82,10 +81,10 @@
 									</div>
 
 									<div class="form-group">
-										<label for="Address">Fee Collected From Customer</label> <input
+										<label for="Address">Phí thu từ khách hàng</label> <input
 											type="text" class="form-control" name="feeCollected"
 											id="feeCollected" aria-describedby="feeCollectedhelpId"
-											placeholder="Fee Collected From Customer"
+											placeholder="Phí thu từ khách hàng"
 											th:field="*{feeCollected}">
 									</div>
 
@@ -94,9 +93,9 @@
 						</div>
 						<div class="card-footer">
 
-							<button class="btn">update</button>
+							<button class="btn">Chỉnh sửa</button>
 							<button class="btn">
-								<a th:href="@{/admin/status}">Reset</a>
+								<a th:href="@{/admin/status}">Làm mới</a>
 							</button>
 						</div>
 					</div>
@@ -125,34 +124,34 @@
 					</div>
 
 					<div class="user">
-						<div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
+						<!-- <div class="bg-img" style="background-image: url(img/1.jpeg)"></div> -->
 
-						<span><a th:href="@{/logout}" class="log">Logout</a></span>
+						<span><a th:href="@{/logout}" class="log">Đăng xuất</a></span>
 					</div>
 				</div>
 			</div>
 		</header>
 		<main>
 			<div class="page-header">
-				<h1>Status Management</h1>
-				<small>Home / Status</small>
+				<h1>Trạng thái đơn hàng</h1>
+				<small>Quản lý / Trạng thái đơn hàng</small>
 			</div>
 			<div class="page-content">
 
 				<div class="records table-responsive">
 					<div class="record-header">
 						<div class="add">
-							<span>Entries</span> <select name="" id="">
+							<span>Mục</span> <select name="" id="">
 								<option value="">ID</option>
 							</select>
-							<button id="Addrecord">Edit Status</button>
+							<button id="Addrecord">Chỉnh sửa trạng thái</button>
 						</div>
 
 						<div class="browse">
 							<form th:action="@{/admin/search}" method="get">
-								<input type="search" placeholder="Search" class="record-search"
+								<input type="search" placeholder="Tìm kiếm" class="record-search"
 									name="keyword">
-								<button type="submit">Search</button>
+								<button type="submit">Tìm kiếm</button>
 							</form>
 
 						</div>
@@ -161,15 +160,14 @@
 						<table width="100%">
 							<thead>
 								<tr>
-									<th><span class="las la-sort"></span> OrderID</th>
-									<th><span class="las la-sort"></span> Status</th>
-									<th><span class="las la-sort"></span> Description</th>
-									<th><span class="las la-sort"></span> Reason</th>
-									<th><span class="las la-sort"></span> Notes</th>
-									<th><span class="las la-sort"></span> Date Complete</th>
-									<th><span class="las la-sort"></span> Transport Fee</th>
-									<th><span class="las la-sort"></span> Fee Collected From
-										Customer</th>
+									<th><span class="las la-sort"></span> Mã hoá đơn</th>
+									<th><span class="las la-sort"></span> Trạng thái</th>
+									<th><span class="las la-sort"></span> Mô tả</th>
+									<th><span class="las la-sort"></span> Lý do</th>
+									<th><span class="las la-sort"></span> Ghi chú</th>
+									<th><span class="las la-sort"></span> Ngày hoàn thành</th>
+									<th><span class="las la-sort"></span> Phí vận chuyền</th>
+									<th><span class="las la-sort"></span> Phí thu từ khách hàng</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -189,7 +187,7 @@
 									<td
 										th:text="${#numbers.formatDecimal(p.feeCollected, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
 									<td><a
-										th:href="@{/admin/status/edit/{statusID}(statusID=${p.statusID})}">Edit</a></td>
+										th:href="@{/admin/status/edit/{statusID}(statusID=${p.statusID})}">Chỉnh sửa</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -199,7 +197,7 @@
 							<ul class="pagination">
 								<li class="page-item"
 									th:class="${currentPage == 1 ? 'disabled' : ''}"><a
-									class="page-link" th:href="@{/admin/status(page=0)}">First</a></li>
+									class="page-link" th:href="@{/admin/status(page=0)}">Trang đầu</a></li>
 								<li class="page-item"
 									th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
 									<a class="page-link"
@@ -209,7 +207,7 @@
 								<li class="page-item"
 									th:class="${currentPage == totalPages ? 'disabled' : ''}">
 									<a class="page-link"
-									th:href="@{/admin/status(page=${totalPages - 1})}">Last</a>
+									th:href="@{/admin/status(page=${totalPages - 1})}">Trang cuối</a>
 								</li>
 							</ul>
 						

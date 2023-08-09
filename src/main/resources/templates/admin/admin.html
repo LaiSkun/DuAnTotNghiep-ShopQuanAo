@@ -36,43 +36,43 @@
     
                                             </div>
                                             <div class="form-group">
-                                                <label for="Phone">Phone</label>
+                                                <label for="Phone">Số điện thoại</label>
                                                 <input type="text" class="form-control" name="Phone" id="Phone"
                                                     placeholder="Phone">
                                             </div>
                                             <div class="form-group">
-                                                <label for="date">Created Date</label>
+                                                <label for="date">Ngày</label>
                                                 <input type="text" class="form-control" name="date" id="date"
                                                     aria-describedby="datehelpId" placeholder="Created Date">
                                             </div>
                                             <div class="form-group">
-                                                <label for="Deleted">privilege</label>
+                                                <label for="Deleted">Đặc quyền</label>
                                                 <fieldset>
                                                     <input type="radio" id="Admin" name="privilege" value="Admin" checked>
-                                                    <label for="Admin">Admin</label>
+                                                    <label for="Admin">Quản lý</label>
                                                     <input type="radio" id="User" name="privilege" value="User">
-                                                    <label for="User">Staff</label>
+                                                    <label for="User">Nhân viên</label>
                                                 </fieldset>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <label for="">username</label>
+                                                <label for="">Họ và tên</label>
                                                 <input type="text" class="form-control" name="username" id="username"
                                                     aria-describedby="usernamehelpId" placeholder="username">
                                             </div>
                                             <div class="form-group">
-                                                <label for="">password</label>
+                                                <label for="">Mật khẩu</label>
                                                 <input type="password" class="form-control" name="password" id="password"
                                                     placeholder="password">
                                             </div>
                                             <div class="form-group">
-                                                <label for="confirmpass">confirm pass</label>
+                                                <label for="confirmpass">Xác nhận mật khẩu</label>
                                                 <input type="text" class="form-control" name="confirmpass" id="confirmpass"
                                                     aria-describedby="confirmpasshelpId" placeholder="confirm pass">
                                             </div>
                                             <div class="form-group">
-                                                <label for="Address">Address</label>
+                                                <label for="Address">Địa chỉ</label>
                                                 <input type="text" class="form-control" name="Address" id="Address"
                                                     aria-describedby="AddresshelpId" placeholder="Address">
                                             </div>
@@ -81,18 +81,17 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <button class="btn">create</button>
-                                    <button class="btn">update</button>
-                                    <button class="btn">delete</button>
-                                    <button class="btn">reset</button>
+                                    <button class="btn">Thêm mới</button>
+                                    <button class="btn">Sửa</button>
+                                    <button class="btn">Xoá</button>
+                                    <button class="btn">Làm mới</button>
                                 </div>
                             </div>
     
                         </form>
     
               
-                
-              
+    
         </section>
     </div>
     <input type="checkbox" id="menu-toggle">
@@ -123,15 +122,15 @@
                         <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
 
                         <span class="las la-power-off"></span>
-                        <span><a th:href="@{/logout}" class="log">Logout</a></span>
+                        <span><a th:href="@{/logout}" class="log">Đăng xuất</a></span>
                     </div>
                 </div>
             </div>
         </header>
         <main>
             <div class="page-header">
-                <h1>Users Management</h1>
-                <small>Home / User</small>
+                <h1>Quản Lý </h1>
+                <small>Quản lý </small>
             </div>
             <div class="page-content">
                 <div class="analytics">
@@ -142,7 +141,7 @@
                             <span class="las la-user-friends"></span>
                         </div>
                         <div class="card-progress">
-                            <small>User activity this month</small>
+                            <small>Hoạt động người dùng trong tháng</small>
                             <div class="card-indicator">
                                 <div class="indicator one" style="width: 60%"></div>
                             </div>
@@ -155,7 +154,7 @@
                             <span class="las la-eye"></span>
                         </div>
                         <div class="card-progress">
-                            <small>Page views</small>
+                            <small>Số lược xem </small>
                             <div class="card-indicator">
                                 <div class="indicator two" style="width: 80%"></div>
                             </div>
@@ -168,7 +167,7 @@
                             <span class="las la-shopping-cart"></span>
                         </div>
                         <div class="card-progress">
-                            <small>Monthly revenue growth</small>
+                            <small>Doanh thu trong tháng</small>
                             <div class="card-indicator">
                                 <div class="indicator three" style="width: 65%"></div>
                             </div>
@@ -181,7 +180,7 @@
                             <span class="las la-envelope"></span>
                         </div>
                         <div class="card-progress">
-                            <small>New E-mails received</small>
+                            <small>Email mới được nhận</small>
                             <div class="card-indicator">
                                 <div class="indicator four" style="width: 90%"></div>
                             </div>
@@ -192,17 +191,17 @@
                 <div class="records table-responsive">
                     <div class="record-header">
                         <div class="add">
-                            <span>Entries</span>
+                            <span>Mục</span>
                             <select name="" id="">
                                 <option value="">ID</option>
                             </select>
-                            <button id="Addrecord">Add record</button>
+                            <button id="Addrecord">Thêm tài khoản</button>
                         </div>
 
                         <div class="browse">
-                            <input type="search" placeholder="Search" class="record-search">
+                            <input type="search" placeholder="Tìm kiếm...." class="record-search">
                             <select name="" id="">
-                                <option value="">Status</option>
+                                <option value="">Trạng thái</option>
                             </select>
                         </div>
                     </div>
@@ -210,13 +209,13 @@
                         <table width="100%">
                             <thead>
                                 <tr>
-                                    <th><span class="las la-sort"></span> User ID</th>
-                                    <th><span class="las la-sort"></span> User Name</th>
-                                    <th><span class="las la-sort"></span> Password</th>
+                                    <th><span class="las la-sort"></span> Tên đăng nhập</th>
+                                    <th><span class="las la-sort"></span> Họ và tên</th>
+                                    <th><span class="las la-sort"></span> Mật khẩu</th>
                                     <th><span class="las la-sort"></span> Email</th>
-                                    <th><span class="las la-sort"></span> Phone</th>
-                                    <th><span class="las la-sort"></span> created Date</th>
-                                    <th><span class="las la-sort"></span> Address</th>
+                                    <th><span class="las la-sort"></span> Số điện thoại</th>
+                                    <th><span class="las la-sort"></span> Ngày</th>
+                                    <th><span class="las la-sort"></span> Địa chỉ</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -31,7 +31,7 @@
 <div class="clearfix"></div>
 <div class="page-index">
   <div class="container">
-    <p>Home - Shopping Cart</p>
+    <p>Trang chủ - Đơn hàng của bạn </p>
   </div>
 </div>
 </div>
@@ -40,19 +40,41 @@
   <div class="container shopping-cart">
     <div class="row" id="row">
       <div class="col-md-12">
-        <h3 class="title">Shopping Cart</h3>
+        <h3 class="title">Đơn hàng của bạn</h3>
         <div class="clearfix"></div>
+        <div class="pager">
+          <li th:class="${currentPage == 1 ? 'disabled' : ''}">
+            <a href="#" class="prev-page"
+               th:href="@{${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">
+              <i class="fa fa-angle-left">
+              </i>
+            </a>
+          </li>
+          <li th:each="i : ${#numbers.sequence(1, totalPages)}">
+            <a th:class="${currentPage == i ? 'active' : ''}" th:href="@{'?page=' +${i}}"
+               th:text="${i}">
+
+            </a>
+          </li>
+          <li th:class="${currentPage == totalPages ? 'disabled' : ''}">
+            <a href="#" class="next-page"
+               th:href="@{${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">
+              <i class="fa fa-angle-right">
+              </i>
+            </a>
+          </li>
+        </div>
         <table class="shop-table">
           <thead>
           <tr>
             <!--                    <th>-->
 
             <!--                    </th>-->
-            <th>OrderID</th>
-            <th>Address</th>
-            <th>Price</th>
-            <th>Phone</th>
-            <th>Date</th>
+            <th>Mã ĐH</th>
+            <th>Địa chỉ</th>
+            <th>Giá</th>
+            <th>Số điện thoại</th>
+            <th>Ngày</th>
             <th>Email</th>
           </tr>
           </thead>

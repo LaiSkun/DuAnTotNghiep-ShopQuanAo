@@ -5,6 +5,8 @@ import com.store.model.Orders;
 import com.store.model.Users;
 import com.store.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +23,14 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public List<Orders> findByUserID(String userId) {
-        return dao.findByUserID(userId);
+    public Page<Orders> findByUserID(String userId, int pageSize, int pageNumber) throws  Exception {
+        if (pageNumber >= 1) {
+
+
+            return dao.findByUserID(userId, PageRequest.of(pageNumber - 1, pageSize));
+        }else{
+            throw new Exception ("Page number must be grat than 0");
+        }
     }
 
     @Override
