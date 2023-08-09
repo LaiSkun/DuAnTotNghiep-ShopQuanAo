@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrdersService {
     Orders insert(Orders orders);
 
-    List<Orders> findByUserID(String userId);
+    Page<Orders> findByUserID(String userId, int pageSize, int pageNumber) throws  Exception;
 
     List<Orders> findByAll();
 

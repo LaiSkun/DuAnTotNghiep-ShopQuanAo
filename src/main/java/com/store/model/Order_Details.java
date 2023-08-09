@@ -1,11 +1,7 @@
 package com.store.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +9,8 @@ import javax.persistence.*;
 @SuppressWarnings("serial")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "order_details")
 public class Order_Details {
@@ -21,15 +19,16 @@ public class Order_Details {
     Long orderDetailID;
     Double price;
     Integer quantity;
+
     @ToString.Exclude
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "productID")
     Products product;
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "colorID")
     Product_Colors colorId;
+    @JsonIgnore
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orderID")

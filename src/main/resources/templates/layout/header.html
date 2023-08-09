@@ -45,13 +45,13 @@
 <!--                                <li><a href="#">Support</a></li>-->
 <!--                            </ul>-->
                         </div>
-                        <div class="col-md-3">
+                        <div style="float: right">
                             <ul class="usermenu">
-                                <li th:if="${session.currentUser == null}"><a class="log" th:href="@{/login}">Login</a>
+                                <li th:if="${session.currentUser == null}"><a class="log" th:href="@{/login}">Đăng nhập</a>
                                 </li>
                                 <li th:if="${session.currentUser != null}"><a class="log"
-                                                                              th:href="@{/logout}">Logout</a></li>
-                                <li th:if="${session.currentUser == null}"><a class="log" th:href="@{/register}">Register</a>
+                                                                              th:href="@{/logout}">Đăng xuất</a></li>
+                                <li th:if="${session.currentUser == null}"><a class="log" th:href="@{/register}">Đăng ký</a>
                                 </li>
                                 <li th:if="${session.currentUser != null}"><a class="log" th:href="@{/login}"><span
                                         th:text="${session.currentUser.username}"></span></a></li>
@@ -65,14 +65,14 @@
                         <li class="search" id="search" onclick="searchProducts()">
                             <form th:action="@{/productSearch}">
                                 <input class="search-submit" type="button" value="">
-                                <input id="searchProducts"  class="search-input" name="keyword" placeholder="Enter your search term..." required type="text"/>
+                                <input id="searchProducts"  class="search-input" name="keyword" placeholder="Nhập tìm kiếm của bạn..." required type="text"/>
                             </form>
                             <ul id="ulSearch" class="searchForm1">
 
                             </ul>
                         </li>
                         <li class="option-cart">
-                            <a class="cart-icon" th:href="@{/cart}">cart <span class="cart_no" id="headerToTalQuantity"
+                            <a class="cart-icon" th:href="@{/cart}">Giỏ hàng <span class="cart_no" id="headerToTalQuantity"
                                                                                th:text="${session.currentCart.totalQuantity}"></span></a>
                         </li>
                     </ul>
@@ -85,15 +85,15 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="active dropdown">
-                                <a th:href="@{/home}">Home</a>
+                                <a th:href="@{/home}">Trang chủ</a>
                             </li>
-                            <li><a th:href="@{/productgird}">Product</a></li>
-                            <li><a th:href="@{/productlist}">ProductList</a></li>
+                            <li><a th:href="@{/productgird}">Sản phẩm</a></li>
+                            <li><a th:href="@{/productlist}">List sản phẩm</a></li>
 
-                            <li><a th:href="@{/contact}">contact us</a></li>
+                            <li><a th:href="@{/contact}">Liên hệ</a></li>
                             <li th:if="${session.currentUser != null}">
                                 <a th:href="@{'/cart/check/' + ${session.currentUser.userID}}"
-                                   th:id="${session.currentUser.userID}">CHECK ORDER</a></li>
+                                   th:id="${session.currentUser.userID}">Đơn hàng của bạn</a></li>
                         </ul>
                     </div>
                 </div>

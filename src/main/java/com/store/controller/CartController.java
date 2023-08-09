@@ -18,6 +18,7 @@ import com.store.util.SessionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -53,6 +54,8 @@ public class CartController {
 
 	@Autowired
 	private PaypalService paypalService;
+	private static final int MAX_SIZE = 6;
+
 
 	@GetMapping("")
 	public String dogetIndex(Model model) {
@@ -76,12 +79,21 @@ public class CartController {
 	}
 
 	@RequestMapping("/check/{userId}")
-	public String doGetCheck(@PathVariable("userId") String userId, Model model) {
+	public String doGetCheck(@PathVariable("userId") String userId,
+							 @RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
 		Users users = userService.findById(userId);
 		if (users == null) {
 			return "redirect:/home";
 		} else {
-			List<Orders> orders = ordersService.findByUserID(userId);
+			List<Orders> orders = new ArrayList<>();
+			try {
+				Page<Orders> pageOrder = ordersService.findByUserID(userId, MAX_SIZE, page);
+				orders = pageOrder.getContent();
+				model.addAttribute("totalPages", pageOrder.getTotalPages());
+				model.addAttribute("currentPage", page);
+			} catch (Exception e) {
+				orders = ordersService.findByAll();
+			}
 			model.addAttribute("orders", orders);
 		}
 		return "layout/checkout";

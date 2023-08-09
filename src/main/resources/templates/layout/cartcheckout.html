@@ -28,8 +28,8 @@
     <link rel="stylesheet"
           th:href="@{/checkout/lib/owlcarousel/assets/owl.carousel.min.css}">
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link rel="stylesheet" th:href="@{/checkout/css/style.css}">
+<!-- Customized Bootstrap Stylesheet -->
+<link th:href="@{/checkout/css/style.css}" rel="stylesheet">
 </head>
 
 <body th:id="${done}">
@@ -50,31 +50,31 @@
     <div class="row px-xl-5">
         <div class="col-lg-6">
             <h5 class="section-title position-relative text-uppercase mb-3">
-                <span class="bg-secondary pr-3">Billing Address</span>
+                <span class="bg-secondary pr-3">Thông tin</span>
             </h5>
             <div class="bg-light p-30 mb-5">
                 <div class="row">
                     <div class="col-md-9 form-group">
-                        <label>UserName</label> <input class="form-control" placeholder=""
+                        <label>Họ và tên</label> <input class="form-control" placeholder=""
                                                        id="customer"
                                                         style="color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb;"
                                                        th:value="${session.currentUser} != null ? ${session.currentUser.username} : '' "
                                                        type="text">
                     </div>
                     <div class="col-md-9 form-group">
-                        <label>Address</label> <input class="form-control" id="address"
+                        <label>Địa chỉ</label> <input class="form-control" id="address"
                                                       placeholder="Address"
                                                       th:value="${session.currentUser} != null ?${session.currentUser.address} : '' "
                                                       type="text">
                     </div>
                     <div class="col-md-9 form-group">
-                        <label>E-mail</label> <input class="form-control" id="email"
+                        <label>Email</label> <input class="form-control" id="email"
                                                      placeholder="example@email.com"
                                                      th:value="${session.currentUser} != null ?${session.currentUser.email} : '' "
                                                      type="text">
                     </div>
                     <div class="col-md-9 form-group">
-                        <label>Mobile No</label> <input class="form-control" id="phone_number"
+                        <label>Số điện thoại</label> <input class="form-control" id="phone_number"
                                                         placeholder="+123 456 789"
                                                         th:value="${session.currentUser} != null ?${session.currentUser.phone} : '' "
                                                         type="text">
@@ -84,18 +84,18 @@
         </div>
         <div class="col-lg-6">
             <h5 class="section-title position-relative text-uppercase mb-3">
-                <span class="bg-secondary pr-3">Order Total</span>
+                <span class="bg-secondary pr-3">Tổng đơn hàng</span>
             </h5>
             <div class="bg-light p-30 mb-5">
                 <div class="border-bottom">
-                    <h6 class="mb-3">Products</h6>
+                    <h6 class="mb-3">Sản phẩm</h6>
                     <div class="d-flex justify-content-between nameProductOrder"
                          th:data-product-id="${detail.value.productID}"
                          th:each="detail,index : ${session.currentCart.details}">
                         <p class="col-lg-5" id="nameProduct"
                            style='display: none' th:text="${detail.value.nameProduct}"></p>
                         <p class="col-lg-5" id="valNameProduct"></p>
-                        <p class="col">Color:</p>
+                        <p class="col">Màu:</p>
                         <label class="color-span"
                                th:style="'background-color: ' + ${detail.value.colorhex}"></label>
                         <p class="col-lg-2">
@@ -117,7 +117,7 @@
                 <!--        </div>-->
                 <div class="pt-2">
                     <div class="d-flex justify-content-between mt-2">
-                        <h5>Total</h5>
+                        <h5>Tổng tiền</h5>
                         <h5
                                 th:text="${#numbers.formatDecimal(session.currentCart.totalPrice, 0, 'COMMA', 0, 'POINT') + 'VND'} "></h5>
                     </div>
@@ -125,7 +125,7 @@
             </div>
             <div class="mb-5">
                 <h5 class="section-title position-relative text-uppercase mb-3">
-                    <span class="bg-secondary pr-3">Payment</span>
+                    <span class="bg-secondary pr-3">Thanh toán</span>
                 </h5>
                 <form class="bg-light p-30" id="formpay" method="post">
                     <input name="price" style="display: none"
@@ -148,7 +148,7 @@
                         </div>
                     </div>
                     <button class="btn btn-block btn-primary font-weight-bold py-3"
-                            th:attr="onclick='checkout()'" type="button">Place Order
+                            th:attr="onclick='checkout()'" type="button">Đặt hàng
                     </button>
                 </form>
             </div>
