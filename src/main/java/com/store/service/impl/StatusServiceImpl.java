@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.store.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.store.dao.StatusDAO;
@@ -75,5 +76,9 @@ public class StatusServiceImpl implements StatusService {
 		return dao.findByStaffAndStatusName2(st,desc,desc1);
 	}
 
+	@Override
+	public List<Status> findOrderID(Long orderID) {
+		return dao.findOrderID(orderID);
+	}
 
 }

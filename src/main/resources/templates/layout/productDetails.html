@@ -265,15 +265,15 @@
 						<div class="clearfix"></div>
 						<div id="productsDetails" class="hot-products">
 							<h3 class="title">
-								Sản phẩm
+								Sản phẩm liên quan
 							</h3>
-							<div class="control">
-								<a class="prev"
-									th:href="@{${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">
-									&lt; </a> <a class="next"
-									th:href="@{${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">
-									&gt; </a>
-							</div>
+<!--							<div class="control">-->
+<!--								<a class="prev"-->
+<!--									th:href="@{${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">-->
+<!--									&lt; </a> <a class="next"-->
+<!--									th:href="@{${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">-->
+<!--									&gt; </a>-->
+<!--							</div>-->
 							<ul id="hot">
 								<li>
 									<div class="row">
@@ -289,9 +289,9 @@
 													th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
 												<div class="button_group">
 													<button class="button add-cart" type="button">Thêm vào giỏ hàng</button>
-													<button class="button compare" type="button">
-														<i class="fa fa-exchange"> </i>
-													</button>
+<!--													<button class="button compare" type="button">-->
+<!--														<i class="fa fa-exchange"> </i>-->
+<!--													</button>-->
 													<button class="button wishlist" type="button">
 														<i class="fa fa-heart-o"> </i>
 													</button>
@@ -308,20 +308,19 @@
 					<div class="col-md-3">
 						<div class="special-deal leftbar">
 							<h4 class="title">
-								Sản phẩm 
+								Sản phẩm bán chạy
 							</h4>
-							<div class="offer">- %20</div>
-							<div class="special-item" th:each="product : ${products}">
+							<div class="special-item" th:each="productTop : ${productTop}">
 								<div class="product-image">
 									<a href="productDetails.html"
-										th:href="@{'/product/' + ${product.productID}}"> <img
-										th:src="@{'/images/product/' + ${product.category.categoryID} + '/' + ${product.img}}"
+										th:href="@{'/product/' + ${productTop.productID}}"> <img
+										th:src="@{'/images/product/' + ${productTop.category.categoryID} + '/' + ${productTop.img}}"
 										style="width: 170px" alt="Product Name">
 
 									</a>
 								</div>
 								<div class="product-info">
-									<p th:text="${product.name}"></p>
+									<p th:text="${productTop.name}"></p>
 									<h5 class="price"
 										th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') + ' VND'} "></h5>
 								</div>
@@ -454,7 +453,7 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<!-- Mã JavaScript -->
 	<script th:inline="javascript">
-	
+
   async function changeColor(id) {
 	  console.log(id)
 	  const response = await fetch(`/api/product-color/${id}`);
@@ -464,7 +463,7 @@
 	  let ul = document.querySelector('#gallery_01')
 	  let cateID = document.querySelector('#categoryID').value
 	  for(idx = 0; idx < list.length; idx++){
-		  
+
 	  }
 	  list.forEach((item,index) => {
 		  ul.innerHTML += `<li class="pt" onclick = 'a(this)'
@@ -474,9 +473,9 @@
 	  })
     let productThumbnail = document.querySelector("#product_thumbnail")
     let category = productThumbnail.getAttribute("src").split("product/")[1].split("/")[0]
-   
-  
-	
+
+
+
     var url = '/api/product-color/' + id;
     $.ajax({
       type : 'POST',
@@ -563,7 +562,7 @@
     console.log(selectedColorID)
     var api_url = `${location.protocol}\/\/${location.host}`;
     let product_thumbnail = document.querySelector("#product_thumbnail").getAttribute("src").split("/product")[1].split("/")[1]
-	
+
     var endpoint = `${api_url}/api/cart/update?productID=${productID}&colorID=${selectedColorID}&quantity=${quantity}&categoryID=${product_thumbnail}&isReplace=false`;
     $.ajax({
       url: endpoint,

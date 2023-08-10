@@ -43,4 +43,7 @@ public interface StatusDAO extends JpaRepository<Status, Long> {
     int findStatusByStaffDone(@Param("id") staff id);
     @Query(value = "select count(*) from Status  where description = 4 and staffID = :id ", nativeQuery = true)
     int findStatusByStaffFalse(@Param("id") staff id);
+
+    @Query(value = "SELECT * from status where orderID = :orderID  ",nativeQuery = true)
+    List<Status> findOrderID(Long orderID);
 }

@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" th:href="@{/images/favicon.png}">
@@ -13,7 +12,7 @@
             rel='stylesheet' type='text/css'>
     <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/flexslider.css}" type="text/css"
-          media="screen" />
+          media="screen"/>
     <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js">
@@ -34,7 +33,7 @@
     </div>
 </div>
 </div>
-<div class="clearfix" id="clearfix"> </div>
+<div class="clearfix" id="clearfix"></div>
 <div class="container_fullwidth">
     <div class="container shopping-cart">
         <div class="row" id="row">
@@ -59,11 +58,12 @@
                     <tr class="cartItem"
                         th:each="orderDetails, idx : ${orderDetails}">
                         <td><img id="product_thumbnail"
-                                 th:src="@{'/getimage/'+ ${catesID.get(idx.index)} + '/' + ${orderDetails.product.img}}" alt="" >
+                                 th:src="@{'/getimage/'+ ${catesID.get(idx.index)} + '/' + ${orderDetails.product.img}}"
+                                 alt="">
                         </td>
                         <td>
                             <div class="shop-details">
-                                <div class="productname" id="nameProduct" th:text="${orderDetails.product.name}" >
+                                <div class="productname" id="nameProduct" th:text="${orderDetails.product.name}">
                                 </div>
                                 <!-- <p>
                                     <img alt="" src="images/star.png"> <a
@@ -77,9 +77,9 @@
                                         </a></li>
                                     </ul>
                                 </div>
-                              <!--   <p>
-                                    Product Code : <strong class="pcode"> Dress 120 </strong>
-                                </p> -->
+                                <!--   <p>
+                                      Product Code : <strong class="pcode"> Dress 120 </strong>
+                                  </p> -->
                             </div>
                         </td>
                         <td>
@@ -94,7 +94,9 @@
                         </td>
                         <td>
                             <h5>
-                                <strong class="red" th:text="${#numbers.formatDecimal(orderDetails.price * orderDetails.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'"> >
+                                <strong class="red"
+                                        th:text="${#numbers.formatDecimal(orderDetails.price * orderDetails.quantity, 0, 'COMMA', 0, 'POINT')} + ' VND'">
+                                    >
 
                                 </strong>
                             </h5>
@@ -117,11 +119,20 @@
                                       th:text="${#numbers.formatDecimal(orders.Price, 0, 'COMMA', 0, 'POINT')} + ' VND'">
 									</span>
                             </div>
-
-                            <hr>
-                            <hr>
                         </div>
                         <div class="continute-shopping"><a th:href="@{/productgird}">TIẾP TỤC MUA SẮM</a></div>
+                        <div class="shippingbox col-md-12">
+                            <div class="grandtotal">
+                                <h5>TRẠNG THÁI ĐƠN HÀNG</h5>
+                                <span id="status"
+                                      th:text="${status.get(0).description.descriptionName}">
+									</span>
+                            </div>
+                            <button style="float: right">
+                                Huỷ đặt hàng
+                            </button>
+                        </div>
+
                     </div>
                     <br><br><br><br><br><br>
                 </div>
