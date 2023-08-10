@@ -147,7 +147,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr onclick="check(this)" th:class="'a'+ ${Orders.orderID}" th:each="Orders,idx : ${Orders}" >
+                        <tr onclick="check(this)" th:class="'a'+ ${Orders.orderID}" th:each="Orders,idx : ${Orders}">
                             <td>[[${Orders.orderID}]]</td>
                             <td>[[${Orders.address}]]</td>
                             <td>[[${Orders.phone}]]</td>
@@ -155,8 +155,9 @@
                             <td>[[${Orders.price}]]</td>
                             <td>[[${Orders.date}]]</td>
                             <td>[[${Orders.user.userID}]]</td>
-                            <td class="default" th:id="'a'+${Orders.orderID}" >
-                               <i class="exit fa-solid fa-xmark exitFormOrderDetail" onclick="exitFormOrderDetail()"></i>
+                            <td class="default" th:id="'a'+${Orders.orderID}">
+                                <i class="exit fa-solid fa-xmark exitFormOrderDetail"
+                                   onclick="exitFormOrderDetail()"></i>
                                 <table class="showOrderDetailTable">
                                     <thead>
                                     <tr>
@@ -167,13 +168,15 @@
                                         <th><span class="las la-sort"></span> Số lượng</th>
                                     </tr>
                                     </thead>
-                                    <tbody >
+                                    <tbody>
                                     <tr th:each="listOrder, id : ${listOrderDetails.get(idx.index)}">
-                                         <td th:text="${Orders.user.username}"></td>
+                                        <td th:text="${Orders.user.username}"></td>
                                         <td th:text="${listOrderDetails.get(idx.index).get(id.index).getProduct().getName()}"></td>
-                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getColorId().getColor_name()}"> Màu sản phẩm</td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getColorId().getColor_name()}">
+                                            Màu sản phẩm
+                                        </td>
                                         <td th:text="${listOrderDetails.get(idx.index).get(id.index).getPrice()}"></td>
-                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getQuantity()}"> </td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getQuantity()}"></td>
                                     </tr>
                                     </tbody>
 
@@ -237,7 +240,7 @@
 </div>
 </body>
 <script>
-        function check(item) {
+    function check(item) {
         let dv = document.querySelector(".activeTable")
         let lastChildItem = item.lastChild.previousElementSibling;
         let id = item.getAttribute("class")
@@ -245,7 +248,8 @@
         dv != null && dv.classList.remove("activeTable")
         lastChildItem.getAttribute("handleExit") == null ? b.classList.add("activeTable") : lastChildItem.removeAttribute("handleExit")
     }
-    const exitFormOrderDetail = () =>{
+
+    const exitFormOrderDetail = () => {
         let dv = document.querySelector(".activeTable")
         dv.classList.remove("activeTable")
         dv.setAttribute("handleExit", "true")

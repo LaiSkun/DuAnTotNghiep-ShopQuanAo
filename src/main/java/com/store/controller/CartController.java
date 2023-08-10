@@ -5,10 +5,7 @@ import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import com.store.DTO.CartDto;
 import com.store.constant.SessionConstant;
-import com.store.model.Categories;
-import com.store.model.Order_Details;
-import com.store.model.Orders;
-import com.store.model.Users;
+import com.store.model.*;
 import com.store.payment.PaypalPaymentIntent;
 import com.store.payment.PaypalPaymentMethod;
 import com.store.service.*;
@@ -47,6 +44,8 @@ public class CartController {
 	private OrderDetailsService orderDetailsService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private StatusService statusService;
 	public static final String URL_PAYPAL_SUCCESS = "pay/success";
 	public static final String URL_PAYPAL_CANCEL = "pay/cancel";
 	public static String done = null;
@@ -115,6 +114,8 @@ public class CartController {
 			model.addAttribute("orderDetails", orderDetails);
 			model.addAttribute("orders", orders);
 		}
+		List<Status> status = statusService.findOrderID(orderID);
+		model.addAttribute("status",status);
 		return "layout/checkout_orderdetail";
 	}
 
