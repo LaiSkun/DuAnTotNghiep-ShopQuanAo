@@ -71,6 +71,16 @@ public class StatusServiceImpl implements StatusService {
 	}
 
 	@Override
+	public List<Status> findAllDesc(long desc) {
+		return dao.findAllDesc(desc);
+	}
+
+	@Override
+	public List<Status> findAllDesc2(long desc, long desc2) {
+		return dao.findAlldesc2(desc, desc2);
+	}
+
+	@Override
 	public List<Status> findByStatusAndDesc1(staff st, long desc, long desc1) {
 		return dao.findByStaffAndStatusName2(st,desc,desc1);
 	}

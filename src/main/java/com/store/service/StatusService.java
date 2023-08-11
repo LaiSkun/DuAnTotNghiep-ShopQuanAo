@@ -25,6 +25,8 @@ public interface StatusService {
 	public Status findByOrderID(Orders order);
 	public List<Status> findByCurrentStaff(staff st);
 	public List<Status> findByStatusAndDesc(staff st, long desc);
+	public List<Status> findAllDesc(long desc);
+	public List<Status> findAllDesc2(long desc, long desc2);
 	public List<Status> findByStatusAndDesc1(staff st, long desc,long desc1);
 
 }

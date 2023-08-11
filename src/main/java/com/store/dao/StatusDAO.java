@@ -22,15 +22,21 @@ public interface StatusDAO extends JpaRepository<Status, Long> {
 
     @Query(value = "select * from Status where staffID = :staff  order by statusID DESC ", nativeQuery = true)
     List<Status> findByStaffIDDESC(@Param("staff") staff st);
+
     @Query(value = "select * from Status where staffID = :staff and description = :idDesc order by statusID DESC ", nativeQuery = true)
     List<Status> findByStaffAndStatusName(@Param("staff") staff st,@Param("idDesc") long id);
+    @Query(value = "select * from Status where  description = :idDesc order by statusID DESC ", nativeQuery = true)
+    List<Status> findAllDesc(@Param("idDesc") long id);
     @Query(value = "select * from Status where staffID = :staff and description = :idDesc or description = :idDesc1 order by statusID DESC ", nativeQuery = true)
     List<Status> findByStaffAndStatusName2(@Param("staff") staff st,@Param("idDesc") long id,@Param("idDesc1") long id1);
+    @Query(value = "select * from Status where description = :idDesc or description = :idDesc1 order by statusID DESC ", nativeQuery = true)
+    List<Status> findAlldesc2(@Param("idDesc") long id,@Param("idDesc1") long id1);
     Status findByOrders(Orders orders);
 
     @Query(value = "select count(*) from Status where description = '1' and staffID= :id")
     public int selectCountStatusName(@Param("id") staff id);
-
+    @Query(value = "select count(*) from Status where description = '1'")
+    public int selectCountStatusNameAll();
     @Modifying(clearAutomatically = true)
     @Transactional
     //: Parameter value [2] did not match expected type [com.store.model.descriptionStatu
@@ -39,8 +45,14 @@ public interface StatusDAO extends JpaRepository<Status, Long> {
 
     @Query(value = "select count(*) from Status where staffID= :id", nativeQuery = true)
     int findAllStatusByStaff(@Param("id") staff id);
+    @Query(value = "select count(*) from Status ", nativeQuery = true)
+    int findAllStatusByAll();
     @Query(value = "select count(*) from Status  where description = 5 and staffID = :id ", nativeQuery = true)
     int findStatusByStaffDone(@Param("id") staff id);
+    @Query(value = "select count(*) from Status  where description = 5 ", nativeQuery = true)
+    int findStatusByStaffDoneAll();
     @Query(value = "select count(*) from Status  where description = 4 and staffID = :id ", nativeQuery = true)
     int findStatusByStaffFalse(@Param("id") staff id);
+    @Query(value = "select count(*) from Status  where description = 4", nativeQuery = true)
+    int findStatusByStaffFalseAll();
 }

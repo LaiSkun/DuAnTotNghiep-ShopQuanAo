@@ -33,7 +33,7 @@
         }
     }
 
-    function chooseFileimg(fileinput) {
+    function    chooseFileimg(fileinput) {
         let fileimg = fileinput.files
         if (fileimg.length > 0) {
             for (let idx = 0; idx < fileimg.length; idx++) {
@@ -802,9 +802,9 @@
                                                         <button class="btn btn-secondary" data-dismiss="modal"
                                                                 type="button">Hủy
                                                         </button>
-                                                        <a class="btn btn-primary" type="button"
-                                                                onclick="handleDeleteProductImg()"
-                                                                th:href="@{'/admin/product/deleteProductImgAndColor?productImgId='+${productImg.imgID}}">Xóa</a>
+                                                        <a class="btn btn-primary" type="button" th:id="a+${productImg.getImgID()}"
+                                                                onclick="handleDeleteProductImg(this)"
+                                                              >Xóa</a>
                                                     </div>
                                                 </div>
                                             </div>

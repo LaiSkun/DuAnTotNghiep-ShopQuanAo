@@ -10,6 +10,7 @@ import com.store.dao.*;
 import com.store.model.staff;
 import com.store.constant.SessionConstant;
 import com.store.service.OrderService;
+import com.store.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,55 +48,99 @@ public class AdminStatusController {
     OrderDAO orderDAO;
     @Autowired
     StatusDAO statusDAO;
+    @Autowired
+    UserService userService;
     @GetMapping("/admin/status")
     public String adminStatus(Model model, HttpServletRequest request, @RequestParam(defaultValue = "0") int page, String type,
                               @RequestParam(defaultValue = "5") int size) {
         HttpSession session = request.getSession();
         Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
         staff st = staffDAO.findByStaffID(currentUser);
+        List<Authorities>  lsAuthor = userService.findById(currentUser.getUserID()).getAuthorities();
+        List<String>  ls = new ArrayList<>();
+        lsAuthor.forEach(item -> {
+            if (item.getRole().getRoleID().equals("admin")){
+             ls.add("1");
+            }
+        });
         if (type == null) {
             type = "";
         }
         List<Status> status = new ArrayList<>();
+       // đơn chờ xử lý
+        int orderProcessing ;
+        //đơn đã xong;
+        int StatusDone ;
+        //đơn đang làm
+        int AllStatusByStaff ;
+        // đơn đã bị hủy
+        int sttFalse;
+        if (!ls.isEmpty()){
+            switch (type.trim()) {
+                case "T1":
+                    //chowf xac nhan
+                   status = statusService.findAllDesc(1);
+                    break;
+                case "T4":
+                    // bi huy
+                    status = statusService.findAllDesc( 4);
+                    break;
+                case "T5":
+                    //da xong
+                    status = statusService.findAllDesc( 5);
+                    break;
+                case "T23":
+                    //dang xu ly
+                    status = statusService.findAllDesc2(2,3);
+                    break;
+                default:
+                    status = statusService.findAll();
+                    break;
 
-        switch (type.trim()) {
-            case "T1":
-                //chowf xac nhan
-                status = statusService.findByStatusAndDesc(st,1);
+            }
+             orderProcessing = statusDAO.selectCountStatusNameAll();
+             StatusDone = statusDAO.findStatusByStaffDoneAll();
+            AllStatusByStaff = statusDAO.findAllStatusByAll();
+            sttFalse = statusDAO.findStatusByStaffFalseAll();
+        } else {
+            switch (type.trim()) {
+                case "T1":
+                    //chowf xac nhan
+                    status = statusService.findByStatusAndDesc(st,1);
+                    break;
+                case "T4":
+                    // bi huy
+                    status = statusService.findByStatusAndDesc(st, 4);
+                    break;
+                case "T5":
+                    //da xong
+                    status = statusService.findByStatusAndDesc(st, 5);
+                    break;
+                case "T23":
+                    //dang xu ly
+                    status = statusService.findByStatusAndDesc1(st,2,3);
 
-                break;
-            case "T4":
-                // bi huy
-                status = statusService.findByStatusAndDesc(st, 4);
+                    break;
 
-                break;
-            case "T5":
-                //da xong
-                status = statusService.findByStatusAndDesc(st, 5);
+                default:
+                    status = statusService.findByCurrentStaff(st);
+                    break;
 
-                break;
-            case "T23":
-                //dang xu ly
-                status = statusService.findByStatusAndDesc1(st,2,3);
-
-                break;
-
-            default:
-                status = statusService.findByCurrentStaff(st);
-                break;
-
+            }
+             orderProcessing = statusDAO.selectCountStatusName(st);
+             StatusDone = statusDAO.findStatusByStaffDone(st);
+            AllStatusByStaff = statusDAO.findAllStatusByAll();
+            sttFalse = statusDAO.findStatusByStaffFalse(st);
+            if (orderProcessing > 0) {
+                model.addAttribute("orderProcessing", "Có " + orderProcessing + " đơn hàng đang chờ bạn xử lý");
+                model.addAttribute("messStatus", "done_delete");
+            }
         }
         int totalItems = status.size();
         int totalPages = (int) Math.ceil(totalItems / (double) size);
         int startItem = page * size + 1;
         int endItem = Math.min((page + 1) * size, totalItems);
-        int orderProcessing = statusDAO.selectCountStatusName(st);
 
-
-        if (orderProcessing > 0) {
-            model.addAttribute("orderProcessing", "Có " + orderProcessing + " đơn hàng đang chờ bạn xử lý");
-            model.addAttribute("messStatus", "done_delete");
-        }
         model.addAttribute("desc", descriptionStatusDAO.findAll());
         model.addAttribute("statusName", statusNameDAO.findAll());
         List<Status> statusList = status.subList(page * size, endItem);
@@ -106,12 +151,10 @@ public class AdminStatusController {
         model.addAttribute("type", type.trim());
         model.addAttribute("startItem", startItem);
         model.addAttribute("endItem", endItem);
-        int AllStatusByStaff = statusDAO.findAllStatusByStaff(st);
-        int StatusDone = statusDAO.findStatusByStaffDone(st);
         model.addAttribute("AllStatusByStaff", AllStatusByStaff);
-        model.addAttribute("OrderFalse", statusDAO.findStatusByStaffFalse(st) + " Đơn hàng");
+        model.addAttribute("OrderFalse", sttFalse + " Đơn hàng");
         model.addAttribute("StatusDone", StatusDone + " Đơn hàng");
-        model.addAttribute("statusOrderProcessing", AllStatusByStaff - StatusDone - orderProcessing - statusDAO.findStatusByStaffFalse(st) + " Đơn hàng");
+        model.addAttribute("statusOrderProcessing", AllStatusByStaff - StatusDone - orderProcessing - sttFalse + " Đơn hàng");
         model.addAttribute("ordPro", orderProcessing + " Đơn hàng");
         model.addAttribute("mss",orderProcessing);
 

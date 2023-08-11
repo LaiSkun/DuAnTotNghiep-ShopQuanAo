@@ -55,7 +55,9 @@ window.addEventListener("load", () => {
 const showFormFilter = () => {
     handle3.classList.add("handle3")
 }
-const handleDeleteProductImg = () => {
+const handleDeleteProductImg = (val) => {
+   let id = val.parentElement.parentElement.parentElement.parentElement.parentElement.children[0].getAttribute("placeholder")
+    val.setAttribute("href", `/admin/product/deleteProductImgAndColor?productImgId='+${id}`)
     productImgDetail()
 }
 // handle call Form add product

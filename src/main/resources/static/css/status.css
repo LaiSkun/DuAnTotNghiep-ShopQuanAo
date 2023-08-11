@@ -29,7 +29,7 @@ tr{
 #body_mess{
     width: 100%;
     animation-name: example;
-    animation-duration: 7.1s;
+    animation-duration: 4.1s;
 }
 @keyframes example {
     from {width: 100%;}

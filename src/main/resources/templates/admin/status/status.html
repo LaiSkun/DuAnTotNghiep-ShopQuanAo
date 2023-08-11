@@ -178,7 +178,7 @@
                 <div id="AllOrder" style="display: none" th:class="${AllStatusByStaff}"></div>
                 <div class="card" id="T1" onclick="submit(this)">
                     <div class="card-head">
-                        <h3 id="ordPro" th:text="${ordPro}"></h3>
+                        <h4 id="ordPro" th:text="${ordPro}"></h4>
                         <span id="ordProSpan"></span>
                     </div>
                     <div class="card-progress">
@@ -190,7 +190,7 @@
                 </div>
                 <div class="card" id="T4" onclick="submit(this)">
                     <div class="card-head">
-                        <h3 id="OrderFalse" th:text="${OrderFalse}"></h3>
+                        <h4 id="OrderFalse" th:text="${OrderFalse}"></h4>
                         <span id="OrderFalseSpan"></span>
                     </div>
                     <div class="card-progress">
@@ -203,7 +203,7 @@
 
                 <div class="card" id="T5" onclick="submit(this)">
                     <div class="card-head">
-                        <h3 id="StatusDone" th:text="${StatusDone}"></h3>
+                        <h4 id="StatusDone" th:text="${StatusDone}"></h4>
                         <span id="StatusDoneSpan"></span>
                     </div>
                     <div class="card-progress">
@@ -216,7 +216,7 @@
 
                 <div class="card" id="T23" onclick="submit(this)">
                     <div class="card-head">
-                        <h3 id="statusOrderProcessing" th:text="${statusOrderProcessing}"></h3>
+                        <h4 id="statusOrderProcessing" th:text="${statusOrderProcessing}"></h4>
                         <span id="statusOrderProcessingSpan"></span>
                     </div>
                     <div class="card-progress">
@@ -352,33 +352,36 @@
         setTimeout(() => {
             document.querySelector("#status").remove("class")
             document.querySelector(".notify").removeAttribute("style")
-        }, 7000);
+        }, 4000);
 
         //tất cả order
         let AllOrders = document.querySelector("#AllOrder").getAttribute("class")
         // đang chờ xác nhận---------------------------------------
-        let Processing = document.querySelector("#ordPro").innerHTML.charAt(0)
+        let Processing = document.querySelector("#ordPro").innerHTML.slice(0,document.querySelector("#ordPro").innerHTML.indexOf(" "))
         //lấy ra %
-        let SpanProcessing = (Processing / AllOrders * 100).toFixed(2)
+        let SpanProcessing
+        Processing === '0' ? SpanProcessing = 0 : SpanProcessing = (Processing / AllOrders * 100).toFixed(2)
         //css cho thanh bar và span
         document.querySelector("#ordProstyle").setAttribute("style", `width:${SpanProcessing}%`)
         document.querySelector("#ordProSpan").innerHTML = SpanProcessing + "%"
         // đã bị hủy---------------------------------------
-        let OrderFalse = document.querySelector("#OrderFalse").innerHTML.charAt(0)
+        let OrderFalse = document.querySelector("#OrderFalse").innerHTML.slice(0,document.querySelector("#OrderFalse").innerHTML.indexOf(" "))
         //lấy ra %
-        let SpanOrderFalse = (OrderFalse / AllOrders * 100).toFixed(2)
+        let SpanOrderFalse
+        OrderFalse == 0 ? SpanOrderFalse = 0 : SpanOrderFalse = (OrderFalse / AllOrders * 100).toFixed(2)
         //css cho thanh bar và span
         document.querySelector("#OrderFalseStyle").setAttribute("style", `width:${SpanOrderFalse}%`)
         document.querySelector("#OrderFalseSpan").innerHTML = SpanOrderFalse + "%"
         // Đã hoàn thành-----------------------------------
-        let StatusDone = document.querySelector("#StatusDone").innerHTML.charAt(0)
+        let StatusDone = document.querySelector("#StatusDone").innerHTML.slice(0,document.querySelector("#StatusDone").innerHTML.indexOf(" "))
         //lấy ra %
-        let SpanStatusDone = (StatusDone / AllOrders * 100).toFixed(2)
+        let SpanStatusDone
+        StatusDone == 0 ? SpanStatusDone = 0 :SpanStatusDone = (StatusDone / AllOrders * 100).toFixed(2)
         //css cho thanh bar và span
         document.querySelector("#StatusDoneStyle").setAttribute("style", `width:${SpanStatusDone}%`)
         document.querySelector("#StatusDoneSpan").innerHTML = SpanStatusDone + "%"
         // Đang xử lý---------------------------------------
-        let statusOrderProcessing = document.querySelector("#statusOrderProcessing").innerHTML.charAt(0)
+        let statusOrderProcessing = document.querySelector("#statusOrderProcessing").innerHTML.slice(0,document.querySelector("#statusOrderProcessing").innerHTML.indexOf(" "))
         //lấy ra %
         let SpanstatusOrderProcessing = (statusOrderProcessing / AllOrders * 100).toFixed(2)
         let tbl2 = document.querySelector("#tbl2")
