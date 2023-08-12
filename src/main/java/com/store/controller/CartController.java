@@ -95,7 +95,7 @@ public class CartController {
 			}
 			model.addAttribute("orders", orders);
 		}
-		return "layout/checkout";
+		return "layout/check_order";
 	}
 
 	@RequestMapping("/check/orderID/{orderID}")
@@ -116,7 +116,7 @@ public class CartController {
 		}
 		List<Status> status = statusService.findOrderID(orderID);
 		model.addAttribute("status",status);
-		return "layout/checkout_orderdetail";
+		return "layout/check_orderdetail";
 	}
 
 	@GetMapping("/checkout")

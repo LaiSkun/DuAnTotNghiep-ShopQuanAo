@@ -37,6 +37,7 @@ public class ProductUserController {
     private static final int MAX_SIZEFull = 100;
 
     String ProductCate = "%";
+    String ProductKeyword = "%";
     @RequestMapping({"/productgird"})
     public String productGird(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
         List<Products> products = new ArrayList<>();
@@ -61,6 +62,7 @@ public class ProductUserController {
         List<Categories> categories = catelogyService.findAll();
         model.addAttribute("categories", categories);
         ProductCate = "%";
+        ProductKeyword = "%";
         return "/layout/productgird";
     }
     @RequestMapping({"/productSearch"})
@@ -68,18 +70,29 @@ public class ProductUserController {
                                 Model model, @Param("keyword") String keyword
                                 ) {
         List<Products> products = new ArrayList<>();
+        List<sellingProductsDTO> prdM = new ArrayList<>();
         try {
-            Page<Products> pageProduct = productService.listAll(keyword,MAX_SIZEFull, page);
+            Page<Products> pageProduct = productService.listAll(keyword,MAX_SIZE, page);
             products = pageProduct.getContent();
+            products.forEach(item -> {
+                sellingProductsDTO prd = customConfiguration.modelMapper().map(item, sellingProductsDTO.class);
+                prd.setColor(productColorsService.findbyProductID(item.getProductID()));
+                List<Product_Colors> color = productColorsService.findbyProductID(item.getProductID());
+                prd.setNameImg(productImgService.top3NameImg(color.get(0).getColorID()));
+                prdM.add(prd);
+            });
             model.addAttribute("totalPages", pageProduct.getTotalPages());
             model.addAttribute("currentPage", page);
+            model.addAttribute("url","/productSearch?keyword=" + keyword);
         } catch (Exception e) {
             products = productService.findAll();
         }
-        model.addAttribute("products", products);
+        model.addAttribute("products", prdM);
         List<Categories> categories = catelogyService.findAll();
         model.addAttribute("categories", categories);
-        return "/layout/productgird";
+        ProductCate = "%";
+        ProductKeyword = "%" +keyword + "%";
+        return "/layout/productSearch";
     }
 
     @RequestMapping("/product/{productID}")
@@ -141,6 +154,7 @@ public class ProductUserController {
         List<Categories> categories = catelogyService.findAll();
         model.addAttribute("categories", categories);
         ProductCate = categoryID;
+        ProductKeyword = "%";
         return "layout/productgird";
     }
 
@@ -191,7 +205,7 @@ public class ProductUserController {
         List<Products> products = new ArrayList<>();
         List<sellingProductsDTO> prdM = new ArrayList<>();
         try {
-            Page<Products> pageProduct = productService.findbyPriceMax(ProductCate,MAX_SIZE, page);
+            Page<Products> pageProduct = productService.findbyPriceMax(ProductCate, ProductKeyword,MAX_SIZE, page);
             products = pageProduct.getContent();
             products.forEach(item -> {
                 sellingProductsDTO prd = customConfiguration.modelMapper().map(item, sellingProductsDTO.class);
@@ -216,7 +230,7 @@ public class ProductUserController {
         List<Products> products = new ArrayList<>();
         List<sellingProductsDTO> prdM = new ArrayList<>();
         try {
-            Page<Products> pageProduct = productService.findbyPriceMin(ProductCate,MAX_SIZE, page);
+            Page<Products> pageProduct = productService.findbyPriceMin(ProductCate, ProductKeyword,MAX_SIZE, page);
             products = pageProduct.getContent();
             products.forEach(item -> {
                 sellingProductsDTO prd = customConfiguration.modelMapper().map(item, sellingProductsDTO.class);
