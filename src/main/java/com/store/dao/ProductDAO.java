@@ -65,11 +65,11 @@ public interface ProductDAO extends JpaRepository<Products, String> {
     Page<Products> findByDeprecated(Pageable pageable);
 
     
-    @Query(value = "select * from Fn_FilterPricesDescending(:categoryID)", nativeQuery = true)
-    Page<Products> findbyPriceMax(String categoryID,Pageable pageable);
+    @Query(value = "select * from Fn_FilterPricesDescending(:categoryID,:keyword)", nativeQuery = true)
+    Page<Products> findbyPriceMax(String categoryID,String keyword,Pageable pageable);
     
-    @Query(value = "select * from Fn_FilterPricesAscending(:categoryID)", nativeQuery = true)
-    Page<Products> findbyPriceMin(String categoryID,Pageable pageable);
+    @Query(value = "select * from Fn_FilterPricesAscending(:categoryID,:keyword)", nativeQuery = true)
+    Page<Products> findbyPriceMin(String categoryID,String keyword,Pageable pageable);
 
     @Query(value = "select * from Fn_TongSP(:month,:year)", nativeQuery = true )
     List<String> getProductTotal(@Param("month")String month, @Param("year") String year);
