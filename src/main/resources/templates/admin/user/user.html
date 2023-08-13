@@ -41,7 +41,7 @@
 							<div class="row">
 								<div class="col">
 									<div class="form-group">
-										<label for="email">UserID</label> <input type="text"
+										<label for="email">Tên đăng nhập</label> <input type="text"
 											class="form-control" name="userID" id="UserID"
 											aria-describedby="UserIDId" placeholder="UserID"
 											th:field="*{userID}"><i th:errors="*{userID}"></i>
@@ -54,7 +54,7 @@
 
 									</div>
 									<div class="form-group">
-										<label for="Phone">Phone</label> <input type="text"
+										<label for="Phone">Số điện thoại</label> <input type="text"
 											class="form-control" name="Phone" id="Phone"
 											placeholder="Phone" th:field="*{phone}"><i
 											th:errors="*{phone}"></i>
@@ -63,20 +63,20 @@
 								</div>
 								<div class="col">
 									<div class="form-group">
-										<label for="">username</label> <input type="text"
+										<label for="">Họ và tên</label> <input type="text"
 											class="form-control" name="username" id="username"
 											aria-describedby="usernamehelpId" placeholder="username"
 											th:field="*{username}"><i th:errors="*{username}"></i>
 									</div>
 									<div class="form-group">
-										<label for="">password</label> <input type="password"
+										<label for="">Mật khẩu</label> <input type="password"
 											class="form-control" name="password" id="password"
 											placeholder="password" th:field="*{password}"><i
 											th:errors="*{password}"></i>
 									</div>
 
 									<div class="form-group">
-										<label for="Address">Address</label> <input type="text"
+										<label for="Address">Địa chỉ</label> <input type="text"
 											class="form-control" name="Address" id="Address"
 											aria-describedby="AddresshelpId" placeholder="Address"
 											th:field="*{address}"><i th:errors="*{address}"></i>
@@ -87,10 +87,10 @@
 						</div>
 						<div class="card-footer">
 							<button class="btn"
-								th:if="${action == null || action == 'create'}">create</button>
-							<button class="btn" th:if="${action == 'edit'}">update</button>
+								th:if="${action == null || action == 'create'}">Thêm mới</button>
+							<button class="btn" th:if="${action == 'edit'}">Sửa</button>
 							<button class="btn">
-								<a th:href="@{/admin/user}">Reset</a>
+								<a th:href="@{/admin/user}">Làm mới</a>
 							</button>
 						</div>
 					</div>
@@ -121,31 +121,31 @@
 					<div class="user">
 						<div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
 
-						<span><a th:href="@{/logout}" class="log">Logout</a></span>
+						<span><a th:href="@{/logout}" class="log">Đăng xuất</a></span>
 					</div>
 				</div>
 			</div>
 		</header>
 		<main>
 			<div class="page-header">
-				<h1>Users Management</h1>
-				<small>Home / User</small>
+				<h1>Quản lý người dùng</h1>
+				<small>Quản lý / Người dùng</small>
 			</div>
 			<div class="page-content">
 
 				<div class="records table-responsive">
 					<div class="record-header">
 						<div class="add">
-							<span>Thêm User</span>
-							<button id="Addrecord">Add User</button>
+							<span>Mục</span>
+							<button id="Addrecord">Thêm người dùng</button>
 						</div>
 
 						<div class="browse">
 							<form th:action="@{/admin/search}" method="get">
 								<input style="width: 200px" type="search"
-									placeholder="Search by username" class="record-search"
+									placeholder="Tìm kiếm Họ và tên" class="record-search"
 									name="keyword">
-								<button type="submit">Search</button>
+								<button type="submit">Tìm kiếm</button>
 							</form>
 
 						</div>
@@ -154,13 +154,13 @@
 						<table width="100%">
 							<thead>
 								<tr>
-									<th><span class="las la-sort"></span> User ID</th>
-									<th><span class="las la-sort"></span> User Name</th>
+									<th><span class="las la-sort"></span> Tên đăng nhập</th>
+									<th><span class="las la-sort"></span> Họ và tên</th>
 
 									<th><span class="las la-sort"></span> Email</th>
-									<th><span class="las la-sort"></span> Phone</th>
-									<th><span class="las la-sort"></span> created Date</th>
-									<th><span class="las la-sort"></span> Address</th>
+									<th><span class="las la-sort"></span> Số điện thoại</th>
+									<th><span class="las la-sort"></span> Ngày</th>
+									<th><span class="las la-sort"></span> Địa chỉ</th>
 									<th></th>
 									<th></th>
 								</tr>
@@ -177,9 +177,9 @@
 									<td th:text="${#dates.format(p.createDate, 'dd/MM/yyyy')}"></td>
 									<td>[[${p.address}]]</td>
 									<td><a
-										th:href="@{/admin/delete/{userId}(userId=${p.userID})}">Delete</a></td>
+										th:href="@{/admin/delete/{userId}(userId=${p.userID})}">Xoá</a></td>
 									<td><a
-										th:href="@{/admin/edit/{userId}(userId=${p.userID})}">Edit</a></td>
+										th:href="@{/admin/edit/{userId}(userId=${p.userID})}">Chỉnh sửa</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -190,7 +190,7 @@
 						<ul class="pagination">
 							<li class="page-item"
 								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
-								class="page-link" th:href="@{/admin/user(page=0)}">First</a></li>
+								class="page-link" th:href="@{/admin/user(page=0)}">Đầu</a></li>
 							<li class="page-item"
 								th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
 								<a class="page-link"
@@ -200,7 +200,7 @@
 							<li class="page-item"
 								th:class="${currentPage == totalPages ? 'disabled' : ''}">
 								<a class="page-link"
-								th:href="@{/admin/user(page=${totalPages - 1})}">Last</a>
+								th:href="@{/admin/user(page=${totalPages - 1})}">Cuối</a>
 							</li>
 						</ul>
 

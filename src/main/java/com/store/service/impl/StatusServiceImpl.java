@@ -4,14 +4,19 @@ package com.store.service.impl;
 
 
 
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
+import com.store.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.store.dao.StatusDAO;
-import com.store.model.Status;
 import com.store.service.StatusService;
+
+import javax.transaction.Transactional;
 
 @Service
 public class StatusServiceImpl implements StatusService {
@@ -34,6 +39,16 @@ public class StatusServiceImpl implements StatusService {
 	public Status update(Status status) {
 		return dao.save(status);	
 	}
+	@Override
+	@Transactional(rollbackOn = {Exception.class, Throwable.class})
+	public Status updateStatus(Status status)  {
+		return dao.saveAndFlush(status);
+	}
+	@Override
+	public Status updateDesAndDate(Status status) {
+		return dao.save(status);
+	}
+
 
 	@Override
 	public Status insert(Status status) {
@@ -41,5 +56,29 @@ public class StatusServiceImpl implements StatusService {
 		return dao.saveAndFlush(status);
 	}
 
-	
+	@Override
+	public Status findByOrderID(Orders order) {
+		return dao.findByOrders(order);
+	}
+
+	@Override
+	public List<Status> findByCurrentStaff(staff st) {
+		return dao.findByStaffIDDESC(st);
+	}
+
+	@Override
+	public List<Status> findByStatusAndDesc(staff st, long desc) {
+		return dao.findByStaffAndStatusName(st,desc);
+	}
+
+	@Override
+	public List<Status> findByStatusAndDesc1(staff st, long desc, long desc1) {
+		return dao.findByStaffAndStatusName2(st,desc,desc1);
+	}
+
+	@Override
+	public List<Status> findOrderID(Long orderID) {
+		return dao.findOrderID(orderID);
+	}
+
 }

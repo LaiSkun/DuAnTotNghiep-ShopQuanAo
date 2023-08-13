@@ -131,14 +131,14 @@
                                             </div>
                                             <div class="button_group"><a
                                                     th:href="@{'/product/' + ${product.productID}}">
-                                                <button class="button add-cart" type="button">Add To Cart</button>
+                                                <button class="button add-cart" type="button">Thêm vào giỏ hàng</button>
                                             </a>
-                                                <button class="button compare" type="button"><i
+                                               <!--  <button class="button compare" type="button"><i
                                                         class="fa fa-exchange"></i>
-                                                </button>
+                                                </button>-->
                                                 <button class="button wishlist" type="button"><i
                                                         class="fa fa-heart-o"></i>
-                                                </button>
+                                                </button> 
                                             </div>
                                         </div>
                                     </div>
@@ -180,14 +180,14 @@
                                             </div>
                                             <div class="button_group"><a
                                                     th:href="@{'/product/' + ${product.productID}}">
-                                                <button class="button add-cart" type="button">Add To Cart</button>
+                                                <button class="button add-cart" type="button">Thêm vào giỏ hàng</button>
                                             </a>
-                                                <button class="button compare" type="button"><i
+                                               <!--  <button class="button compare" type="button"><i
                                                         class="fa fa-exchange"></i>
-                                                </button>
+                                                </button>-->
                                                 <button class="button wishlist" type="button"><i
                                                         class="fa fa-heart-o"></i>
-                                                </button>
+                                                </button> 
                                             </div>
                                         </div>
                                     </div>
@@ -197,7 +197,7 @@
                     </ul>
                 </div>
                 <div class="hot-products">
-                    <h3 class="title"><strong>Men</strong> Products</h3>
+                    <h3 class="title"> Sản phẩm<strong>Nam</strong></h3>
                     <ul id="MEN">
                         <li>
                             <div class="row">
@@ -225,12 +225,12 @@
                                                 th:text="${#numbers.formatDecimal(productM.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
                                         </div>
                                         <div class="button_group"><a th:href="@{'/product/' + ${productM.productID}}">
-                                            <button class="button add-cart" type="button">Add To Cart</button>
+                                            <button class="button add-cart" type="button">Thêm vào giỏ hàng</button>
                                         </a>
-                                            <button class="button compare" type="button"><i class="fa fa-exchange"></i>
-                                            </button>
+                                           <!--  <button class="button compare" type="button"><i class="fa fa-exchange"></i>
+                                            </button>-->
                                             <button class="button wishlist" type="button"><i class="fa fa-heart-o"></i>
-                                            </button>
+                                            </button> 
                                         </div>
                                     </div>
                                 </div>
@@ -262,7 +262,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="featured-products">
-                    <h3 class="title"><strong>Women </strong> Products</h3>
+                    <h3 class="title"> Sản phẩm<strong>Nữ </strong></h3>
                     <ul id="hot">
                         <li>
                             <div class="row">
@@ -292,10 +292,10 @@
 
 
                                         <div class="button_group"><a th:href="@{'/product/' + ${productW.productID}}">
-                                            <button class="button add-cart" type="button">Add To Cart</button>
+                                            <button class="button add-cart" type="button">Thêm vào giỏ hàng</button>
                                         </a>
-                                            <button class="button compare" type="button"> </a><i
-                                                    class="fa fa-exchange"></i></button>
+<!--                                             <button class="button compare" type="button"> </a><i
+                                                    class="fa fa-exchange"></i></button> -->
                                             <button class="button wishlist" type="button"><i class="fa fa-heart-o"></i>
                                             </button>
                                         </div>

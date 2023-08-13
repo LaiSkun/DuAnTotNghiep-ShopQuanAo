@@ -45,7 +45,7 @@
                 <div class="user">
                     <div class="bg-img" style="background-image: url(/images/1.jpeg)"></div>
 
-                    <span class="las la-power-off"></span> <span>Logout</span>
+                    <span class="las la-power-off"></span> <span>Đăng xuất</span>
                 </div>
             </div>
         </div>
@@ -53,8 +53,8 @@
     <main>
 
         <div class="page-header">
-            <h1>Other</h1>
-            <small>Home / Other</small>
+            <h1>Quản lý đơn hàng</h1>
+            <small>Quản lý / Đơn hàng</small>
         </div>
 
         <div class="page-content">
@@ -67,7 +67,7 @@
                         <span class="las la-user-friends"></span>
                     </div>
                     <div class="card-progress">
-                        <small>User activity this month</small>
+                        <small>Hoạt động người dùng trong tháng</small>
                         <div class="card-indicator">
                             <div class="indicator one" style="width: 60%"></div>
                         </div>
@@ -80,7 +80,7 @@
                         <span class="las la-eye"></span>
                     </div>
                     <div class="card-progress">
-                        <small>Page views</small>
+                        <small>Lượt xem</small>
                         <div class="card-indicator">
                             <div class="indicator two" style="width: 80%"></div>
                         </div>
@@ -93,7 +93,7 @@
                         <span class="las la-shopping-cart"></span>
                     </div>
                     <div class="card-progress">
-                        <small>Monthly revenue growth</small>
+                        <small>Doanh thu trong tháng</small>
                         <div class="card-indicator">
                             <div class="indicator three" style="width: 65%"></div>
                         </div>
@@ -106,7 +106,7 @@
                         <span class="las la-envelope"></span>
                     </div>
                     <div class="card-progress">
-                        <small>New E-mails received</small>
+                        <small>Email nhận được</small>
                         <div class="card-indicator">
                             <div class="indicator four" style="width: 90%"></div>
                         </div>
@@ -119,7 +119,7 @@
 
                 <div class="record-header">
                     <div class="add">
-                        <span>Entries</span> <select id="" name="">
+                        <span>Mục</span> <select id="" name="">
                         <option value="">ID</option>
                     </select>
 
@@ -128,7 +128,7 @@
                     <div class="browse">
                         <input class="record-search" placeholder="Search" type="search">
                         <select name="">
-                            <option value="">Status</option>
+                            <option value="">Trạng thái</option>
                         </select>
                     </div>
                 </div>
@@ -137,17 +137,17 @@
                     <table>
                         <thead>
                         <tr>
-                            <th><span class="las la-sort"></span>Order ID</th>
-                            <th><span class="las la-sort"></span> User ID</th>
-                            <th><span class="las la-sort"></span> Address</th>
-                            <th><span class="las la-sort"></span> Phone</th>
-                            <th><span class="las la-sort"></span> CreatedDate</th>
+                            <th><span class="las la-sort"></span>Mã hoá đơn</th>
+                            <th><span class="las la-sort"></span> Địa chỉ</th>
+                            <th><span class="las la-sort"></span> Số điện thoại</th>
                             <th><span class="las la-sort"></span> Email</th>
-                            <th><span class="las la-sort"></span>TotalPrice</th>
+                            <th><span class="las la-sort"></span>Tổng tiền</th>
+                            <th><span class="las la-sort"></span> Ngày</th>
+                            <th><span class="las la-sort"></span> Mã người đặt</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr onclick="check(this)" th:class="${Orders.user.userID}" th:each="Orders,idx : ${Orders}" >
+                        <tr onclick="check(this)" th:class="'a'+ ${Orders.orderID}" th:each="Orders,idx : ${Orders}">
                             <td>[[${Orders.orderID}]]</td>
                             <td>[[${Orders.address}]]</td>
                             <td>[[${Orders.phone}]]</td>
@@ -155,8 +155,9 @@
                             <td>[[${Orders.price}]]</td>
                             <td>[[${Orders.date}]]</td>
                             <td>[[${Orders.user.userID}]]</td>
-                            <td class="default" th:id="${Orders.user.userID}" >
-                               <i class="exit fa-solid fa-xmark exitFormOrderDetail" onclick="exitFormOrderDetail()"></i>
+                            <td class="default" th:id="'a'+${Orders.orderID}">
+                                <i class="exit fa-solid fa-xmark exitFormOrderDetail"
+                                   onclick="exitFormOrderDetail()"></i>
                                 <table class="showOrderDetailTable">
                                     <thead>
                                     <tr>
@@ -167,13 +168,15 @@
                                         <th><span class="las la-sort"></span> Số lượng</th>
                                     </tr>
                                     </thead>
-                                    <tbody >
+                                    <tbody>
                                     <tr th:each="listOrder, id : ${listOrderDetails.get(idx.index)}">
-                                         <td th:text="${Orders.user.username}"></td>
+                                        <td th:text="${Orders.user.username}"></td>
                                         <td th:text="${listOrderDetails.get(idx.index).get(id.index).getProduct().getName()}"></td>
-                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getColorId().getColor_name()}"> Màu sản phẩm</td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getColorId().getColor_name()}">
+                                            Màu sản phẩm
+                                        </td>
                                         <td th:text="${listOrderDetails.get(idx.index).get(id.index).getPrice()}"></td>
-                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getQuantity()}"> </td>
+                                        <td th:text="${listOrderDetails.get(idx.index).get(id.index).getQuantity()}"></td>
                                     </tr>
                                     </tbody>
 
@@ -192,7 +195,7 @@
                         </div>
                         <div
                                 th:unless="${currentPage > 1}">
-                            <a th:class="${dislabled}">prev</a>
+                            <a th:class="${dislabled}">Trang trước</a>
                         </div>
                         <div>
                             <a th:class="${currentPage == 1 } ? ${active} : pagination"
@@ -221,10 +224,10 @@
                                 th:if="${Orders.totalPages > currentPage}">
                             <a th:class="${currentPage ==Orders.number} ? ${active} : pagination"
                                th:href="@{${url}(size=${Orders.size}, page=${currentPage+1})}"
-                            >next</a>
+                            >Trang sau</a>
                         </div>
                         <div th:unless="${Orders.totalPages > currentPage}">
-                            <a th:class="${dislabled}">next</a>
+                            <a th:class="${dislabled}">Trang sau</a>
                         </div>
 
                     </div>
@@ -237,7 +240,7 @@
 </div>
 </body>
 <script>
-        function check(item) {
+    function check(item) {
         let dv = document.querySelector(".activeTable")
         let lastChildItem = item.lastChild.previousElementSibling;
         let id = item.getAttribute("class")
@@ -245,7 +248,8 @@
         dv != null && dv.classList.remove("activeTable")
         lastChildItem.getAttribute("handleExit") == null ? b.classList.add("activeTable") : lastChildItem.removeAttribute("handleExit")
     }
-    const exitFormOrderDetail = () =>{
+
+    const exitFormOrderDetail = () => {
         let dv = document.querySelector(".activeTable")
         dv.classList.remove("activeTable")
         dv.setAttribute("handleExit", "true")

@@ -61,6 +61,7 @@ public class HomeController {
 
 	private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
+
 	@RequestMapping({"/", "/home"})
 	public String home(@RequestParam(value = "pageM", required = false, defaultValue = "1") int pageM,
 					   @RequestParam(value = "pageW", required = false, defaultValue = "1") int pageW, Model model) {

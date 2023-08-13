@@ -31,7 +31,7 @@
             <div class="col-md-3">
               <div class="category leftbar">
                 <h3 class="title">
-                  Categories
+                  Danh mục sản phẩm
                 </h3>
                 <ul>
                   <li th:each="categories : ${categories}">
@@ -377,18 +377,18 @@
                       <div class="productname" th:text="${product.name}">
 
                       </div>
-                      <p>
+                     <!--  <p>
                         <img src="images/star.png" alt="">
                         <a href="#" class="review_num">
                           02 Review(s)
                         </a>
-                      </p>
+                      </p> -->
                       <p th:text="${product.description}">
 
                       </p>
                       <div class="list_bottom">
                         <div class="price">
-                          <span class="new_price" th:text="${#numbers.formatCurrency(product.price)}">
+                          <span class="new_price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'">
 
                           </span>
 <!--                          <span class="old_price">-->
@@ -400,16 +400,16 @@
                         </div>
                         <div class="button_group">
                           <a th:href="@{'/product/' + ${product.productID}}"><button class="button">
-                            Add To Cart
+                            Thêm vào giỏ hàng
                           </button></a>
-                          <button class="button compare">
+                           <button class="button compare">
                             <i class="fa fa-exchange">
                             </i>
                           </button>
                           <button class="button favorite">
                             <i class="fa fa-heart-o">
                             </i>
-                          </button>
+                          </button> 
                         </div>
                       </div>
                     </div>

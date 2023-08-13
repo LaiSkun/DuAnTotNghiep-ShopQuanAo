@@ -30,7 +30,7 @@
                     <div class="col-md-3">
                         <div class="category leftbar">
                             <h3 class="title">
-                                Categories
+                                Danh mục sản phẩm
                             </h3>
                             <ul>
                                 <li th:each="categories : ${categories}">
@@ -82,7 +82,7 @@
                         <!--            </div>-->
                         <!--            <div class="clearfix">-->
                         <!--            </div>-->
-                        <div class="price-filter leftbar">
+                        <!-- <div class="price-filter leftbar">
                             <h3 class="title">
                                 Price
                             </h3>
@@ -100,8 +100,7 @@
                                 </label>
                                 <input type="submit" value="Go" onclick="getPrice();">
                             </form>
-                        </div>
-                        -->
+                        </div> -->
                         <!--            <div class="clearfix">-->
                         <!--            </div>-->
                         <!--            <div class="clolr-filter leftbar">-->
@@ -331,10 +330,10 @@
                                     <!--                    </a>-->
                                     <!--                  </div>-->
                                     <div class="sort-by">
-                                        Sort by :
+                                        Xắp xếp theo
                                         <select id="listPriceMinMax" onchange="getSelectValue();">
                                             <option value="Default" selected>
-                                                Default
+                                                Giá
                                             </option>
                                             <option value="productPriceMax">
                                                 Giá giảm dần
@@ -367,10 +366,21 @@
                                             </i>
                                         </a>
                                     </li>
-                                    <li th:each="i : ${#numbers.sequence(1, totalPages)}">
-                                        <a th:class="${currentPage == i ? 'active' : ''}" th:href="@{'?page=' +${i}}"
-                                           th:text="${i}">
-
+                                    <li >
+                                        <a th:class="${currentPage == 1 ? 'active' : ''}" th:href="@{'?page=' +${1}}">
+                                            1
+                                        </a>
+                                    </li>
+                                    <li th:style="${currentPage == 1 or currentPage == totalPages  ? 'display: none' : '' }" >
+                                        <a th:text="${currentPage}" style="color: red">
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>...</a>
+                                    </li>
+                                    <li>
+                                        <a th:class="${currentPage == totalPages ? 'active' : ''}" th:href="@{'?page=' +${totalPages}}"
+                                           th:text="${totalPages}">
                                         </a>
                                     </li>
                                     <li th:class="${currentPage == totalPages ? 'disabled' : ''}">
@@ -391,7 +401,8 @@
                                             <div class="imgthumnail">
                                                 <a style="width: 176px" th:href="@{'/product/' + ${product.productID}}">
                                                     <img alt="Product Name"
-                                                         th:src="@{'/getimage/' + ${product.categoryID} + '/' + ${product.img}}" style="width: 120px"></a>
+                                                         th:src="@{'/getimage/' + ${product.categoryID} + '/' + ${product.img}}"
+                                                         style="width: 120px"></a>
                                                 <div class="colorProduct">
                                                         <span th:each="color : ${product.color}"
                                                               th:style="'--data-color:'+${color.colorhex}"
@@ -400,7 +411,9 @@
                                                 </div>
                                             </div>
                                             <div class="imgShow">
-                                                <img th:each="imgprd : ${product.nameImg}" style="margin-bottom: 5px" alt="prd" onclick="showProduct(this)" th:src="@{'/getimage/' + ${product.categoryID} + '/' + ${imgprd}}" >
+                                                <img th:each="imgprd : ${product.nameImg}" style="margin-bottom: 5px"
+                                                     alt="prd" onclick="showProduct(this)"
+                                                     th:src="@{'/getimage/' + ${product.categoryID} + '/' + ${imgprd}}">
                                             </div>
                                         </div>
                                         <div class="productname" th:text="${product.name}">
@@ -410,10 +423,10 @@
                                             th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' VND'"></h4>
 
                                         </h4>
-                                        <div class="button_group">
+                                        <div class="button_group" style="top: 87%">
                                             <a th:href="@{'/product/' + ${product.productID}}">
                                                 <button class="button add-cart" type="button">
-                                                    Add To Cart
+                                                    Thêm vào giỏ hàng
                                                 </button>
                                             </a>
                                             <button class="button wishlist" type="button">
@@ -427,7 +440,7 @@
                             <div class="clearfix">
                             </div>
                             <div class="toolbar">
-                                <div class="sorter bottom">
+                                <!-- <div class="sorter bottom">
                                     <div class="view-mode">
                                         <a href="productlitst.html" class="list">
                                             List
@@ -436,62 +449,62 @@
                                             Grid
                                         </a>
                                     </div>
-                                    <!--                  <div class="sort-by">-->
-                                    <!--                    Sort by :-->
-                                    <!--                    <select name="">-->
-                                    <!--                      <option value="Default" selected>-->
-                                    <!--                        Default-->
-                                    <!--                      </option>-->
-                                    <!--                      <option value="Name">-->
-                                    <!--                        Name-->
-                                    <!--                      </option>-->
-                                    <!--                      <option value="-->
-                                    <!--<strong>-->
-                                    <!--#-->
-                                    <!--</strong>-->
-                                    <!--">-->
-                                    <!--                        Price-->
-                                    <!--                      </option>-->
-                                    <!--                    </select>-->
-                                    <!--                  </div>-->
-                                    <!--                  <div class="limiter">-->
-                                    <!--                    Show :-->
-                                    <!--                    <select name="" >-->
-                                    <!--                      <option value="3" selected>-->
-                                    <!--                        3-->
-                                    <!--                      </option>-->
-                                    <!--                      <option value="6">-->
-                                    <!--                        6-->
-                                    <!--                      </option>-->
-                                    <!--                      <option value="9">-->
-                                    <!--                        9-->
-                                    <!--                      </option>-->
-                                    <!--                    </select>-->
-                                    <!--                  </div>-->
-                                </div>
-                                <div class="pager" th:if="${totalPages > 1 }">
-                                    <li th:class="${currentPage == 1 ? 'disabled' : ''}">
-                                        <a href="#" class="prev-page"
-                                           th:href="@{${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">
-                                            <i class="fa fa-angle-left">
-                                            </i>
-                                        </a>
-                                    </li>
-                                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"
-                                        th:class="${currentPage == i ? 'active' : ''}">
-                                        <a th:href="@{'?page=' +${i}}" th:text="${i}">
+                                                     <div class="sort-by">
+                                                       Sort by :
+                                                       <select name="">
+                                                         <option value="Default" selected>
+                                                           Default
+                                                         </option>
+                                                         <option value="Name">
+                                                           Name
+                                                         </option>
+                                                         <option value="
+                                    <strong>
+                                    #
+                                    </strong>
+                                    ">
+                                                           Price
+                                                         </option>
+                                                       </select>
+                                                     </div>
+                                                     <div class="limiter">
+                                                       Show :
+                                                       <select name="" >
+                                                         <option value="3" selected>
+                                                           3
+                                                         </option>
+                                                         <option value="6">
+                                                           6
+                                                         </option>
+                                                         <option value="9">
+                                                           9
+                                                         </option>
+                                                       </select>
+                                                     </div>
+                                </div> -->
+<!--                                <div class="pager" th:if="${totalPages > 1 }">-->
+<!--                                    <li th:class="${currentPage == 1 ? 'disabled' : ''}">-->
+<!--                                        <a href="#" class="prev-page"-->
+<!--                                           th:href="${${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">-->
+<!--                                            <i class="fa fa-angle-left">-->
+<!--                                            </i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"-->
+<!--                                        th:class="${currentPage == i ? 'active' : ''}">-->
+<!--                                        <a th:href="@{'?page=' +${i}}" th:text="${i}">-->
 
-                                        </a>
-                                    </li>
-                                    <li th:class="${currentPage == totalPages ? 'disabled' : ''}">
-                                        <a href="#" class="next-page"
-                                           th:href="@{${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">
-                                            <i class="fa fa-angle-right">
-                                            </i>
-                                        </a>
-                                    </li>
-                                </div>
-                            </div>
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    <li th:class="${currentPage == totalPages ? 'disabled' : ''}">-->
+<!--                                        <a href="#" class="next-page"-->
+<!--                                           th:href="${${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">-->
+<!--                                            <i class="fa fa-angle-right">-->
+<!--                                            </i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="clearfix">
                             </div>
                         </div>
@@ -501,10 +514,7 @@
                 </div>
                 <div class="our-brand">
                     <h3 class="title">
-                        <strong>
-                            Our
-                        </strong>
-                        Brands
+                        Thương hiệu
                     </h3>
                     <div class="control">
                         <a id="prev_brand" class="prev" href="#">

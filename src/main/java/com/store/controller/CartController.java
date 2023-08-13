@@ -5,10 +5,7 @@ import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import com.store.DTO.CartDto;
 import com.store.constant.SessionConstant;
-import com.store.model.Categories;
-import com.store.model.Order_Details;
-import com.store.model.Orders;
-import com.store.model.Users;
+import com.store.model.*;
 import com.store.payment.PaypalPaymentIntent;
 import com.store.payment.PaypalPaymentMethod;
 import com.store.service.*;
@@ -18,6 +15,7 @@ import com.store.util.SessionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -46,6 +44,8 @@ public class CartController {
 	private OrderDetailsService orderDetailsService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private StatusService statusService;
 	public static final String URL_PAYPAL_SUCCESS = "pay/success";
 	public static final String URL_PAYPAL_CANCEL = "pay/cancel";
 	public static String done = null;
@@ -53,6 +53,8 @@ public class CartController {
 
 	@Autowired
 	private PaypalService paypalService;
+	private static final int MAX_SIZE = 6;
+
 
 	@GetMapping("")
 	public String dogetIndex(Model model) {
@@ -76,15 +78,24 @@ public class CartController {
 	}
 
 	@RequestMapping("/check/{userId}")
-	public String doGetCheck(@PathVariable("userId") String userId, Model model) {
+	public String doGetCheck(@PathVariable("userId") String userId,
+							 @RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
 		Users users = userService.findById(userId);
 		if (users == null) {
 			return "redirect:/home";
 		} else {
-			List<Orders> orders = ordersService.findByUserID(userId);
+			List<Orders> orders = new ArrayList<>();
+			try {
+				Page<Orders> pageOrder = ordersService.findByUserID(userId, MAX_SIZE, page);
+				orders = pageOrder.getContent();
+				model.addAttribute("totalPages", pageOrder.getTotalPages());
+				model.addAttribute("currentPage", page);
+			} catch (Exception e) {
+				orders = ordersService.findByAll();
+			}
 			model.addAttribute("orders", orders);
 		}
-		return "layout/checkout";
+		return "layout/check_order";
 	}
 
 	@RequestMapping("/check/orderID/{orderID}")
@@ -103,7 +114,9 @@ public class CartController {
 			model.addAttribute("orderDetails", orderDetails);
 			model.addAttribute("orders", orders);
 		}
-		return "layout/checkout_orderdetail";
+		List<Status> status = statusService.findOrderID(orderID);
+		model.addAttribute("status",status);
+		return "layout/check_orderdetail";
 	}
 
 	@GetMapping("/checkout")
@@ -113,11 +126,11 @@ public class CartController {
 			done = null;
 		}
 		Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
-		if (!ObjectUtils.isEmpty(currentUser)) {
-			return "layout/cartcheckout";
+		if (ObjectUtils.isEmpty(currentUser)) {
+			currentUser = userService.findById("default");
 		}
-		ra.addFlashAttribute("message", "Vui lòng đăng nhập trước khi thanh toán!");
-		return "redirect:/cart";
+			return "layout/cartcheckout";
+
 	}
 
 	@PostMapping("/pay")

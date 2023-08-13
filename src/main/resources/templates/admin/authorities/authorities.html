@@ -51,7 +51,7 @@
 					<div class="user">
 						<div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
 
-						<span><a th:href="@{/logout}" class="log">Logout</a></span>
+						<span><a th:href="@{/logout}" class="log">Đăng xuất</a></span>
 					</div>
 				</div>
 			</div>
@@ -60,8 +60,8 @@
 		<main>
 
 			<div class="page-header">
-				<h1>Other</h1>
-				<small>Home / Authorizing </small>
+				<h1>Phân quyền tài khoản</h1>
+				<small>Quản lý / Phân quyền </small>
 			</div>
 
 			<div class="page-content">
@@ -70,7 +70,7 @@
 
 					<div class="record-header">
 						<div class="add" ng-init="selectedRole">
-							<span>Roles</span> <select ng-change="filterUsersByRole()"
+							<span>Quyền</span> <select ng-change="filterUsersByRole()"
 								ng-model="selectedRole" style="width: 150px">
 								<option ng-repeat="role in roles" ng-value="role">{{role.rolename}}</option>
 							</select>

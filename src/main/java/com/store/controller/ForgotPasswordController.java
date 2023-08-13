@@ -83,6 +83,7 @@ public class ForgotPasswordController {
 		helper.setSubject(subject);
 		helper.setText(content, true);
 		mailSender.send(message);
+		return;
 	}
 	@GetMapping ("/reset_password")
 	public String showResetPasswordFrom(@Param(value  = "token") String token, Model model) {

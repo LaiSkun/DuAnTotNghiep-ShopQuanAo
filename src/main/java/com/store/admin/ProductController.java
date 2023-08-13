@@ -1,9 +1,9 @@
         package com.store.admin;
 
-        import com.store.DTO.ProductColorDTO;
         import com.store.DTO.ProductDTO;
         import com.store.DTO.ProductImgDTO;
         import com.store.configs.CustomConfiguration;
+        import com.store.constant.SessionConstant;
         import com.store.dao.*;
         import com.store.model.*;
         import com.store.service.ProductColorsService;
@@ -12,16 +12,13 @@
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.data.domain.Page;
         import org.springframework.data.domain.PageRequest;
-        import org.springframework.http.HttpStatus;
-        import org.springframework.http.ResponseEntity;
         import org.springframework.stereotype.Controller;
         import org.springframework.ui.Model;
-        import org.springframework.ui.ModelMap;
         import org.springframework.web.bind.annotation.*;
         import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-        import javax.transaction.Transactional;
-        import java.io.File;
+        import javax.servlet.http.HttpServletRequest;
+        import javax.servlet.http.HttpSession;
         import java.io.IOException;
         import java.io.InputStream;
         import java.nio.file.Files;
@@ -31,11 +28,10 @@
         import java.sql.SQLException;
         import java.util.ArrayList;
         import java.util.List;
-        import java.util.Objects;
         import java.util.Optional;
         import java.util.stream.Collectors;
         import java.util.stream.IntStream;
-
+    import com.store.dao.StatusDAO;
         @Controller
         @RequestMapping("/admin/product")
 
@@ -58,11 +54,19 @@
             ProductImgService productImgService;
             @Autowired
             ProductColorsService productColorsService;
-
+            @Autowired
+            staffDAO staffDAO;
+            @Autowired
+            StatusDAO statusDAO;
             @RequestMapping("")
-            public String adminProduct(Model model, String type, String search, ProductImgDTO prdImg , ProductDTO productRequest, @RequestParam("page") Optional<Integer> page,
+            public String adminProduct(Model model, String type, HttpServletRequest request, String search, ProductImgDTO prdImg , ProductDTO productRequest, @RequestParam("page") Optional<Integer> page,
                                        @RequestParam("size") Optional<Integer> size, @RequestParam("page2") Optional<Integer> page2,
                                        @RequestParam("size2") Optional<Integer> size2) {
+                HttpSession session = request.getSession();
+                Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
+                staff st = staffDAO.findByStaffID(currentUser);
+                int orderProcessing = statusDAO.selectCountStatusName(st);
+                model.addAttribute("mss",orderProcessing);
                 int currentPage = page.orElse(1);
                 int pageSize = size.orElse(5);
                 int currentPage2 = page2.orElse(1);
@@ -224,33 +228,6 @@
                 }
                 return "/admin/product/index";
             }
-
-            @GetMapping("/updateStatusProduct")
-            public String Updatequery(@RequestParam("productID") String productID, RedirectAttributes redirectAttributes) {
-                Optional<Products> product = productService.findByID(productID);
-                if (product.get().isDeprecated()) {
-                    try {
-                        Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/"+ product.get().getCategory().getCategoryID()+"/"+ product.get().getImg()));
-                         productService.deleteProduct(productID);
-                        redirectAttributes.addFlashAttribute("message", "Xóa thành công " + productID);
-
-                    } catch (Exception e) {
-                        redirectAttributes.addFlashAttribute("message", "Xóa thất bại " + productID);
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                        productService.deleteLogical(productID);
-                        redirectAttributes.addFlashAttribute("message", "Chuyển thành công sản phẩm " + productID + " sang trạng thái ngưng bán");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        redirectAttributes.addFlashAttribute("message", "Chuyển thất bại sản phẩm " + productID + " sang trạng thái ngưng bán");
-                    }
-                }
-                redirectAttributes.addFlashAttribute("status", "done_delete");
-                return "redirect:/admin/product";
-            }
-
             @GetMapping("/deleteProductImgAndColor")
             public String Updatequery(@RequestParam("productImgId") long imgId, RedirectAttributes redirectAttributes) throws IOException {
                 Optional<Product_Images> productImg = productImgService.findById(imgId);
@@ -273,33 +250,63 @@
                 redirectAttributes.addFlashAttribute("status", "done_delete");
                 return "redirect:/admin/product";
             }
+
             @GetMapping("/DeleteProductColor")
             public String DeleteProductColor(@RequestParam("ColorID") long colorid, RedirectAttributes redirectAttributes) throws IOException {
                 Optional<Product_Colors> productColor = productColorsService.findByID(colorid);
                 List<Product_Images> productImg = productImgService.findByProductcolorId(productColor.get());
-              try {
-                  productColorsService.deleteColor(productColor.get().getColorID());
-                  productImg.forEach( item -> {
-                      int img = productImgService.countImg(item.getImage());
-                      if (img == 1){
-                          try {
-                              productImgService.deleteImg(item.getImgID());
-                              Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/" + productColor.get().getProduct().getCategory().getCategoryID() +"/" + item.getImage()));
-                          } catch (IOException e) {
-                              throw new RuntimeException(e);
-                          }
-                      } else{
-                          productImgService.deleteImg(item.getImgID());
-                      }
-                  });
-                  redirectAttributes.addFlashAttribute("message", "Xóa thành công màu " + productColor.get().getColor_name() + " trong sản phẩm " + productColor.get().getProduct().getName());
-              }catch (Exception e) {
-                  redirectAttributes.addFlashAttribute("message", "Xóa thất bại ");
-                  e.printStackTrace();
-              }
+                try {
+                    productColorsService.deleteColor(productColor.get().getColorID());
+                    productImg.forEach( item -> {
+                        int img = productImgService.countImg(item.getImage());
+                        if (img == 1){
+                            try {
+                                productImgService.deleteImg(item.getImgID());
+                                Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/" + productColor.get().getProduct().getCategory().getCategoryID() +"/" + item.getImage()));
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        } else{
+                            productImgService.deleteImg(item.getImgID());
+                        }
+                    });
+                    redirectAttributes.addFlashAttribute("message", "Xóa thành công màu " + productColor.get().getColor_name() + " trong sản phẩm " + productColor.get().getProduct().getName());
+                }catch (Exception e) {
+                    redirectAttributes.addFlashAttribute("message", "Xóa thất bại ");
+                    e.printStackTrace();
+                }
                 redirectAttributes.addFlashAttribute("status", "done_delete");
                 return "redirect:/admin/product";
             }
+            @GetMapping("/updateStatusProduct")
+            public String Updatequery(@RequestParam("productID") String productID, RedirectAttributes redirectAttributes) {
+                Optional<Products> product = productService.findByID(productID);
+                if (product.get().isDeprecated()) {
+                    try {
+                        if (productImgService.countImg(product.get().getImg()) == 1){
+                        Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/"+ product.get().getCategory().getCategoryID()+"/"+ product.get().getImg()));
+                        }
+                        productService.deleteProduct(productID);
+                        redirectAttributes.addFlashAttribute("message", "Xóa thành công " + productID);
+
+                    } catch (Exception e) {
+                        redirectAttributes.addFlashAttribute("message", "Xóa thất bại " + productID);
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        productService.deleteLogical(productID);
+                        redirectAttributes.addFlashAttribute("message", "Chuyển thành công sản phẩm " + productID + " sang trạng thái ngưng bán");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        redirectAttributes.addFlashAttribute("message", "Chuyển thất bại sản phẩm " + productID + " sang trạng thái ngưng bán");
+                    }
+                }
+                redirectAttributes.addFlashAttribute("status", "done_delete");
+                return "redirect:/admin/product";
+            }
+
+
             @GetMapping("/updateStatusTrue")
             public String UpdateStatusTrue(@RequestParam("productID") String productID, RedirectAttributes
                     redirectAttributes) {
