@@ -10,4 +10,5 @@ public class ProductColorUserDTO {
     long imgId;
     String image;
     long colorId;
+    String reason;
 }
