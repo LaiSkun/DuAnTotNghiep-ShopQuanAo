@@ -50,11 +50,22 @@
               </i>
             </a>
           </li>
-          <li th:each="i : ${#numbers.sequence(1, totalPages)}">
-            <a th:class="${currentPage == i ? 'active' : ''}" th:href="@{'?page=' +${i}}"
-               th:text="${i}">
-
+          <li >
+            <a th:class="${currentPage == 1 ? 'active' : ''}" th:href="@{'?page=' +${1}}">
+              1
             </a>
+          </li>
+          <li th:style="${currentPage == 1 or currentPage == totalPages  ? 'display: none' : '' }" >
+            <a th:text="${currentPage}" style="color: red">
+            </a>
+          </li>
+          <li>
+            <a>...</a>
+          </li>
+          <li>
+          <a th:class="${currentPage == totalPages ? 'active' : ''}" th:href="@{'?page=' +${totalPages}}"
+             th:text="${totalPages}">
+          </a>
           </li>
           <li th:class="${currentPage == totalPages ? 'disabled' : ''}">
             <a href="#" class="next-page"

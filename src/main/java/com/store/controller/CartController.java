@@ -76,26 +76,26 @@ public class CartController {
     private static final int MAX_SIZE = 6;
 
 
-    @GetMapping("")
-    public String dogetIndex(Model model, ProductColorUserDTO prd) {
-        return "layout/cart";
-    }
+	@GetMapping("")
+	public String dogetIndex(Model model) {
+		return "layout/cart";
+	}
 
-    @PostMapping("/order")
-    public String doOrder(Model model) {
-        return "redirect:/cart";
-    }
+	@PostMapping("/order")
+	public String doOrder(Model model) {
+		return "redirect:/cart";
+	}
 
-    @GetMapping("/update")
-    public String doGetUpdate(@RequestParam("productID") String productID, @RequestParam("colorID") Long colorID,
-                              @RequestParam("quantity") Integer quantity, @RequestParam("categoryID") String categoryID,
-                              @RequestParam("isReplace") Boolean isRePlace, HttpSession session) {
+	@GetMapping("/update")
+	public String doGetUpdate(@RequestParam("productID") String productID, @RequestParam("colorID") Long colorID,
+			@RequestParam("quantity") Integer quantity, @RequestParam("categoryID") String categoryID,
+			@RequestParam("isReplace") Boolean isRePlace, HttpSession session) {
 
-        CartDto currentCart = SessionUtil.getCurrenCart(session);
-        cartService.updateCart(currentCart, productID, colorID, quantity, categoryID, isRePlace);
+		CartDto currentCart = SessionUtil.getCurrenCart(session);
+		cartService.updateCart(currentCart, productID, colorID, quantity, categoryID, isRePlace);
 
-        return "layout/cart :: #row";
-    }
+		return "layout/cart :: #row";
+	}
 
     @RequestMapping("/check/{userId}")
     public String doGetCheck(@PathVariable("userId") String userId,
@@ -115,7 +115,7 @@ public class CartController {
             }
             model.addAttribute("orders", orders);
         }
-        return "layout/checkout";
+        return "layout/check_order";
     }
 
     @RequestMapping("/cancelOrder/{id}")
@@ -213,7 +213,7 @@ public class CartController {
         }
         List<Status> status = statusService.findOrderID(orderID);
         model.addAttribute("status", status);
-        return "layout/checkout_orderdetail";
+        return "layout/check_orderdetail";
     }
 
     @GetMapping("/checkout")
@@ -270,4 +270,3 @@ public class CartController {
         return "redirect:/cart";
     }
 }
-

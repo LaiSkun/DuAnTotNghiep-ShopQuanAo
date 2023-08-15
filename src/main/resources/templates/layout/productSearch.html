@@ -360,14 +360,14 @@
                                 </div>
                                 <div class="pager">
                                     <li th:class="${currentPage == 1 ? 'disabled' : ''}">
-                                        <a href="#" class="prev-page"
-                                           th:href="@{${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">
+                                        <a class="prev-page" href="#"
+                                           th:href="@{${url}(page=${currentPage}-1)}">
                                             <i class="fa fa-angle-left">
                                             </i>
                                         </a>
                                     </li>
-                                    <li >
-                                        <a th:class="${currentPage == 1 ? 'active' : ''}" th:href="@{'?page=' +${1}}">
+                                    <li>
+                                        <a th:class="${currentPage == 1 ? 'active' : ''}" th:href="@{ ${url} +'&page=' +${1}}">
                                             1
                                         </a>
                                     </li>
@@ -375,17 +375,23 @@
                                         <a th:text="${currentPage}" style="color: red">
                                         </a>
                                     </li>
+<!--                                    <li th:each="i : ${#numbers.sequence(1, totalPages)}">-->
+<!--                                        <a th:class="${currentPage == i ? 'active' : ''}"-->
+<!--                                           th:href="@{ ${url} + '&page=' +${i}}" th:text="${i}">-->
+
+<!--                                        </a>-->
+<!--                                    </li>-->
                                     <li>
                                         <a>...</a>
                                     </li>
                                     <li>
-                                        <a th:class="${currentPage == totalPages ? 'active' : ''}" th:href="@{'?page=' +${totalPages}}"
+                                        <a th:class="${currentPage == totalPages ? 'active' : ''}" th:href="@{ ${url} +'&page=' +${totalPages}}"
                                            th:text="${totalPages}">
                                         </a>
                                     </li>
                                     <li th:class="${currentPage == totalPages ? 'disabled' : ''}">
-                                        <a href="#" class="next-page"
-                                           th:href="@{${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">
+                                        <a class="next-page" href="#"
+                                           th:href="@{${url}(page=${currentPage}+1)}">
                                             <i class="fa fa-angle-right">
                                             </i>
                                         </a>
@@ -482,131 +488,129 @@
                                                        </select>
                                                      </div>
                                 </div> -->
-<!--                                <div class="pager" th:if="${totalPages > 1 }">-->
-<!--                                    <li th:class="${currentPage == 1 ? 'disabled' : ''}">-->
-<!--                                        <a href="#" class="prev-page"-->
-<!--                                           th:href="${${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">-->
-<!--                                            <i class="fa fa-angle-left">-->
-<!--                                            </i>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"-->
-<!--                                        th:class="${currentPage == i ? 'active' : ''}">-->
-<!--                                        <a th:href="@{'?page=' +${i}}" th:text="${i}">-->
+                                <!--                                <div class="pager" th:if="${totalPages > 1 }">-->
+                                <!--                                    <li th:class="${currentPage == 1 ? 'disabled' : ''}">-->
+                                <!--                                        <a href="#" class="prev-page"-->
+                                <!--                                           th:href="${${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">-->
+                                <!--                                            <i class="fa fa-angle-left">-->
+                                <!--                                            </i>-->
+                                <!--                                        </a>-->
+                                <!--                                    </li>-->
+                                <!--                                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"-->
+                                <!--                                        th:class="${currentPage == i ? 'active' : ''}">-->
+                                <!--                                        <a th:href="@{'?page=' +${i}}" th:text="${i}">-->
 
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                    <li th:class="${currentPage == totalPages ? 'disabled' : ''}">-->
-<!--                                        <a href="#" class="next-page"-->
-<!--                                           th:href="${${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">-->
-<!--                                            <i class="fa fa-angle-right">-->
-<!--                                            </i>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                </div>-->
-<!--                            </div>-->
-                            <div class="clearfix">
+                                <!--                                        </a>-->
+                                <!--                                    </li>-->
+                                <!--                                    <li th:class="${currentPage == totalPages ? 'disabled' : ''}">-->
+                                <!--                                        <a href="#" class="next-page"-->
+                                <!--                                           th:href="${${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">-->
+                                <!--                                            <i class="fa fa-angle-right">-->
+                                <!--                                            </i>-->
+                                <!--                                        </a>-->
+                                <!--                                    </li>-->
+                                <!--                                </div>-->
+                                <!--                            </div>-->
+                                <div class="clearfix">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="clearfix">
-                </div>
-                <div class="our-brand">
-                    <h3 class="title">
-                        Thương hiệu
-                    </h3>
-                    <div class="control">
-                        <a id="prev_brand" class="prev" href="#">
-                            &lt;
-                        </a>
-                        <a id="next_brand" class="next" href="#">
-                            &gt;
-                        </a>
+                    <div class="clearfix">
                     </div>
-                    <ul id="braldLogo">
-                        <li>
-                            <ul class="brand_item">
-                                <li><a href="#">
-                                    <div class="brand-logo">
-                                        <img th:src="@{/images/envato.png}" alt="">
-                                    </div>
-                                </a></li>
-                                <li><a href="#">
-                                    <div class="brand-logo">
-                                        <img th:src="@{/images/themeforest.png}" alt="">
-                                    </div>
-                                </a></li>
-                                <li><a href="#">
-                                    <div class="brand-logo">
-                                        <img th:src="@{/images/photodune.png}" alt="">
-                                    </div>
-                                </a></li>
-                                <li><a href="#">
-                                    <div class="brand-logo">
-                                        <img th:src="@{/images/activeden.png}" alt="">
-                                    </div>
-                                </a></li>
-                                <li><a href="#">
-                                    <div class="brand-logo">
-                                        <img th:src="@{/images/envato.png}" alt="">
-                                    </div>
-                                </a></li>
-                            </ul>
-                        </li>
+                    <div class="our-brand">
+                        <h3 class="title">
+                            Thương hiệu
+                        </h3>
+                        <div class="control">
+                            <a id="prev_brand" class="prev" href="#">
+                                &lt;
+                            </a>
+                            <a id="next_brand" class="next" href="#">
+                                &gt;
+                            </a>
+                        </div>
+                        <ul id="braldLogo">
+                            <li>
+                                <ul class="brand_item">
+                                    <li><a href="#">
+                                        <div class="brand-logo">
+                                            <img th:src="@{/images/envato.png}" alt="">
+                                        </div>
+                                    </a></li>
+                                    <li><a href="#">
+                                        <div class="brand-logo">
+                                            <img th:src="@{/images/themeforest.png}" alt="">
+                                        </div>
+                                    </a></li>
+                                    <li><a href="#">
+                                        <div class="brand-logo">
+                                            <img th:src="@{/images/photodune.png}" alt="">
+                                        </div>
+                                    </a></li>
+                                    <li><a href="#">
+                                        <div class="brand-logo">
+                                            <img th:src="@{/images/activeden.png}" alt="">
+                                        </div>
+                                    </a></li>
+                                    <li><a href="#">
+                                        <div class="brand-logo">
+                                            <img th:src="@{/images/envato.png}" alt="">
+                                        </div>
+                                    </a></li>
+                                </ul>
+                            </li>
 
-                        </a></li>
-                    </ul>
-                    </li>
-                    </ul>
+                            </a></li>
+                        </ul>
+                        </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+            <div class="clearfix">
+            </div>
+            <!-- Th:replace sẽ thay thế đoạn mã này bằng footer.html trong layout.html -->
+            <div th:replace="layout/footer :: footer"></div>
         </div>
-        <div class="clearfix">
-        </div>
-        <!-- Th:replace sẽ thay thế đoạn mã này bằng footer.html trong layout.html -->
-        <div th:replace="layout/footer :: footer"></div>
     </div>
-</div>
-<script src="/js/home.js"></script>
-<script type="text/javascript" th:src="@{/js/jquery-1.10.2.min.js}">
-</script>
-<script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}">
-</script>
-<script type="text/javascript" th:src="@{/js/bootstrap.min.js}">
-</script>
-<script defer th:src="@{/js/jquery.flexslider.js}">
-</script>
-<script type="text/javascript" th:src="@{js/jquery.sequence-min.js}">
-</script>
-<script type="text/javascript" th:src="@{/js/jquery.carouFredSel-6.2.1-packed.js}">
-</script>
-<script type="text/javascript" th:src="@{/js/script.min.js}">
-</script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script>
-    window.onload = () => {
-        location.href.includes("page") && window.scrollBy(0, 448.79998779296875);
-    }
-</script>
+    <script src="/js/home.js"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-1.10.2.min.js}">
+    </script>
+    <script type="text/javascript" th:src="@{/js/jquery.easing.1.3.js}">
+    </script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}">
+    </script>
+    <script defer th:src="@{/js/jquery.flexslider.js}">
+    </script>
+    <script type="text/javascript" th:src="@{js/jquery.sequence-min.js}">
+    </script>
+    <script type="text/javascript" th:src="@{/js/jquery.carouFredSel-6.2.1-packed.js}">
+    </script>
+    <script type="text/javascript" th:src="@{/js/script.min.js}">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        window.onload = () => {
+            location.href.includes("page") && window.scrollBy(0, 347.20001220703125);
+        }
+    </script>
 
-<script>
+    <script>
+        function getSelectValue() {
+            var SelectValue = document.getElementById("listPriceMinMax").value;
+            window.location.assign("/" + SelectValue)
+        }
+    </script>
+    <script>
+        function getPrice() {
+            var priceMin = document.getElementById("PriceMin").value;
+            var priceMax = document.getElementById("PriceMax").value;
+            window.location.assign("/productPrice" + priceMin + "-" + priceMax)
 
+        }
 
-    function getSelectValue() {
-        var SelectValue = document.getElementById("listPriceMinMax").value;
-        window.location.assign("/" + SelectValue)
-    }
-</script>
-<script>
-    function getPrice() {
-        var priceMin = document.getElementById("PriceMin").value;
-        var priceMax = document.getElementById("PriceMax").value;
-        window.location.assign("/productPrice" + priceMin + "-" + priceMax)
-
-    }
-
-</script>
+    </script>
 
 
 </body>
