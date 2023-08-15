@@ -77,7 +77,7 @@ public class CartApi {
         }
     }
 
-    @PostMapping("/sendMailStaff")
+    @PostMapping("/Staff")
     public String senMailStaff(
             @RequestParam("mail") String email,
             @RequestParam("Orders") Orders order,

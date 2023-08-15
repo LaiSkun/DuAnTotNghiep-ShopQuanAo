@@ -54,4 +54,5 @@ public class Status {
 	@ManyToOne
 	@JoinColumn(name = "staffID")
 	private staff staffID;
+	boolean cancelOrder;
 }

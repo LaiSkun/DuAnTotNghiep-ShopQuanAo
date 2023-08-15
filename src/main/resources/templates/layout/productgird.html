@@ -360,21 +360,21 @@
                                 </div>
                                 <div class="pager">
                                     <li th:class="${currentPage == 1 ? 'disabled' : ''}">
-                                        <a href="#" class="prev-page"
-                                           th:href="${${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">
+                                        <a class="prev-page" href="#"
+                                           th:href="@{${currentPage > 1} ? ${ '?page=' + (currentPage -1)} : ''}">
                                             <i class="fa fa-angle-left">
                                             </i>
                                         </a>
                                     </li>
-                                    <li th:each="i : ${#numbers.sequence(1, totalPages)}">
-                                        <a th:class="${currentPage == i ? 'active' : ''}" th:href="@{'?page=' +${i}}"
-                                           th:text="${i}">
+                                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                                    >
+                                        <a th:class="${currentPage == i ? 'active' : ''}" th:href="@{'?page=' +${i}}" th:text="${i}">
 
                                         </a>
                                     </li>
                                     <li th:class="${currentPage == totalPages ? 'disabled' : ''}">
-                                        <a href="#" class="next-page"
-                                           th:href="${${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">
+                                        <a class="next-page" href="#"
+                                           th:href="@{${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">
                                             <i class="fa fa-angle-right">
                                             </i>
                                         </a>
@@ -390,7 +390,8 @@
                                             <div class="imgthumnail">
                                                 <a style="width: 176px" th:href="@{'/product/' + ${product.productID}}">
                                                     <img alt="Product Name"
-                                                         th:src="@{'/getimage/' + ${product.categoryID} + '/' + ${product.img}}" style="width: 120px"></a>
+                                                         th:src="@{'/getimage/' + ${product.categoryID} + '/' + ${product.img}}"
+                                                         style="width: 120px"></a>
                                                 <div class="colorProduct">
                                                         <span th:each="color : ${product.color}"
                                                               th:style="'--data-color:'+${color.colorhex}"
@@ -399,7 +400,9 @@
                                                 </div>
                                             </div>
                                             <div class="imgShow">
-                                                <img th:each="imgprd : ${product.nameImg}" style="margin-bottom: 5px" alt="prd" onclick="showProduct(this)" th:src="@{'/getimage/' + ${product.categoryID} + '/' + ${imgprd}}" >
+                                                <img th:each="imgprd : ${product.nameImg}" style="margin-bottom: 5px"
+                                                     alt="prd" onclick="showProduct(this)"
+                                                     th:src="@{'/getimage/' + ${product.categoryID} + '/' + ${imgprd}}">
                                             </div>
                                         </div>
                                         <div class="productname" th:text="${product.name}">
@@ -415,10 +418,10 @@
                                                     Thêm vào giỏ hàng
                                                 </button>
                                             </a>
-                                             <button class="button wishlist" type="button">
+                                            <button class="button wishlist" type="button">
                                                 <i class="fa fa-heart-o">
                                                 </i>
-                                            </button> 
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -468,29 +471,29 @@
                                                        </select>
                                                      </div>
                                 </div> -->
-                                <div class="pager" th:if="${totalPages > 1 }">
-                                    <li th:class="${currentPage == 1 ? 'disabled' : ''}">
-                                        <a href="#" class="prev-page"
-                                           th:href="${${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">
-                                            <i class="fa fa-angle-left">
-                                            </i>
-                                        </a>
-                                    </li>
-                                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"
-                                        th:class="${currentPage == i ? 'active' : ''}">
-                                        <a th:href="@{'?page=' +${i}}" th:text="${i}">
+<!--                                <div class="pager" th:if="${totalPages > 1 }">-->
+<!--                                    <li th:class="${currentPage == 1 ? 'disabled' : ''}">-->
+<!--                                        <a href="#" class="prev-page"-->
+<!--                                           th:href="${${currentPage > 1} ? ${'?page=' + (currentPage -1)} : ''}">-->
+<!--                                            <i class="fa fa-angle-left">-->
+<!--                                            </i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    <li th:each="i : ${#numbers.sequence(1, totalPages)}"-->
+<!--                                        th:class="${currentPage == i ? 'active' : ''}">-->
+<!--                                        <a th:href="@{'?page=' +${i}}" th:text="${i}">-->
 
-                                        </a>
-                                    </li>
-                                    <li th:class="${currentPage == totalPages ? 'disabled' : ''}">
-                                        <a href="#" class="next-page"
-                                           th:href="${${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">
-                                            <i class="fa fa-angle-right">
-                                            </i>
-                                        </a>
-                                    </li>
-                                </div>
-                            </div>
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                    <li th:class="${currentPage == totalPages ? 'disabled' : ''}">-->
+<!--                                        <a href="#" class="next-page"-->
+<!--                                           th:href="${${currentPage < totalPages} ? ${'?page=' + (currentPage +1)} : ''}">-->
+<!--                                            <i class="fa fa-angle-right">-->
+<!--                                            </i>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="clearfix">
                             </div>
                         </div>
@@ -500,16 +503,16 @@
                 </div>
                 <div class="our-brand">
                     <h3 class="title">
-                    Thương hiệu
+                        Thương hiệu
                     </h3>
-                     <div class="control">
+                    <div class="control">
                         <a id="prev_brand" class="prev" href="#">
                             &lt;
                         </a>
                         <a id="next_brand" class="next" href="#">
                             &gt;
                         </a>
-                    </div> 
+                    </div>
                     <ul id="braldLogo">
                         <li>
                             <ul class="brand_item">

@@ -141,6 +141,7 @@ public class CartServiceImpl implements CartService {
                     break;
             }
             status.setReason("Không có");
+            status.setCancelOrder(false);
             status.setDescription(descriptionStatusDAO.findById(1).get());
             status.setNotes("Không có");
             status.setCreateDate(new Date());

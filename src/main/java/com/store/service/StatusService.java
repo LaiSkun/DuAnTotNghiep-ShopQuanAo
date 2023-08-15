@@ -29,4 +29,5 @@ public interface StatusService {
 	public List<Status> findAllDesc2(long desc, long desc2);
 	public List<Status> findByStatusAndDesc1(staff st, long desc,long desc1);
 
+	List<Status> findOrderID(Long orderID);
 }
