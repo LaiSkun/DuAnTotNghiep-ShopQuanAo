@@ -70,7 +70,7 @@ public class AdminStatisticController {
                     // Nếu tháng > tháng hiện tại => tháng = tháng hiện tại
                     if (Integer.parseInt(month) > currentTime.getMonthValue()) {
                         month = currentTime.getMonthValue() + "";
-                        day = currentTime.getMonthValue() + "";
+                        day = currentTime.getDayOfMonth() + "";
                     } else if (Integer.parseInt(month) == currentTime.getMonthValue()){
                         // Nếu ngày > ngày hiện tại => ngày = ngày hiện tại
                         if (Integer.parseInt(day) >= currentTime.getDayOfMonth()) {

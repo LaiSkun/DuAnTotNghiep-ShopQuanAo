@@ -28,8 +28,8 @@
     <link rel="stylesheet"
           th:href="@{/checkout/lib/owlcarousel/assets/owl.carousel.min.css}">
 
-<!-- Customized Bootstrap Stylesheet -->
-<link th:href="@{/checkout/css/style.css}" rel="stylesheet">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link th:href="@{/checkout/css/style.css}" rel="stylesheet">
 </head>
 
 <body th:id="${done}">
@@ -56,10 +56,10 @@
                 <div class="row">
                     <div class="col-md-9 form-group">
                         <label>Họ và tên</label> <input class="form-control" placeholder=""
-                                                       id="customer"
+                                                        id="customer"
                                                         style="color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb;"
-                                                       th:value="${session.currentUser} != null ? ${session.currentUser.username} : '' "
-                                                       type="text">
+                                                        th:value="${session.currentUser} != null ? ${session.currentUser.username} : '' "
+                                                        type="text">
                     </div>
                     <div class="col-md-9 form-group">
                         <label>Địa chỉ</label> <input class="form-control" id="address"
@@ -69,15 +69,15 @@
                     </div>
                     <div class="col-md-9 form-group">
                         <label>Email</label> <input class="form-control" id="email"
-                                                     placeholder="example@email.com"
-                                                     th:value="${session.currentUser} != null ?${session.currentUser.email} : '' "
-                                                     type="text">
+                                                    placeholder="example@email.com"
+                                                    th:value="${session.currentUser} != null ?${session.currentUser.email} : '' "
+                                                    type="text">
                     </div>
                     <div class="col-md-9 form-group">
                         <label>Số điện thoại</label> <input class="form-control" id="phone_number"
-                                                        placeholder="+123 456 789"
-                                                        th:value="${session.currentUser} != null ?${session.currentUser.phone} : '' "
-                                                        type="text">
+                                                            placeholder="+123 456 789"
+                                                            th:value="${session.currentUser} != null ?${session.currentUser.phone} : '' "
+                                                            type="text">
                     </div>
                 </div>
             </div>
@@ -144,7 +144,7 @@
                         <div class="custom-control custom-radio">
                             <input class="custom-control-input" id="order" name="payment"
                                    type="radio"> <label class="custom-control-label"
-                                                      for="order">Thanh toán qua COD</label>
+                                                        for="order">Thanh toán qua COD</label>
                         </div>
                     </div>
                     <button class="btn btn-block btn-primary font-weight-bold py-3"
@@ -178,12 +178,13 @@
             a[index].children[1].innerHTML = val.replace(val.slice(val.indexOf("(")), "")
         }
     })
+
     function checkout() {
         if (document.querySelector('input[name="payment"]:checked') == undefined) {
             alert('Vui lòng chọn phương thức thanh toán')
         } else {
             if (document.querySelector('input[name="payment"]:checked').getAttribute("id") == "order") {
-                var endpoint = '/api/cart/checkout?address=' + $('#address').val() + '&phone=' + $('#phone_number').val() + '&email=' + $('#email').val() + '&payment=order' + '&customer='+ $('#customer').val()
+                var endpoint = '/api/cart/checkout?address=' + $('#address').val() + '&phone=' + $('#phone_number').val() + '&email=' + $('#email').val() + '&payment=order' + '&customer=' + $('#customer').val()
                 $.ajax({
                     url: endpoint,
                     type: 'GET',
@@ -194,22 +195,21 @@
                 });
 
                 function handle200() {
-                    alert('thanh cong');
+                    alert('Đặt hàng thành công');
+                    window.location.href = '/home';
                 }
 
                 function handle400() {
-
-                    alert('that bai , thu lai');
+                    alert('Đặt hàng thất bại , Xin thử lại');
                 }
-            }
-            else {
+            } else {
                 var id = document.querySelector('input[name="payment"]:checked').getAttribute('id');
                 var address = $('#address').val();
                 var phone = $('#phone_number').val();
                 var email = $('#email').val();
                 var customer = $('#customer').val();
                 let order = "paypal"
-                localStorage.setItem("val", JSON.stringify([address, phone, email,order,customer]))
+                localStorage.setItem("val", JSON.stringify([address, phone, email, order, customer]))
                 $('#formpay').prop('action', `/cart/${id}`)
                 $("#formpay").submit()
 
@@ -220,7 +220,7 @@
     window.addEventListener("load", () => {
         if (document.querySelector("#done") != null) {
             var val = JSON.parse(localStorage.getItem("val"))
-            var endpoint = '/api/cart/checkout?address=' + val[0] + '&phone=' + val[1] + '&email=' + val[2] + '&payment='+ val[3] + '&customer='+val[4];
+            var endpoint = '/api/cart/checkout?address=' + val[0] + '&phone=' + val[1] + '&email=' + val[2] + '&payment=' + val[3] + '&customer=' + val[4];
             localStorage.removeItem("val")
             $.ajax({
                 url: endpoint,
@@ -232,12 +232,12 @@
             });
 
             function handle200() {
-                alert('thanh cong');
-               window.location.href = '/home'
-                }
+                alert('Đặt hàng thành công');
+                window.location.href = '/home';
+            }
 
             function handle400() {
-                alert('that bai , thu lai');
+                alert('Đặt hàng thất bại , Xin thử lại');
             }
         }
     })

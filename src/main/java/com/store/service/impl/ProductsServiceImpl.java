@@ -210,8 +210,6 @@ public class ProductsServiceImpl implements ProductService {
     @Override
     public Page<Products> findAllByCategoryId(String categoryId,int pageSize, int pageNumber) throws  Exception {
         if (pageNumber >= 1) {
-
-
             return productDAO.finByCategoryId(categoryId, PageRequest.of(pageNumber - 1, pageSize));
         }else{
             throw new Exception ("Page number must be grat than 0");

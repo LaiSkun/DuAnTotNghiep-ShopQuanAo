@@ -18,5 +18,6 @@ public interface ProductColorDAO extends JpaRepository<Product_Colors, Long> {
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE product_color SET available = ? WHERE colorID = ?",nativeQuery = true)
     void updateQuantity(Integer newAvailable,Long colorID);
+    @Query(value = "SELECT * from product_color where productID = :productID and available > 0  ",nativeQuery = true)
     List<Product_Colors> findByProduct_ProductID(String productID);
 }
