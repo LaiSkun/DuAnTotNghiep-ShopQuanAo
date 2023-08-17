@@ -45,15 +45,16 @@ public interface ProductDAO extends JpaRepository<Products, String> {
     @Query(nativeQuery = true, value = "select * from SellingProducts(:page)")
     List<String>
     selling(@Param("page") int page);
-    @Query(nativeQuery = true, value = "select top(20)* from products order by createDate desc")
+    @Query(nativeQuery = true, value = "select top(20)* from products where deprecated = 0 order by createDate desc")
     List<Products> ProductsNew();
     // Product User
-    @Query(value = "SELECT * from products where categoryID like '%nam' and deprecated = 1 ", nativeQuery = true)
+    @Query(value = "SELECT * from products where categoryID like '%nam' and deprecated = 0 ", nativeQuery = true)
 
     Page<Products> findMen(Pageable pageable);
 
-    @Query(value = "SELECT * from products where categoryID like '%nu' and deprecated = 1  ", nativeQuery = true)
+    @Query(value = "SELECT * from products where categoryID like '%nu' and deprecated = 0  ", nativeQuery = true)
     Page<Products> findWoman(Pageable pageable);
+
 
     @Query(value = "SELECT * from products where categoryID = :categoryId and deprecated = 1 ",nativeQuery = true)
     Page<Products> finByCategoryId(String categoryId, Pageable pageable);
@@ -78,6 +79,6 @@ public interface ProductDAO extends JpaRepository<Products, String> {
             "order by sum(quantity) desc ", nativeQuery = true )
     List<String> getProductTop();
 
-    @Query(value = "SELECT Top 6 * from products where categoryID = :categoryId and deprecated = 1  ",nativeQuery = true)
+    @Query(value = "SELECT Top 6 * from products where categoryID = :categoryId and deprecated = 0  ",nativeQuery = true)
     List<Products> GetCategoryId(String categoryId);
 }

@@ -113,27 +113,27 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-6">
                                 <div>
-                                    <div class="shippingbox">
+                                    <div class="shippingbox" style="min-height: 167px">
                                         <div style="display: flex;align-items: center;  justify-content: space-between">
                                             <div class="grandtotal">
                                                 <h5 style="width: 100%; text-align: left">TỔNG TIỀN
-                                                    <span  style="float: right; font-weight: 500;margin-right: 90px; color: #fe5252;font-size: 25px;"
+                                                    <span  style="position: absolute; margin-left: 12px;bottom: 18px"
                                                            th:text="${#numbers.formatDecimal(orders.Price, 0, 'COMMA', 0, 'POINT')} + ' VND'"/>
                                                 </h5>
                                             </span>
                                             </div>
                                             <div class="grandtotal" >
-                                                <h5 style="width: 100%; margin-right: 90px; text-align: left">TRẠNG THÁI ĐƠN HÀNG <span id="status" style="float: right; font-weight: 500; color: #fe5252;font-size: 25px;" th:text="${status.get(0).description.descriptionName}"/></h5>
+                                                <h5 style="width: 100%; margin-right: 90px; text-align: left">TRẠNG THÁI ĐƠN HÀNG <span id="status" style="position: absolute; right: 2px; bottom: 18px" th:text="${status.get(0).description.descriptionName}"/></h5>
                                             </span>
                                             </div>
                                         </div>
-                                        <div class="row" style="padding: 0 100px">
-                                        <button style="margin-left: 20px; margin-top: 20px" type="button" onclick="submitCancelOrder(this)" th:href="@{/cart/cancelOrder/{id}(id = ${status.get(0).getStatusID()}) }"> Lý do hủy đơn
+                                        <div class="row" style="padding: 0 30px">
+                                            <button onclick="showReason()" type="button" style="position: absolute; margin-top: 32px"> Hủy đơn </button>
+                                        <button id="submit" class="hide" style="margin-left: 710px; margin-top: 20px" type="button" onclick="submitCancelOrder(this)" th:href="@{/cart/cancelOrder/{id}(id = ${status.get(0).getStatusID()}) }"> Xác nhận
                                         </button>
                                            <form th:object="${prd}" action="get" id="reasonCancelOrder">
-                                               <div  style="width: 50%; float: right; ">
-                                                   <label for="reson" style="font-size: 14px">Lý Do hủy đơn</label>
-                                                   <input name="reason" th:field="*{reason}" class="form-control" type="text" id="reson">
+                                               <div  style="width: 24%;position: absolute; left: 465px; bottom: 36px; float: right; ">
+                                                   <input placeholder="Lý do hủy đơn" name="reason" th:field="*{reason}" class="form-control hide" type="text" id="reson">
                                                </div>
                                            </form>
                                     </div>
@@ -205,6 +205,12 @@
                 console.log(val.getAttribute("href"))
                 document.querySelector("#reasonCancelOrder").setAttribute("action", val.getAttribute("href"))
                 document.querySelector("#reasonCancelOrder").submit()
+            }
+            function showReason(){
+               let input = document.querySelector("#reson")
+               let btn = document.querySelector("#submit")
+                input.removeAttribute("class") && input.setAttribute("class","form-control")
+                btn.removeAttribute("class")
             }
         </script>
         <!-- Bootstrap core JavaScript==================================================-->
