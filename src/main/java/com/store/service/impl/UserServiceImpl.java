@@ -188,6 +188,21 @@ public class UserServiceImpl implements UserService{
         dao.save(users);
     }
 
+	@Override
+	public int findCountUserID(String value) {
+		return dao.findCoutUserID(value);
+	}
+
+	@Override
+	public int findCountphone(String value) {
+		return dao.findCoutphone(value);
+	}
+
+	@Override
+	public int findCountEmail(String value) {
+		return dao.findCoutEmail(value);
+	}
+
 
 	@Override
 	public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
