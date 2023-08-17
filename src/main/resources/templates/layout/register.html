@@ -201,11 +201,8 @@
             })
            await rep.text().then((val2) => {
                 val.nextElementSibling.innerHTML = val2
-                console.log(val2)
                 val2 != "" ? Error = true : Error = false;
-                console.log(Error)
             })
-
         } else {
             val.nextElementSibling.innerHTML = regex(val);
             regex(val) !== "" ? Error = true : Error = false;
