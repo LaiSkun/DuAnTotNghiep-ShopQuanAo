@@ -466,6 +466,7 @@
 
 	  }
 	  list.forEach((item,index) => {
+		  ul.innerHTML =""
 		  ul.innerHTML += `<li class="pt" onclick = 'a(this)'
 				data-imgbigurl="/images/product/${cateID}/${item.image}"><img
 				src="/images/product/${cateID}/${item.image}"
@@ -559,7 +560,7 @@
   function addToCart(productID, quantity = 1) {
 
     var selectedColorID = $('input[name="color"]:checked').val();
-    console.log(selectedColorID)
+	  selectedColorID === undefined && (selectedColorID = $('input[name="color"]').val());
     var api_url = `${location.protocol}\/\/${location.host}`;
     let product_thumbnail = document.querySelector("#product_thumbnail").getAttribute("src").split("/product")[1].split("/")[1]
 

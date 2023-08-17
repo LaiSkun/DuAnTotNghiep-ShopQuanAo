@@ -134,8 +134,15 @@
         let mess
         let regex = new RegExp();
         let val = value.value;
+        let object = {
+            userID : "Tên đăng nhập",
+            username : "Họ và tên",
+            email: "email",
+            password: "Mật khẩu",
+            phone: "Số điện thoại",
+            address: "Địa chỉ"        }
         if (val === "") {
-            mess = value.getAttribute("name") + " không được để trống";
+            mess = object[value.getAttribute("name")] + " không được để trống";
         } else {
             switch (value.getAttribute("name")) {
                 case "userID":
@@ -156,7 +163,7 @@
                     break;
             }
             if (!regex.test(val)) {
-                mess = value.getAttribute("name") + " không hợp lệ"
+                mess = object[value.getAttribute("name")] + " không hợp lệ"
             } else {
                 mess = "";
             }
@@ -180,6 +187,7 @@
     }
 
     async function onblurCheck(val) {
+        val.previousElementSibling.removeAttribute("id");
         let Array = ["userID", "email", "phone"]
         let Error;
         if (regex(val) === "" && (Array.includes(val.getAttribute("name")))) {
@@ -193,11 +201,8 @@
             })
            await rep.text().then((val2) => {
                 val.nextElementSibling.innerHTML = val2
-                console.log(val2)
                 val2 != "" ? Error = true : Error = false;
-                console.log(Error)
             })
-
         } else {
             val.nextElementSibling.innerHTML = regex(val);
             regex(val) !== "" ? Error = true : Error = false;
@@ -222,7 +227,28 @@
         val.nextElementSibling.getAttribute("type") === "password" ? val.nextElementSibling.setAttribute("type","text") : val.nextElementSibling.setAttribute("type","password")
     }
     function onfocusCheck(val) {
-        val.nextElementSibling.innerHTML = "";
+        val.previousElementSibling.setAttribute("id","hide");
+        switch (val.getAttribute("name")) {
+            case "userID":
+                val.nextElementSibling.innerHTML = "Tài khoản không chứa kí tự đặc biệt và tối thiểu 6 kí tự";
+                break;
+            case "username":
+                val.nextElementSibling.innerHTML = "Họ tên không chứa kí tự đặc biệt, chữ số và tối thiểu 6 kí tự";
+                break;
+            case "email":
+                val.nextElementSibling.innerHTML = "";
+                break;
+            case "password":
+                val.nextElementSibling.innerHTML = "Mật khẩu không chứa kí tự khoảng trắng và tối thiểu 6 kí tự";
+                break;
+            case "phone":
+                val.nextElementSibling.innerHTML = "Số điện thoại phải chứa 10 chữ số";
+                break;
+            case "address":
+                val.nextElementSibling.innerHTML = "";
+                break;
+        }
+
     }
 
     // <i className="fa fa-check" aria-hidden="true" style="color:#239f42; position: absolute; right: 0; top: 20px"></i>
