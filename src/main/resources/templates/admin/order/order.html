@@ -31,7 +31,7 @@
             </label>
 
             <div class="header-menu">
-                <label for=""> <span class="las la-search"></span>
+                <label> <span class="las la-search"></span>
                 </label>
 
                 <div class="notify-icon">
@@ -119,9 +119,13 @@
 
                 <div class="record-header">
                     <div class="add">
-                        <span>Mục</span> <select id="" name="">
-                        <option value="">ID</option>
-                    </select>
+                        <span>Mục</span>
+                        <form   method="get" th:action="@{/admin/order}">
+                            <select id="a" name="" th:field="*{Month}"  onchange="this.form.submit()">
+                                <option  th:each="month : ${MonthAndCount}" th:value="${month}" th:text="${month}" ></option>
+                                <option  value="all">Tất cả</option>
+                            </select>
+                        </form>
 
                     </div>
 

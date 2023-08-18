@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,18 +36,42 @@ public class OrderController {
     OrderDetailDAO orderDetailDAO;
     @RequestMapping("")
     public String adminUser(Model model,@RequestParam("page") Optional<Integer> page,
-                            @RequestParam("size") Optional<Integer> size) {
+                            @RequestParam("size") Optional<Integer> size, String MonthAndYear) {
         int currentPage = page.orElse(1);
         int pageSize = size.orElse(5);
+        if (MonthAndYear == null){
+            MonthAndYear = "All";
+        }
+        model.addAttribute("Month",MonthAndYear);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("dislabled", "pagination dislabled");
         model.addAttribute("active","active pagination");
-        List<Orders> list = orderDAO.findAllDESC();
+        //lấy ra tháng và năm có trong order
+        List<String> MonthAndCount = orderDAO.findDateAnDCountMonth();
+        model.addAttribute("MonthAndCount", MonthAndCount);
+        //
+        List<Orders> list = new ArrayList<>();
+        if ( MonthAndYear =="All"){
+                MonthAndYear = "";
+             list = orderDAO.findAllDESC();
+
+        } else {
+            MonthAndYear = MonthAndCount.get(0);
+            Optional<String> Month = Arrays.stream(MonthAndYear.split("-")).findAny() ;
+            List<Long> lsOrderID = orderDAO.findOrderByMonthAndDone(Month.get());
+            List<Orders> ls = new ArrayList<>();
+            lsOrderID.forEach(item -> {
+                Orders ord = orderDAO.findByOrderID(item);
+                ls.add(ord);
+            });
+            list = ls;
+        }
+
         Page<Orders> ordersPage = orderService.findPaginatedOrder(PageRequest.of(currentPage - 1, pageSize), list);
         model.addAttribute("Orders", ordersPage);
         List<List> listOrderDetails = new ArrayList<>();
         ordersPage.forEach( item -> {
-           List<Order_Details> ord = orderDetailDAO.findByOrderID(item.getOrderID());
+            List<Order_Details> ord = orderDetailDAO.findByOrderID(item.getOrderID());
             listOrderDetails.add(ord);
         });
         model.addAttribute("listOrderDetails", listOrderDetails);

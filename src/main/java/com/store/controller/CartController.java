@@ -124,6 +124,9 @@ public class CartController {
         //nếu trạng thái khác thực hiện gửi mail báo cho nv biết và nhân viên thực hiện hủy đơn
         Status status = statusDAO.findByStatusID(id);
         model.addAttribute("prd", prd);
+        if (prd.getReason().isEmpty()){
+            prd.setReason("Không có");
+        }
         String subject;
         List<Order_Details> listOrderDetails = orderDetailDAO.findByOrder_OrderID(status.getOrders().getOrderID());
         List<String> ListTR = new ArrayList<>();
@@ -135,12 +138,11 @@ public class CartController {
                     "\t\t\t\t<td style=\" border:1px solid black;padding: 0 15px;\">" + item.getProduct().getName() + "<d>\n" +
                     "\t\t\t\t<td style=\" border:1px solid black;padding: 0 15px;\">" + item.getQuantity() + "<d>\n" +
                     "\t\t\t\t<td style=\" border:1px solid black;padding: 0 15px;\">" + item.getPrice() + "<d>\n" +
-                    "\t\t\t<r>\n";
+                    "\t\t\t<tr>\n";
             ListTR.add(b);
             i++;
         });
         String tr = ListTR.stream().collect(Collectors.joining(String.valueOf("")));
-
         if (status.getDescription().getDescriptionID() == 1) {
             status.setDescription(descStatusDAO.findById(4).get());
             if (prd.getReason().isEmpty()) {
@@ -178,6 +180,7 @@ public class CartController {
                 "\t\t\t<r>\n" +
                 "\t\t<foot>\n" +
                 "\t</table>" +
+                " <h5>Lý do hủy đơn: "+prd.getReason()+"</h5>"+
                 "<div style=\"margin-top: 40px;margin-bottom: 25px;\">\n" +
                 "\t\t<a href=\"http://localhost:8080/admin/status\" style=\"text-decoration: none;border: 1px solid #191970;background-color: #fff;margin-top: 20px;padding: 15px;\n" +
                 "\t\tborder-radius: 9px;color: #191970;font-size: 16px; cursor: pointer;\">Phê duyệt hủy đơn</a>\n" +
