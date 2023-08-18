@@ -53,5 +53,7 @@ public interface UserService {
 	
 	void updatePassword(Users user, String password);
 
-
+	int findCountUserID(String value);
+	int findCountphone(String value);
+	int findCountEmail(String value);
 }

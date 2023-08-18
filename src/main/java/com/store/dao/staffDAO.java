@@ -9,7 +9,5 @@ public interface staffDAO extends JpaRepository<staff, Integer> {
     @Query(nativeQuery = true, value = "select top(1) * from staff where workingSession = :workingSession Order by orderProcessing asc")
     staff findStaff(@Param("workingSession") String workingSession);
     staff findByStaffID(Users id);
-    
 	staff findByStaffID(String id);
-	
 }

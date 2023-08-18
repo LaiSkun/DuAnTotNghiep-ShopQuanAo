@@ -58,6 +58,8 @@
             staffDAO staffDAO;
             @Autowired
             StatusDAO statusDAO;
+            @Autowired
+            OrderDetailDAO orderDetailDAO;
             @RequestMapping("")
             public String adminProduct(Model model, String type, HttpServletRequest request, String search, ProductImgDTO prdImg , ProductDTO productRequest, @RequestParam("page") Optional<Integer> page,
                                        @RequestParam("size") Optional<Integer> size, @RequestParam("page2") Optional<Integer> page2,
@@ -253,24 +255,34 @@
 
             @GetMapping("/DeleteProductColor")
             public String DeleteProductColor(@RequestParam("ColorID") long colorid, RedirectAttributes redirectAttributes) throws IOException {
+                // từ colorID lấy ra prdcolor
                 Optional<Product_Colors> productColor = productColorsService.findByID(colorid);
+                // lấy ra prdimg
                 List<Product_Images> productImg = productImgService.findByProductcolorId(productColor.get());
                 try {
-                    productColorsService.deleteColor(productColor.get().getColorID());
-                    productImg.forEach( item -> {
-                        int img = productImgService.countImg(item.getImage());
-                        if (img == 1){
-                            try {
-                                productImgService.deleteImg(item.getImgID());
-                                Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/" + productColor.get().getProduct().getCategory().getCategoryID() +"/" + item.getImage()));
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        } else{
-                            productImgService.deleteImg(item.getImgID());
-                        }
-                    });
-                    redirectAttributes.addFlashAttribute("message", "Xóa thành công màu " + productColor.get().getColor_name() + " trong sản phẩm " + productColor.get().getProduct().getName());
+                    // kiểm tra màu đó đã xuất hiện order chưa chưa thì cho xóa còn đã tồn tại order_detail rồi thì k cho xóa
+                  if (orderDetailDAO.findByColorId(productColor.get()).isEmpty() ){
+                      //thực hiện xóa prdcolor
+                      productColorsService.deleteColor(productColor.get().getColorID());
+                      // duyệt qua các ảnh nếu số lượng ảnh là 1 thì xóa
+                      productImg.forEach( item -> {
+                          int img = productImgService.countImg(item.getImage());
+                          if (img == 1){
+                              try {
+                                  productImgService.deleteImg(item.getImgID());
+                                  Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/" + productColor.get().getProduct().getCategory().getCategoryID() +"/" + item.getImage()));
+                              } catch (IOException e) {
+                                  throw new RuntimeException(e);
+                              }
+                          } else{
+                              productImgService.deleteImg(item.getImgID());
+                          }
+                      });
+                      redirectAttributes.addFlashAttribute("message", "Xóa thành công màu " + productColor.get().getColor_name() + " trong sản phẩm " + productColor.get().getProduct().getName());
+                  } else {
+                      redirectAttributes.addFlashAttribute("message", "Xóa không thành công màu " + productColor.get().getColor_name() + " trong sản phẩm " +
+                              productColor.get().getProduct().getName()+" vì màu này đã có đơn đặt hàng ");
+                  }
                 }catch (Exception e) {
                     redirectAttributes.addFlashAttribute("message", "Xóa thất bại ");
                     e.printStackTrace();
@@ -283,11 +295,16 @@
                 Optional<Products> product = productService.findByID(productID);
                 if (product.get().isDeprecated()) {
                     try {
-                        if (productImgService.countImg(product.get().getImg()) == 1){
-                        Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/"+ product.get().getCategory().getCategoryID()+"/"+ product.get().getImg()));
-                        }
-                        productService.deleteProduct(productID);
-                        redirectAttributes.addFlashAttribute("message", "Xóa thành công " + productID);
+                        //ngưng bán thì vào đây -- ktra xem product đó có màu chưa nếu có rồi thì k cho xóa--- chưa có thì xóa
+                       if (productColorsService.findbyProductID(productID).isEmpty()){
+                           if (productImgService.countImg(product.get().getImg()) == 1){
+                               Files.deleteIfExists(Paths.get("src/main/resources/static/images/product/"+ product.get().getCategory().getCategoryID()+"/"+ product.get().getImg()));
+                           }
+                           productService.deleteProduct(productID);
+                           redirectAttributes.addFlashAttribute("message", "Xóa thành công " + productID);
+                       } else {
+                           redirectAttributes.addFlashAttribute("message", "Thất bại, sản phẩm mã " + productID + "đã tồn tại màu hãy xóa màu trước ");
+                       }
 
                     } catch (Exception e) {
                         redirectAttributes.addFlashAttribute("message", "Xóa thất bại " + productID);

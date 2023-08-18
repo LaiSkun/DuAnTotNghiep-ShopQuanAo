@@ -2,6 +2,7 @@ package com.store.dao;
 
 import com.store.DTO.CartDetailDto;
 import com.store.model.Order_Details;
+import com.store.model.Product_Colors;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +22,5 @@ public interface OrderDetailDAO extends JpaRepository<Order_Details, Long> {
 
     @Query(value = "SELECT * from order_details where orderID = :orderID  ",nativeQuery = true)
     List<Order_Details> findByOrderID(Long orderID);
+    List<Order_Details> findByColorId(Product_Colors id);
 }

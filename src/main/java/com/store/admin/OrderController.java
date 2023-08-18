@@ -50,7 +50,7 @@ public class OrderController {
             listOrderDetails.add(ord);
         });
         model.addAttribute("listOrderDetails", listOrderDetails);
-        int totalPages = ordersPage.getTotalPages();
+            int totalPages = ordersPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()
@@ -60,4 +60,5 @@ public class OrderController {
 
         return "/admin/order/order";
     }
+
 }

@@ -47,7 +47,6 @@
                 a.setName(productService.findByID(item.getProduct().getProductID()).get().getName());
                 Product_Images img = productImgService.findByProductcolorId(productColorsService.findbyProductID(item.getProduct().getProductID()).get(0)).get(0);
                 a.setImg(img.getImage());
-
                 ord.add(a);
             });
             return ord ;

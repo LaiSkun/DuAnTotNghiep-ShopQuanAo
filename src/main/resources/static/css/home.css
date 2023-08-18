@@ -7,7 +7,6 @@
     .products:hover{
         background: linear-gradient(0deg, rgba(30,111,137,1) 0%, rgba(121,121,121,.8) 0%, rgba(247,243,243,1) 45%) !important;
         box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.75);
-        height: 405px;
     }
    .priceAndName{
        height: 350px;
