@@ -19,12 +19,14 @@ public class AdminController {
 	public String admin(Model model) {
 	    // Lấy thông tin xác thực của người dùng hiện tại
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/home"; // Chuyển hướng người dùng chưa đăng nhập về trang chủ
+        }
 	    // Kiểm tra xem người dùng có vai trò "admin" hay không
 	    String isAdmin = authentication.getAuthorities().toString().toUpperCase();
 	    System.out.println(isAdmin);
 	    model.addAttribute("adminRole", isAdmin);
-
+	    
 	    return "/admin/admin";
 	}
 	@RequestMapping("/admin/authorizing")

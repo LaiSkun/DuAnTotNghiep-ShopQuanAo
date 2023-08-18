@@ -58,6 +58,6 @@ public class Users implements Serializable{
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	List<Authorities> authorities;
 	
-	 
+	
 
 }
