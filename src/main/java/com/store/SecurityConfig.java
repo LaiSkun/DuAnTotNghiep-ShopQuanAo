@@ -16,6 +16,7 @@ import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.vote.AffirmativeBased;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -70,10 +71,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/admin").hasAnyAuthority("admin","staff")
 			.antMatchers("/admin/authorizing").hasAuthority("admin")
 			.antMatchers("/admin/authorities").hasAuthority("admin")
-			.anyRequest().permitAll()
+			.anyRequest().permitAll()	
 			.and()
+			 .formLogin()
+	            .loginPage("/login") // Trang đăng nhập
+	            .loginProcessingUrl("/perform-login") // URL xử lý đăng nhập do bạn định nghĩa
+	            .defaultSuccessUrl("/admin") // Trang sau khi đăng nhập thành công
+	            .permitAll()
+	        .and()
 			.exceptionHandling()
-	        .accessDeniedHandler((request, response, accessDeniedException) -> {
+			.accessDeniedHandler((request, response, accessDeniedException) -> {
 	            if (request.isUserInRole("customer")) {
 	                response.sendRedirect("/home"); // Chuyển hướng người dùng về trang chủ (home)
 	            } else {
