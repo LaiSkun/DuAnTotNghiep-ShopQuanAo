@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.store.model.Orders;
 import com.store.model.descriptionStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.store.model.Status;
@@ -30,4 +32,6 @@ public interface StatusService {
 	public List<Status> findByStatusAndDesc1(staff st, long desc,long desc1);
 
 	List<Status> findOrderID(Long orderID);
+	Page<Status> findPaginatedOrder(Pageable pageable, List sql);
+
 }

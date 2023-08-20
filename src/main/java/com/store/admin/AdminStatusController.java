@@ -143,7 +143,7 @@ public class AdminStatusController {
         int totalPages = (int) Math.ceil(totalItems / (double) size);
         int startItem = page * size + 1;
         int endItem = Math.min((page + 1) * size, totalItems);
-
+        model.addAttribute("active", "active pagination");
         model.addAttribute("desc", descriptionStatusDAO.findAll());
         model.addAttribute("statusName", statusNameDAO.findAll());
         List<Status> statusList = status.subList(page * size, endItem);
@@ -179,7 +179,7 @@ public class AdminStatusController {
         if (!status.getReason().isEmpty()) {
             PrevStatus.setReason(status.getReason());
         }
-        if (PrevStatus.getDescription().getDescriptionID() == 4) {
+        if (status.getDescription().getDescriptionID() == 4) {
             status.setCancelOrder(false);
         }
         PrevStatus.setDescription(status.getDescription());
@@ -191,7 +191,6 @@ public class AdminStatusController {
             staff.setDoneProcessing(statusDAO.findStatusByStaffDone(staff) + statusDAO.findStatusByStaffFalse(staff));
             staffDAO.save(staff);
         }
-
         //
         //createDate lấy ngày hiện tại. update description.
         //transportfee fecollected
