@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -119,6 +120,7 @@ public class CartController {
     }
 
     @RequestMapping("/cancelOrder/{id}")
+    @Async
     public String canceOrder(@PathVariable("id") long id, ProductColorUserDTO prd, RedirectAttributes ra, Model model) throws MessagingException, UnsupportedEncodingException {
         //lấy được status id --> kiểm tra trạng thái --> nếu chưa xác nhận thì thực hiện hủy đơn
         //nếu trạng thái khác thực hiện gửi mail báo cho nv biết và nhân viên thực hiện hủy đơn
