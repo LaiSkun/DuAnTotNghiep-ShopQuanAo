@@ -306,7 +306,12 @@ iframe {
   -moz-transition: all 0.4s;
   transition: all 0.4s;
 }
-
+.focusip::before{
+  top: 45px !important;
+}
+.focusip:focus + .focusip::after{
+  top: 6px !important;
+}
 .input100:focus {
   padding-left: 5px;
 }

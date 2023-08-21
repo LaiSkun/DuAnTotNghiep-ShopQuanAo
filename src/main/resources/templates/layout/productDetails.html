@@ -460,13 +460,11 @@
 	    const data = await response.json();
 	  localStorage.setItem("listProductColorByProductId", JSON.stringify(data))
 	  let list = JSON.parse(localStorage.getItem('listProductColorByProductId'))
+	  console.log(list)
 	  let ul = document.querySelector('#gallery_01')
 	  let cateID = document.querySelector('#categoryID').value
-	  for(idx = 0; idx < list.length; idx++){
-
-	  }
-	  list.forEach((item,index) => {
-		  ul.innerHTML =""
+	  ul.innerHTML = ""
+	  list.forEach((item, index) => {
 		  ul.innerHTML += `<li class="pt" onclick = 'a(this)'
 				data-imgbigurl="/images/product/${cateID}/${item.image}"><img
 				src="/images/product/${cateID}/${item.image}"
