@@ -190,7 +190,9 @@
                     type: 'GET',
                     statusCode: {
                         200: handle200,
-                        400: handle400
+                        400: handle400,
+                        401: handle401,
+                        404: handle404
                     }
                 });
 
@@ -201,6 +203,12 @@
 
                 function handle400() {
                     alert('Đặt hàng thất bại , Xin thử lại');
+                }
+                function handle401(){
+                    alert("Sai định dạng gmail");
+                }
+                function handle404(){
+                    alert("Xin hãy điền đầy đủ thông tin");
                 }
             } else {
                 var id = document.querySelector('input[name="payment"]:checked').getAttribute('id');
@@ -227,7 +235,9 @@
                 type: 'GET',
                 statusCode: {
                     200: handle200,
-                    400: handle400
+                    400: handle400,
+                    401: handle401,
+                    404: handle404
                 }
             });
 
@@ -238,6 +248,12 @@
 
             function handle400() {
                 alert('Đặt hàng thất bại , Xin thử lại');
+            }
+            function handle401(){
+                alert("Sai định dạng gmail");
+            }
+            function handle404(){
+                alert("Xin hãy điền đầy đủ thông tin");
             }
         }
     })

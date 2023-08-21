@@ -119,7 +119,15 @@ public class ProductUserController {
         // Sản phẩm cùng loại
         String CateID = productService.findById(productID).getCategory().getCategoryID();
         List<Products> productCate = productService.GetCategoryId(CateID);
-        model.addAttribute("products", productCate);
+        List<sellingProductsDTO> prdM = new ArrayList<>();
+        productCate.forEach(item -> {
+            sellingProductsDTO prd = customConfiguration.modelMapper().map(item, sellingProductsDTO.class);
+            prd.setColor(productColorsService.findbyProductID(item.getProductID()));
+            List<Product_Colors> color = productColorsService.findbyProductID(item.getProductID());
+            prd.setNameImg(productImgService.top3NameImg(color.get(0).getColorID()));
+            prdM.add(prd);
+        });
+        model.addAttribute("products", prdM);
         return "layout/productDetails";
     }
 

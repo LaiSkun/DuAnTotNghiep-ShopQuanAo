@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.util.regex.Pattern;
 
 @Controller
 public class ContactController {
@@ -28,6 +29,12 @@ public class ContactController {
                           @RequestParam("email") String email,
                           @RequestParam("message") String message,
                           RedirectAttributes ra) throws UnsupportedEncodingException, MessagingException {
+        String pattern = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+
+        if (name.isEmpty() || email.isEmpty() || message.isEmpty() || !Pattern.matches(pattern, email)) {
+            ra.addFlashAttribute("message", "Vui lòng nhập đầy đủ thông tin");
+            return "redirect:/contact";
+        }
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
@@ -36,13 +43,14 @@ public class ContactController {
         //abc@gmail.com
         String subject = "Đây là phản hồi của khách hàng đén bạn";
 
-        String content = "<p>Tên khách hàng : \" + name + \"</p>"
-                + "<p>Địa chỉ mail : \" + email + \"  </p>"
-                + "<p>Phản hồi của khách hàng : \" + message + \"</p>";
+        String content = "<p>Tên khách hàng : " + name + "</p>"
+                + "<p>Địa chỉ mail : " + email + "  </p>"
+                + "<p>Phản hồi của khách hàng : " + message + "</p>";
         helper.setSubject(subject);
         helper.setText(content, true);
         mailSender.send(mimeMessage);
         ra.addFlashAttribute("message", "Đã gửi phản hồi");
         return "redirect:/contact";
+
     }
 }

@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
@@ -63,6 +64,14 @@ public class CartApi {
                                            @RequestParam("payment") String payment,
                                            @RequestParam("customer") String customer,
                                            HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String pattern = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+        if (address.isEmpty() || email.isEmpty() || phone.isEmpty() || payment.isEmpty() || customer.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); //404
+        }
+        if (!Pattern.matches(pattern, email)){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);// 401
+        }
         Users currentUser = (Users) session.getAttribute(SessionConstant.CURRENT_USER);
         if (currentUser == null) {
             currentUser = userService.findById("default");
@@ -71,9 +80,9 @@ public class CartApi {
         try {
             cartService.insert(currentCart, currentUser, address, customer, phone, email, payment, redirectAttributes);
             session.setAttribute(SessionConstant.CURRENT_CART, new CartDto());
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);// 200
         } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);// 400
         }
     }
 
