@@ -131,7 +131,7 @@ public class AdminStatusController {
             }
             orderProcessing = statusDAO.selectCountStatusName(st);
             StatusDone = statusDAO.findStatusByStaffDone(st);
-            AllStatusByStaff = statusDAO.findAllStatusByAll();
+            AllStatusByStaff = statusDAO.findAllStatusByStaff(st);
             sttFalse = statusDAO.findStatusByStaffFalse(st);
             CancelOrder = statusDAO.findStatusByCancelOrder(st);
             if (orderProcessing > 0) {
@@ -141,12 +141,18 @@ public class AdminStatusController {
         }
         int totalItems = status.size();
         int totalPages = (int) Math.ceil(totalItems / (double) size);
-        int startItem = page * size + 1;
+        int startItem = page * (size -1) + 1;
         int endItem = Math.min((page + 1) * size, totalItems);
         model.addAttribute("active", "active pagination");
         model.addAttribute("desc", descriptionStatusDAO.findAll());
         model.addAttribute("statusName", statusNameDAO.findAll());
-        List<Status> statusList = status.subList(page * size, endItem);
+        List<Status> statusList ;
+        // trường hợp page cuối cùng k đủ 5 phần tử
+        if (page * size <= endItem){
+            statusList = status.subList(page * size, endItem);
+        } else {
+            statusList = status.subList(endItem, endItem);
+        }
         model.addAttribute("statuss", statusList);
         model.addAttribute("status", new Status());
         model.addAttribute("currentPage", page + 1);

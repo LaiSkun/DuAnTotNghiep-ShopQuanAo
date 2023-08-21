@@ -127,7 +127,7 @@ public class HomeController {
 		List<List<sellingProductsDTO>> listProductsNew = new ArrayList<>();
 		List<sellingProductsDTO> listsell = new ArrayList<>();
 		List<Products> prdnew = productService.productsNew();
-		for (int i = 1; i < prdnew.toArray().length; i++) {
+		for (int i = 0; i < prdnew.toArray().length; i++) {
 			List<Product_Colors> color = productColorsService.findByProductID(prdnew.get(i).getProductID());
 			sellingProductsDTO prdSell = customConfiguration.modelMapper().map(prdnew.get(i), sellingProductsDTO.class);
 			List<String> nameImg = productImgService.top3NameImg(color.get(0).getColorID());

@@ -318,7 +318,7 @@ async function showFormProductColor(val) {
                     tbodyProductColorbyProductID.innerHTML += `<tr>
                                                 <td class=${item["product"].productID}  >${item["product"].name}</td>
                                                 <td>${item["color_name"]}</td>
-                                                <td class=${item["colorhex"]} style="position: relative"> <span style=" position: absolute; height: 40px; width: 40px; bottom: 3px;border-radius: 50% ; left:65px; background-color: ${item["colorhex"]}"> </span></td>
+                                                <td class=${item["colorhex"]} style="position: relative"> <span style=" position: absolute; height: 40px; width: 40px; bottom: 10px;border-radius: 50% ; left:65px; background-color: ${item["colorhex"]}"> </span></td>
                                                 <td>${item["available"]}</td>
                                                 <td> ${item["product"].deprecated == true ? 'Ngưng bán' : 'Đang bán'}</td>
                                                 <td class=${item["colorID"]} id="${item["colorID"]}color" onclick="handleEditProductColor(this)" ><i class="fa-solid fa-pen-to-square" style="color: #212529"></i></td>

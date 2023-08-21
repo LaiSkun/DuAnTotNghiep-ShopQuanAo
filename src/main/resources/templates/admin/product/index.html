@@ -666,7 +666,7 @@
                         </div>
                         <div
                                 th:unless="${currentPage > 1}">
-                            <a th:class="${disabled}">prev</a>
+                            <a th:class="${disabled}">Trang trước</a>
                         </div>
                         <div>
                             <a th:class="${currentPage == 1 } ? active : pagination"
@@ -698,7 +698,7 @@
                             <!--                            onclick="handlePagination()"-->
                             <a th:class="${currentPage ==productPage.number} ? active : pagination"
                                th:href="@{${url}(size=${productPage.size}, page=${currentPage+1})}">
-                                next</a>
+                                Trang sau</a>
                         </div>
                         <div th:unless="${productPage.totalPages > currentPage}">
                             <a th:class="${disabled}">Trang sau</a>
@@ -819,11 +819,11 @@
                                         th:if="${currentPage2 > 1 }">
                                     <a th:class="${currentPage2 == productImg.number } ? active : pagination"
                                        th:href="@{${url}(size2=${productImg.size}, page2=${currentPage2 - 1} )}"
-                                    >prev</a>
+                                    >Trang trước</a>
                                 </div>
                                 <div
                                         th:unless="${currentPage2 > 1}">
-                                    <a th:class="${disabled}">prev</a>
+                                    <a th:class="${disabled}">Trang trước</a>
                                 </div>
                                 <div>
                                     <a th:class="${currentPage2 == 1 } ? active : pagination"
@@ -852,10 +852,10 @@
                                         th:if="${productImg.totalPages > currentPage2}">
                                     <a th:class="${currentPage2 == productImg.number} ? active : pagination"
                                        th:href="@{${url}(size2=${productImg.size}, page2=${currentPage2+1})}"
-                                    >next</a>
+                                    >Trang sau</a>
                                 </div>
                                 <div th:unless="${productImg.totalPages > currentPage2}">
-                                    <a th:class="${disabled}">next</a>
+                                    <a th:class="${disabled}">Trang sau</a>
                                 </div>
                                 </divonclick="showFormProductColor(this)">
                             </div>

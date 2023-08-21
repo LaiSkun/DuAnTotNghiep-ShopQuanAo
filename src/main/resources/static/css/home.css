@@ -23,6 +23,7 @@
     .products .thumbnail a > img {
         transition: .2s ease-in-out;
         max-width: 60%;
+        max-height: 230px;
     }
 
     @-webkit-keyframes fadeIn {

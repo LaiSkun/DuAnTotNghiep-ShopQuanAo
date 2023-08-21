@@ -228,21 +228,6 @@
 
             </div>
             <div class="records table-responsive">
-                <div class="record-header">
-                    <div class="add">
-                        <span>Entries</span> <select name="">
-                        <option value="">ID</option>
-                    </select>
-                        <button id="Addrecord">Edit Status</button>
-                    </div>
-                    <div class="browse">
-                        <form method="get" th:action="@{/admin/search}">
-                            <input class="record-search" name="keyword" placeholder="Search"
-                                   type="search">
-                            <button class="btn" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
                 <div>
                     <table width="100%" style="min-height: 150px">
                         <thead>
@@ -324,20 +309,20 @@
                         <!--                            hiện active nêu đang ở trang cuối-->
                         <div>
                             <a th:class="${currentPage == totalPages } ? ${active} : pagination"
-                               th:href="@{/admin/status(page=${totalPages}-1,type=${type})}"
-                               th:text="${totalPages} - 1"
+                               th:href="@{/admin/status(page=${totalPages},type=${type})}"
+                               th:text="${totalPages} "
                             ></a>
                         </div>
 
                         <div
-                                th:if="${totalPages - 1> currentPage}">
+                                th:if="${totalPages > currentPage}">
                             <a th:class="${currentPage == totalPages} ? ${active} : pagination"
                                th:href="@{/admin/status(page=${currentPage},type=${type})}"
                             >Trang sau</a>
                         </div>
                         <!--                            điều kiện sai thì vô-->
                         <!--                            cr hiện = 4 total = 6 -->
-                        <div th:unless="${totalPages - 1 > currentPage}">
+                        <div th:unless="${totalPages > currentPage}">
                             <a class="pagination dislabled">Trang sau</a>
                         </div>
 

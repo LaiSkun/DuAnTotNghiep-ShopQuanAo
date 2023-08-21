@@ -27,7 +27,7 @@ public interface StatusDAO extends JpaRepository<Status, Long> {
     List<Status> findByStaffAndStatusName(@Param("staff") staff st,@Param("idDesc") long id);
     @Query(value = "select * from Status where  description = :idDesc order by statusID DESC ", nativeQuery = true)
     List<Status> findAllDesc(@Param("idDesc") long id);
-    @Query(value = "select * from Status where staffID = :staff and description = :idDesc or description = :idDesc1 order by statusID DESC ", nativeQuery = true)
+    @Query(value = "select * from Status where staffID = :staff and (description = :idDesc or description = :idDesc1) order by statusID DESC ", nativeQuery = true)
     List<Status> findByStaffAndStatusName2(@Param("staff") staff st,@Param("idDesc") long id,@Param("idDesc1") long id1);
     @Query(value = "select * from Status where description = :idDesc or description = :idDesc1 order by statusID DESC ", nativeQuery = true)
     List<Status> findAlldesc2(@Param("idDesc") long id,@Param("idDesc1") long id1);
