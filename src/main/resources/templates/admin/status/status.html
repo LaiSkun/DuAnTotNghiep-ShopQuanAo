@@ -42,12 +42,220 @@
         </div>
 
     </div>
+<<<<<<< HEAD
+
+</div>
+<div id="handle">
+    <section class="row" style="position: absolute; left: 25vw; top: 12vh;width: 850px">
+        <div class="col-12">
+            <div class="bodyOrder" id="tbl1"
+                 style="height: 245px; width: 810px; position: absolute; top:42px; z-index: 1;margin-left: 8px;background-color: #fff; overflow-y: scroll">
+                <table style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th><span class="las la-sort"></span> Mã hóa đơn</th>
+                        <th><span class="las la-sort"></span> Tên sản phẩm</th>
+                        <th><span class="las la-sort"></span> Màu sản phẩm</th>
+                        <th><span class="las la-sort"></span> Giá</th>
+                        <th><span class="las la-sort"></span> Số lượng</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bodyOrder">
+
+                    </tbody>
+                </table>
+            </div>
+            <form id="form" method="post"
+                  th:object="${status}">
+                <div class="card">
+                    <i class="fa-solid fa-x" id="exit" style="position: absolute; right:15px ; cursor: pointer"></i>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="orderID">Mã hóa đơn</label>
+                                    <input aria-describedby="orderID" class="form-control"
+                                           id="orderID" name="orderID"
+                                           placeholder="OrderID"
+                                           style="pointer-events: none"
+                                           th:field="*{statusID}"
+                                           type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="desc">Trạng thái</label>
+                                    <select class="form-control" id="desc" onchange="show()"
+                                            th:field="*{description}">
+                                        <option th:each=" desc : ${desc}" th:id="'desc' + ${desc.descriptionID}"
+                                                th:text="${desc.descriptionName}"
+                                                th:value="${desc.descriptionID}"></option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="dateUpdate">Ngày cập nhật gần nhất</label> <input
+                                        class="form-control"
+                                        id="dateUpdate"
+                                        style="pointer-events: none"
+                                        type="text">
+                                </div>
+
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="notes">Ghi chú</label>
+                                    <input aria-describedby="noteshelpId"
+                                           class="form-control" id="notes" name="notes"
+                                           placeholder="notes"
+                                           th:field="*{notes}"
+                                           type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="statusName">Hình thức thanh toán</label>
+                                    <select class="form-control" id="statusName" style="pointer-events: none"
+                                            th:field="*{statusname}">
+                                        <option th:each="namestt : ${statusName}" th:id="'sttName'+ ${namestt.statusID}"
+                                                th:text="${namestt.statusName}"
+                                                th:value="${namestt.statusID}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="divReason" style="opacity: 0">
+                                    <label for="reason">Lý do hủy đơn</label>
+                                    <input class="form-control"
+                                           id="reason" name="reason"
+                                           placeholder="Không có"
+                                           th:field="*{reason}" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn_custom" id="updateProduct" onclick="updateForm()" type="button">
+                            Chỉnh Sửa
+                        </button>
+                        <button class="btn btn_custom" onclick="showOrder_detail()" type="button">Xem chi tiết hóa đơn
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</div>
+<input id="menu-toggle" type="checkbox">
+<div th:replace="admin/sidemenu :: div"></div>
+<div class="main-content">
+    <header>
+        <div class="header-content">
+            <label for="menu-toggle"> <span class="las la-bars"></span>
+            </label>
+
+            <div class="header-menu">
+<!--                <label> <span class="las la-search"></span>-->
+<!--                </label>-->
+
+                <div class="notify-icon">
+                    <span class="las la-envelope" onclick="showMessStatus()"></span> <span class="notify" th:text="${mss}" style="display: none"></span>
+                </div>
+
+<!--                <div class="notify-icon">-->
+<!--                    <span class="las la-bell"></span> <span class="notify">3</span>-->
+<!--                </div>-->
+
+                <div class="user">
+<!--                    <div class="bg-img" style="background-image: url(static/images/1.jpeg)"></div>-->
+                    <span class="las la-power-off"></span>
+                    <span><a class="log" th:href="@{/logout}">Logout</a></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="page-header">
+            <h1>Status Management</h1>
+            <small>Home / Status</small>
+        </div>
+        <div class="page-content">
+
+            <div class="analytics">
+                <div id="AllOrder" style="display: none" th:class="${AllStatusByStaff}"></div>
+                <div class="card" id="T1" onclick="submit(this)">
+                    <div class="card-head">
+                        <h4 id="ordPro" th:text="${ordPro}"></h4>
+                        <span id="ordProSpan"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small> số lượng hóa đơn đang chờ xác nhận </small>
+                        <div class="card-indicator">
+                            <div class="indicator one" id="ordProstyle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" id="T4" onclick="submit(this)">
+                    <div class="card-head">
+                        <h4 id="OrderFalse" th:text="${OrderFalse}"></h4>
+                        <span id="OrderFalseSpan"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Số lượng đơn hàng bị hủy</small>
+                        <div class="card-indicator">
+                            <div class="indicator four" id="OrderFalseStyle"></div>
+                        </div>
+                    </div>
+                </div >
+
+                <div class="card" id="T5" onclick="submit(this)">
+                    <div class="card-head">
+                        <h4 id="StatusDone" th:text="${CancelOrder}"></h4>
+                        <span id="StatusDoneSpan"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Số lượng đơn hàng đã hoàn thành</small>
+                        <div class="card-indicator">
+                            <div class="indicator two" id="StatusDoneStyle"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" id="T23" onclick="submit(this)">
+                    <div class="card-head">
+                        <h4 id="statusOrderProcessing" th:text="${statusOrderProcessing}"></h4>
+                        <span id="statusOrderProcessingSpan"></span>
+                    </div>
+                    <div class="card-progress">
+                        <small>Số lượng đơn hàng đang xử lý </small>
+                        <div class="card-indicator">
+                            <div class="indicator three" id="statusOrderProcessingStyle"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="records table-responsive">
+                <div class="record-header">
+                    <div class="add">
+                        <span>Entries</span> <select name="">
+                        <option value="">ID</option>
+                    </select>
+                        <button id="Addrecord">Edit Status</button>
+                    </div>
+                    <div class="browse">
+                        <form method="get" th:action="@{/admin/search}">
+                            <input class="record-search" name="keyword" placeholder="Search"
+                                   type="search">
+                            <button class="btn" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <table width="100%" style="min-height: 150px">
+=======
     <div id="handle">
         <section class="row" style="position: absolute; left: 25vw; top: 12vh;width: 850px">
             <div class="col-12">
                 <div class="bodyOrder" id="tbl1"
                      style="height: 245px; width: 810px; position: absolute; top:42px; z-index: 1;margin-left: 8px;background-color: #fff; overflow-y: scroll">
                     <table style="width: 100%">
+>>>>>>> 7489646c6e0ca4a93edc4a97feb07f04d25530b2
                         <thead>
                         <tr>
                             <th><span class="las la-sort"></span> Mã hóa đơn</th>
