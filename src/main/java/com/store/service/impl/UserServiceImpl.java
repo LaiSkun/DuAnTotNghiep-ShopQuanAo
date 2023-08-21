@@ -142,8 +142,6 @@ public class UserServiceImpl implements UserService{
 			Authorities authorities = new Authorities();
 			authorities.setRole(role);
 			authorities.setUser(user1);
-			System.out.println(authorities.getRole());
-			System.out.println(authorities.getUser());
 			Authorities authorities1 = authoritiesService.create(authorities);
 
 			return user;
