@@ -8,6 +8,7 @@
  table{
      width: 100%;
  }
+
 #pagination{
     display: flex;
     align-items: center;
@@ -144,4 +145,19 @@ table thead th{
     padding: 5px 15px;
     color: #191970;
     border-radius: 4px;
+}
+.order{
+    position: absolute;
+    right: 15px;
+    font-size: 1.5rem !important;
+    margin-bottom: 2px;
+}
+#All:hover, #done:hover, #CancelOrder:hover, #Processing:hover{
+    border: 1px solid #191970;
+    scale: 1.05;
+    transition: .2s;
+    cursor: pointer;
+}
+.card .card-head span {
+    color: #212529 !important;
 }

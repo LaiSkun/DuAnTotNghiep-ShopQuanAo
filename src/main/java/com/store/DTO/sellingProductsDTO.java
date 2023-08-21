@@ -18,6 +18,7 @@ public class sellingProductsDTO {
     String categoryID;
     List<String> nameImg;
     List<Product_Colors> color;
+    String MonthAndYear;
     public sellingProductsDTO() {
     }
 

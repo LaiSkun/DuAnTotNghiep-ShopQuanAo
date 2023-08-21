@@ -5,11 +5,16 @@ package com.store.service.impl;
 
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import com.store.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
@@ -90,5 +95,21 @@ public class StatusServiceImpl implements StatusService {
 	public List<Status> findOrderID(Long orderID) {
 		return dao.findOrderID(orderID);
 	}
+	@Override
+	public Page<Status> findPaginatedOrder(Pageable pageable, List sql) {
+		List<Status> orders = sql;
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+		List<Status> list;
 
+		if (orders.size() < startItem) {
+			list = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, orders.size());
+			list = orders.subList(startItem, toIndex);
+		}
+		Page<Status> pageOrders = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), orders.size());
+		return pageOrders;
+	}
 }

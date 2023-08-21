@@ -20,7 +20,7 @@
     <link href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css"
           rel="stylesheet">
 </head>
-<body>
+<body >
 <input id="menu-toggle" type="checkbox">
 <div th:replace="admin/sidemenu :: div"></div>
 <div class="main-content">
@@ -31,7 +31,11 @@
             </label>
 
             <div class="header-menu">
+<<<<<<< HEAD
 <!--                <label for=""> <span class="las la-search"></span>
+=======
+                <label> <span class="las la-search"></span>
+>>>>>>> 7489646c6e0ca4a93edc4a97feb07f04d25530b2
                 </label>
 
                 <div class="notify-icon">
@@ -60,52 +64,56 @@
 
             <div class="analytics">
 
-                <div class="card">
+                <div class="card" onclick="submit(this)" id="All" >
                     <div class="card-head">
-                        <h2>107,200</h2>
-                        <span class="las la-user-friends"></span>
+                        <h2  id="allOrder" th:text="${countAllOrder}"></h2>
+                        <span style="margin-right: 120px; font-size: 1.5rem; margin-bottom: 6px">Đơn hàng</span>
+                        <span class="order">100%</span>
                     </div>
                     <div class="card-progress">
-                        <small>Hoạt động người dùng trong tháng</small>
+                        <small>Tất cả đơn hàng </small>
                         <div class="card-indicator">
-                            <div class="indicator one" style="width: 60%"></div>
+                            <div class="indicator one" style="width: 100%"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="submit(this)" id="done">
                     <div class="card-head">
-                        <h2>340,230</h2>
-                        <span class="las la-eye"></span>
+                        <h2 class="ord" th:text="${countDoneOrder}"></h2>
+                        <span style="margin-right: 120px; font-size: 1.5rem; margin-bottom: 6px">Đơn hàng</span>
+                        <span id="countDoneOrder" class="order"></span>
                     </div>
                     <div class="card-progress">
-                        <small>Lượt xem</small>
+                        <small>Đơn hàng đã hoàn thành</small>
                         <div class="card-indicator">
                             <div class="indicator two" style="width: 80%"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="submit(this)" id="CancelOrder">
                     <div class="card-head">
-                        <h2>$653,200</h2>
-                        <span class="las la-shopping-cart"></span>
+                        <h2 class="ord" id="hda" th:text="${countFalseOrder}"></h2>
+                        <span style="margin-right: 120px; font-size: 1.5rem; margin-bottom: 6px">Đơn hàng</span>
+                        <span id="countFalseOrder" class="order"></span>
                     </div>
                     <div class="card-progress">
-                        <small>Doanh thu trong tháng</small>
+                        <small>Đơn hàng đã hủy</small>
                         <div class="card-indicator">
-                            <div class="indicator three" style="width: 65%"></div>
+                            <div class="indicator three"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" onclick="submit(this)" id="Processing">
                     <div class="card-head">
-                        <h2>47,500</h2>
-                        <span class="las la-envelope"></span>
+                        <h2 class="ord" th:text="${countProcessingOrder}" ></h2>
+                        <span style="margin-right: 120px; font-size: 1.5rem; margin-bottom: 6px">Đơn hàng</span>
+                        <span id="countProcessingOrder" class="order"></span>
                     </div>
                     <div class="card-progress">
-                        <small>Email nhận được</small>
+                        <small>Đơn hàng đang xử lý</small>
                         <div class="card-indicator">
                             <div class="indicator four" style="width: 90%"></div>
                         </div>
@@ -118,17 +126,14 @@
 
                 <div class="record-header">
                     <div class="add">
-                        <span>Mục</span> <select id="" name="">
-                        <option value="">ID</option>
-                    </select>
+                        <span>Mục</span>
+                        <form   method="get" th:object="${sellingProductsDTO}" th:action="@{/admin/order}">
+                            <select  th:field="*{monthAndYear}"  onchange="this.form.submit()">
+                                <option  th:each="val : ${MonthAndCount}" th:value="${val}" th:text="${val}" ></option>
+                                <option  value="All">Tất cả</option>
+                            </select>
+                        </form>
 
-                    </div>
-
-                    <div class="browse">
-                        <input class="record-search" placeholder="Search" type="search">
-                        <select name="">
-                            <option value="">Trạng thái</option>
-                        </select>
                     </div>
                 </div>
 
@@ -190,7 +195,7 @@
                                 th:if="${currentPage > 1 }">
                             <a th:class="${Orders == Orders.number } ? ${active} : pagination "
                                th:href="@{${url}(size=${Orders.size}, page=${currentPage - 1} )}"
-                            >prev</a>
+                            >Trang trước</a>
                         </div>
                         <div
                                 th:unless="${currentPage > 1}">
@@ -214,7 +219,7 @@
                             >...</a>
                         </div>
                         <div>
-                            <a th:class="${currentPage == 4 } ? ${active} : pagination"
+                            <a th:class="${currentPage == Orders.totalPages } ? ${active} : pagination"
                                th:href="@{${url}(size=${Orders.size}, page=${Orders.totalPages} )}"
                                th:text="${Orders.totalPages}"
                             ></a>
@@ -255,6 +260,26 @@
     }
     window.addEventListener("load", () => {
         location.href.includes("/order") && document.querySelector(".oderIcon").setAttribute("style", "color:#fff; scale:1.1")
+        let listorder = document.getElementsByClassName("ord")
+        for (const orderElement of listorder) {
+        let param = orderElement.innerHTML * 100 / document.querySelector("#allOrder").innerHTML
+            orderElement.parentElement.nextElementSibling.children[1].children[0].setAttribute("style",`width:${param.toFixed(2)}%`)
+            orderElement.nextElementSibling.nextElementSibling.innerHTML = param.toFixed(2) + "%"
+        }
     })
+    function submit(val) {
+        let id = val.getAttribute("id").trim()
+        let monthAndYear = document.querySelector("#monthAndYear").value;
+         location.href = `http://localhost:8080/admin/order?StatusOrd=${id}&MonthAndYear=${monthAndYear}`
+    }
+    function handleCssCard(val){
+        console.log("alo")
+        let param = val.innerHTML * 100 / document.querySelector("#allOrder").innerHTML
+        val.parentElement.nextElementSibling.children[1].children[0].setAttribute("style",`width:${param.toFixed(2)}%`)
+        val.nextElementSibling.nextElementSibling.innerHTML = param.toFixed(2) + "%"
+    }
 </script>
 </html>
+<!--let param = val.innerHTML * 100 / document.querySelector('#allOrder').innerHTML-->
+<!--val.parentElement.nextElementSibling.children[1].children[0].setAttribute('style',`width:${param.toFixed(2)}%`)-->
+<!--val.nextElementSibling.nextElementSibling.innerHTML = param.toFixed(2) + '%'-->

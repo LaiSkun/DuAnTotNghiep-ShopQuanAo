@@ -59,10 +59,10 @@ public interface ProductDAO extends JpaRepository<Products, String> {
     @Query(value = "SELECT * from products where categoryID = :categoryId and deprecated = 1 ",nativeQuery = true)
     Page<Products> finByCategoryId(String categoryId, Pageable pageable);
 
-    @Query(value = "SELECT * from products  where [name] LIKE %?1% and deprecated = 1  ", nativeQuery = true)
+    @Query(value = "SELECT * from products  where [name] LIKE %?1% and deprecated = 0  ", nativeQuery = true)
     Page<Products> findAll(String keyword, Pageable pageable);
 
-    @Query(value = "SELECT * from products where deprecated = 1  ", nativeQuery = true)
+    @Query(value = "SELECT * from products where deprecated = 0  ", nativeQuery = true)
     Page<Products> findByDeprecated(Pageable pageable);
 
     

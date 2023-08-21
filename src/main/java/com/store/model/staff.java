@@ -12,12 +12,11 @@ import javax.persistence.*;
 public class staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long ID;
+    int ID;
     String workingSession;
     int orderProcessing;
     int doneProcessing;
     @OneToOne
     @JoinColumn(name ="staffID")
-    private Users staffID;
-
+    private Users staffID;   
 }
