@@ -168,8 +168,8 @@
     </header>
     <main>
         <div class="page-header">
-            <h1>Status Management</h1>
-            <small>Home / Status</small>
+            <h1>Trạng thái đơn hàng</h1>
+            <small th:text="${username}"></small>
         </div>
         <div class="page-content">
 
@@ -233,7 +233,7 @@
                         <thead>
                         <tr>
                             <th><span class="las la-sort"></span> Mã hóa đơn</th>
-                            <th><span class="las la-sort"></span>Mã khách hàng</th>
+                            <th><span class="las la-sort"></span>Tên khách hàng</th>
                             <th><span class="las la-sort"></span> Ngày tạo</th>
                             <th><span class="las la-sort"></span>Tổng tiền</th>
                             <th><span class="las la-sort"></span> Trạng thái</th>
@@ -245,7 +245,7 @@
                         <h4 class="messtbl2" >Không có hóa đơn nào</h4>
                         <tr onclick="updateStatus(this)" th:each="p: ${statuss}">
                             <td th:text="${p.orders.orderID}"></td>
-                            <td th:text="${p.orders.user.userID}"></td>
+                            <td th:text="${p.orders.user.userID} == 'default' ? ${p.orders.customer} : ${p.orders.user.username}"></td>
                             <td th:text="${#dates.format(p.createDate, 'dd/MM/yyyy')}"></td>
                             <td th:text="${p.transportFee}"></td>
                             <td th:class="${p.description.descriptionID}"
@@ -340,9 +340,9 @@
 </body>
 <script>
     // const Add = document.querySelector("#Addrecord")
-    // const handleclick = () => {
-    //     handle.classList.toggle("handle")
-    // }
+    const handleclick = () => {
+        handle.classList.toggle("handle")
+    }
     // Add.addEventListener("click", handleclick)
     document.querySelector("#exit").addEventListener("click", () => {
         // const handle = document.querySelector(".handle")
