@@ -59,6 +59,7 @@ public class AdminStatusController {
         staff st = staffDAO.findByStaffID(currentUser);
         List<Authorities> lsAuthor = userService.findById(currentUser.getUserID()).getAuthorities();
         List<String> ls = new ArrayList<>();
+        model.addAttribute("username", currentUser.getUsername());
         lsAuthor.forEach(item -> {
             if (item.getRole().getRoleID().equals("admin")) {
                 ls.add("1");
