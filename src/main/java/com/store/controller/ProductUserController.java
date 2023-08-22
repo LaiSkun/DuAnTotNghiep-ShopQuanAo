@@ -131,7 +131,7 @@ public class ProductUserController {
         return "layout/productDetails";
     }
 
-    @RequestMapping("/productGird/{categoryID}")
+    @RequestMapping("/productgird/{categoryID}")
     public String productGirdCategory(@PathVariable("categoryID") String categoryID,
                              @RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model) {
         Categories category = catelogyService.findByCategoryID(categoryID);
