@@ -161,15 +161,15 @@
                 <div class="user">
                     <div class="bg-img" style="background-image: url(static/images/1.jpeg)"></div>
 
-                    <span><a class="log" th:href="@{/logout}">Logout</a></span>
+                    <span><a class="log" th:href="@{/logout}">Đăng xuất</a></span>
                 </div>
             </div>
         </div>
     </header>
     <main>
         <div class="page-header">
-            <h1>Status Management</h1>
-            <small>Home / Status</small>
+            <h1>Trạng thái đơn hàng</h1>
+            <small th:text="${username}"></small>
         </div>
         <div class="page-content">
 
@@ -233,7 +233,7 @@
                         <thead>
                         <tr>
                             <th><span class="las la-sort"></span> Mã hóa đơn</th>
-                            <th><span class="las la-sort"></span>Mã khách hàng</th>
+                            <th><span class="las la-sort"></span>Tên khách hàng</th>
                             <th><span class="las la-sort"></span> Ngày tạo</th>
                             <th><span class="las la-sort"></span>Tổng tiền</th>
                             <th><span class="las la-sort"></span> Trạng thái</th>
@@ -245,7 +245,7 @@
                         <h4 class="messtbl2" >Không có hóa đơn nào</h4>
                         <tr onclick="updateStatus(this)" th:each="p: ${statuss}">
                             <td th:text="${p.orders.orderID}"></td>
-                            <td th:text="${p.orders.user.userID}"></td>
+                            <td th:text="${p.orders.user.userID} == 'default' ? ${p.orders.customer} : ${p.orders.user.username}"></td>
                             <td th:text="${#dates.format(p.createDate, 'dd/MM/yyyy')}"></td>
                             <td th:text="${p.transportFee}"></td>
                             <td th:class="${p.description.descriptionID}"
@@ -297,7 +297,7 @@
                             <!--                                trang hiện tại-->
                         </div>
                         <div th:if="${ 1 < currentPage and currentPage < totalPages}">
-                            <a th:class="${currentPage } ? ${active} "
+                            <a th:class="${currentPage -1 } ? ${active} "
                                th:text="${currentPage}"
                             ></a>
                         </div>
@@ -309,7 +309,7 @@
                         <!--                            hiện active nêu đang ở trang cuối-->
                         <div>
                             <a th:class="${currentPage == totalPages } ? ${active} : pagination"
-                               th:href="@{/admin/status(page=${totalPages},type=${type})}"
+                               th:href="@{/admin/status(page=${totalPages -1 },type=${type})}"
                                th:text="${totalPages} "
                             ></a>
                         </div>
@@ -339,11 +339,11 @@
 </div>
 </body>
 <script>
-    const Add = document.querySelector("#Addrecord")
+    // const Add = document.querySelector("#Addrecord")
     const handleclick = () => {
         handle.classList.toggle("handle")
     }
-    Add.addEventListener("click", handleclick)
+    // Add.addEventListener("click", handleclick)
     document.querySelector("#exit").addEventListener("click", () => {
         // const handle = document.querySelector(".handle")
         if (document.getElementsByClassName("bodyOrder").length === 0) {
@@ -383,7 +383,7 @@
     }
 
     window.addEventListener("load", () => {
-        //7s thì ẩn thông báo và hiện lên thư
+        //4s thì ẩn thông báo và hiện lên thư
         setTimeout(() => {
             document.querySelector("#status").remove("class")
             document.querySelector(".notify").removeAttribute("style")
@@ -421,7 +421,7 @@
         let SpanstatusOrderProcessing = (statusOrderProcessing / AllOrders * 100).toFixed(2)
         let tbl2 = document.querySelector("#tbl2")
         let mess = document.querySelector(".messtbl2")
-        tbl2.children.length !== 0 ? mess.setAttribute("style","display:none"): mess.removeAttribute("style")
+            tbl2.children.length !== 0 ? mess.setAttribute("style","display:none"): mess.removeAttribute("style")
         //css cho thanh bar và span
         document.querySelector("#statusOrderProcessingStyle").setAttribute("style", `width:${SpanstatusOrderProcessing}%`)
         document.querySelector("#statusOrderProcessingSpan").innerHTML = SpanstatusOrderProcessing + "%"
