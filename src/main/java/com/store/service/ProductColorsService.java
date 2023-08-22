@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface ProductColorsService {
     List<Product_Colors> findAll();
-    List<Product_Colors> findByProductID(String id);
+    List<Product_Colors> findByProductID1(String id);
     Product_Colors save(Product_Colors productColors) throws SQLException;
     Optional<Product_Colors> findByID(long colorID);
     Optional<Product_Colors> findByproductIDAndColorHex(Products productID, String colorHex);

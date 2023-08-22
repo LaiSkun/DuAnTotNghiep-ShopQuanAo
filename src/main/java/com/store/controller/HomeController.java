@@ -111,7 +111,7 @@ public class HomeController {
 			List<sellingProductsDTO> lsSell = new ArrayList<>();
 			ls.forEach(item -> {
 				Products prd = productService.findByProductID(item.split(",")[0]);
-				List<Product_Colors> color = productColorsService.findByProductID(item.split(",")[0]);
+				List<Product_Colors> color = productColorsService.findbyProductID(item.split(",")[0]);
 				sellingProductsDTO prdSell = customConfiguration.modelMapper().map(prd, sellingProductsDTO.class);
 				List<String> nameImg = productImgService.top3NameImg(color.get(0).getColorID());
 				prdSell.setNameImg(nameImg);
@@ -128,7 +128,7 @@ public class HomeController {
 		List<sellingProductsDTO> listsell = new ArrayList<>();
 		List<Products> prdnew = productService.productsNew();
 		for (int i = 0; i < prdnew.toArray().length; i++) {
-			List<Product_Colors> color = productColorsService.findByProductID(prdnew.get(i).getProductID());
+			List<Product_Colors> color = productColorsService.findbyProductID(prdnew.get(i).getProductID());
 			sellingProductsDTO prdSell = customConfiguration.modelMapper().map(prdnew.get(i), sellingProductsDTO.class);
 			List<String> nameImg = productImgService.top3NameImg(color.get(0).getColorID());
 			prdSell.setColor(color);
