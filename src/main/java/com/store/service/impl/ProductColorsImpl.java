@@ -26,7 +26,7 @@ public class ProductColorsImpl implements ProductColorsService {
     }
 
     @Override
-    public List<Product_Colors> findByProductID(String id) {
+    public List<Product_Colors> findByProductID1(String id) {
         return productColorDAO.findByProduct_ProductID(id);
     }
 

@@ -111,10 +111,10 @@
                 // product id = null thì findall color id còn có thì find theo colorid
                 List<Product_Colors> listColorProduct ;
                 if (prdImg.getProduct() == null){
-                    listColorProduct = productColorsService.findByProductID("Ao-Balo");
+                    listColorProduct = productColorsService.findByProductID1("Ao-Balo");
                 } else {
                     model.addAttribute("productID", prdImg.getProduct().getProductID());
-                    listColorProduct = productColorsService.findByProductID(prdImg.getProduct().getProductID());
+                    listColorProduct = productColorsService.findByProductID1(prdImg.getProduct().getProductID());
                 }
                 model.addAttribute("listColorProduct", listColorProduct);
                 if (type == null || type.isEmpty()){
